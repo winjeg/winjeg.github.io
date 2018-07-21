@@ -2,7 +2,9 @@
 此文档下将会放mysql 运维， 使用，应用等相关的文档， 也包括一些高级应用的知识
 
 ## mysql 运维
-###  Centos7 安装Mysql自定义安装位置
+
+###  Centos7 安装Mysql
+[Centos7 安装配置 mysql5.6](./mysql/install.md)
 
 ###  Mysql 忘记Root密码
 
