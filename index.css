@@ -1,0 +1,19 @@
+#forkme_banner {
+    display:none;
+}
+#header_wrap {
+    color:black;
+}
+#header_wrap > header {
+    margin-top:0px;
+    padding: 0px 0px 0px 0px;
+}
+#project_title {
+    font-size: 32px;
+    color: #65d683;
+}
+#project_tagline {
+    font-size:20px;
+    color:#ddefeb;
+}
+

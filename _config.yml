@@ -1,10 +1,9 @@
 theme: jekyll-theme-slate
-title: 学而思
+title: 学而思, 行而知
 author: winjeg
 aubout: "一个地地道道的工程师，擅长Mysql, linux, Java, golang"
 indexContent: true
 style: index.css
-blogName: "winjeg"
 favicon: 'favicon.ico'
 copyright: '21th@winjeg 转载请附上源地址'
 
