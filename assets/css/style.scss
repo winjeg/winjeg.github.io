@@ -1,4 +1,8 @@
-#forkme_banner {
+---
+---
+
+@import "{{ site.theme }}";
+#forkme_banner {                                                                
     display:none;
 }
 #header_wrap {
