@@ -33,7 +33,7 @@ Linux 的LOGO是一只可爱的小企鹅，选择这个Logo也是有一段奇闻
 
 7. [Linux 的Shell](./linux/linux_shell.md)
 
-7. [Linux的应用软件](./linux/apps/ssh.md)
+7. [Linux的应用软件](./linux/apps.md)
 
 8. [定制属于自己的Linux](./linux/linux_customize.md)
 
