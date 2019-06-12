@@ -14,22 +14,13 @@ echo -e "hello, linux"
 ```
 
 ## golang
-[Golang笔记](./golang.md)
+[Golang笔记](./langs/golang/readme.md)
 ```go
 func main() {
     println("mysql, redis, java, golang, linux")
 }
 ```
 
-## java
-[Java笔记](./java.md)
-```java
-public class Hello {
-    public static void main(String[] args) {
-        System.out.println("Hello, java");
-    }
-}
-```
 ### maven 笔记
 
 ### nio 与netty
@@ -58,6 +49,5 @@ docker run
 3. redis 集群搭建
 4. zookeeper 集群搭建
 5. etcd集群搭建
-
 
 ## 本repo所有内容未经允许一律不准转载、抄袭、售卖等, 侵权必究

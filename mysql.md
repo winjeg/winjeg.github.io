@@ -10,14 +10,18 @@
 [Centos7 安装配置 mysql5.6](./mysql/install.md)
 
 ###  Mysql 忘记Root密码
+[MySQL密码找回](./mysql/passwd.md)
 
 ## mysql 规范
-
+[MySQL使用规范](./mysql/standards.md)
 ## mysql 优化
 
 ## mysql 应用
 
 ###  如何做数据库分库分表
+#### 1. 基于客户端路由
+
+#### 2. 基于代理和HA的服务的路由
 
 ### 常见的分库分表的场景
 
