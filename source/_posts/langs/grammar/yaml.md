@@ -1,3 +1,10 @@
+---
+title: yaml 高级语法笔记
+toc: true
+tags: [yaml, gramma]
+categories: [gramma]
+---
+
 # yaml 语法
 1. tab 表示层级关系
 2. 字符串最复杂

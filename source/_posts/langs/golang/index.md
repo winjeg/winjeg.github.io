@@ -1,3 +1,10 @@
+---
+title: golang 学习笔记
+toc: true
+tags: [golang, language]
+categories: [language]
+---
+
 # go-doc
 golang 中文文档
 本文主要分三部分来帮助初学者能够顺利入坑`golang`， 第一部分主要是讲golang语法， 第二部分主要是讲golang的工程化的东西，附带会推荐一些常用的三方包。

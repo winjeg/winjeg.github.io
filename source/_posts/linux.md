@@ -1,3 +1,11 @@
+---
+title: Linux 快速入门
+toc: true
+# thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
+tags: [linux, tutorial]
+categories: [linux, os]
+---
+
 # Linux 学习之路
 
 ## Linux Logo
