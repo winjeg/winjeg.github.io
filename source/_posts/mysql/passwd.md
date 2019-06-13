@@ -1,7 +1,7 @@
 ---
 title: Mysql 如何找回Root密码
 toc: true
-# thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
+thumbnail: https://user-images.githubusercontent.com/7270177/59422808-880b5180-8e03-11e9-9dfe-ff8a9a024be7.png
 tags:
   - MySQL
   - database
