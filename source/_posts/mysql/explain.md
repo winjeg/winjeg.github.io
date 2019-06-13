@@ -1,7 +1,7 @@
 ---
 title: 使用Explain了解SQL语句的执行计划
 toc: true
-thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
+# thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
 tags:
   - sql
   - MySQL

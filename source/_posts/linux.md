@@ -26,28 +26,3 @@ Linux 的LOGO是一只可爱的小企鹅，选择这个Logo也是有一段奇闻
 
 ### 关于使用与版权
 本系列的文章没有什么特殊的版权要求，如果大家不是很忌讳，请大家在使用本文的时候尽量注明来源，也能让笔者了解到笔者的文章确确实实的帮助到了什么人， 让笔者默默感动一下。
-
-
-## 目录
-
-1. [发行版的选择](./linux/linux_distros.md)
-
-2. [Linux的安装](./linux/linux_install.md)
-
-3. [常见发行版的系统结构](./linux/linux_sys.md)
-
-4. [桌面环境的选择](./linux/linux_des.md)
-
-5. [Linux初始化管理器](./linux/linux_init.md)
-
-6. [包管理器](./linux/linux_pack_mgr.md)
-
-7. [Linux 的Shell](./linux/linux_shell.md)
-
-7. [Linux的应用软件](./linux/apps.md)
-
-8. [定制属于自己的Linux](./linux/linux_customize.md)
-
-9. [Linux与其他系统的对比](./linux/linux_compare.md)
-
-10. [总结](./linux/summary.md)

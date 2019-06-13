@@ -1,4 +1,14 @@
-# linux 下常用的应用软件
+---
+title: linux 下常用的应用软件
+toc: true
+# thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
+tags:
+  - linux
+categories:
+  - os
+  - linux
+---
+
 
 ## ssh 相关
 ssh 是linux下最为广泛使用的远程连接工具， 也是每个linux学习者必备的技能    

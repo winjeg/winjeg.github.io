@@ -1,4 +1,14 @@
-# Linux 系统知识
+---
+title: 一些Linux系统知识
+toc: true
+# thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
+tags:
+  - linux
+categories:
+  - os
+  - linux
+---
+
 
 ## 启动进程
 ### sysinit

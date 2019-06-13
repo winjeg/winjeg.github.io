@@ -1,4 +1,15 @@
-# ssh 相关的知识
+---
+title: ssh 相关的知识
+toc: true
+# thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
+tags:
+  - linux
+  - ssh
+categories:
+  - os
+  - linux
+---
+
 ## SSH 密钥生成与转换
 1. 确保你有公钥私钥对，确保安装了ssh 
 如果没有可以用下面的命令生成 

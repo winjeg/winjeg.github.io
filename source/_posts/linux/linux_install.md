@@ -1,5 +1,16 @@
+---
+title: Linux 系统的安装
+toc: true
+# thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
+tags:
+  - linux
+categories:
+  - os
+  - linux
+---
 
-# Linux 系统的安装
+
+# 
 多言无益， 不迈过安装系统这个坎你是永远都学习不会Linux的， 更不可能成为它的爱好者。
 Linux的系统安装并不比Widnows的安装难，也并不比Windows系统的安装简单，选择何种方式安装也是可以
 
