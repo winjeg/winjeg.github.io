@@ -5,9 +5,11 @@
 - xx列表
 
 ## 代码段
-```
+
+```bash
 sample code block
 ```
+
 * ``There is a literal backtick (`) here.``
 * Use the `printf()` function.
 
