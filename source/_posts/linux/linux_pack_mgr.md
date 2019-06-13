@@ -1,6 +1,6 @@
 ---
 title: Linux 包管理器简介
-date: 2015-03-13 15:14:11
+date: 2014-03-13 15:14:11
 toc: true
 # thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
 tags:
