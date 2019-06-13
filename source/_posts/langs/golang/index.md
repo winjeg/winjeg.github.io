@@ -1,5 +1,6 @@
 ---
 title: golang 学习笔记
+date: 2016-03-13 15:14:11
 toc: true
 tags:
 	- golang

@@ -1,6 +1,7 @@
 ---
 title: yaml 高级语法笔记
 toc: true
+date: 2016-03-13 15:14:11
 tags: [yaml, gramma]
 categories: [gramma]
 ---

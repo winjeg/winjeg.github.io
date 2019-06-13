@@ -1,5 +1,6 @@
 ---
 title: redis 使用规范
+date: 2017-12-14 15:14:11
 toc: true
 thumbnail: https://user-images.githubusercontent.com/7270177/59422638-49759700-8e03-11e9-8bdd-dd708ca69e1f.png
 tags:

@@ -1,5 +1,6 @@
 ---
 title: 版本管理工具Git的使用
+date: 2019-06-13 22:14:11
 toc: true
 # thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
 tags:

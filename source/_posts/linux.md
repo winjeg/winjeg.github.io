@@ -1,5 +1,6 @@
 ---
 title: Linux 快速入门
+date: 2016-06-13 15:14:11
 toc: true
 # thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
 tags:
