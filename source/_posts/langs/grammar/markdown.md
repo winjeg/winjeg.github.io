@@ -4,11 +4,6 @@
 - 你好
 - xx列表
 
-## 代码段
-```bash
-ls -la
-```
-
 * ``There is a literal backtick (`) here.``
 * Use the `printf()` function.
 
