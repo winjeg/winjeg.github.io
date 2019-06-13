@@ -1,8 +1,11 @@
 ---
 title: markdown 语法笔记
 toc: true
-tags: [markdown, gramma]
-categories: [gramma]
+tags:
+    - markdown
+    - gramma
+categories:
+    - gramma
 ---
 
 # Markdown基本常用语法
@@ -36,7 +39,6 @@ categories: [gramma]
 |表头1   |列11  | 列2   |
 |:-------|:----:|------:|
 |居左    |居中  |居右   |
-
 
 
 ## 强调
