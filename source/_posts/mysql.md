@@ -1,10 +1,13 @@
-
 ---
 title: MySQL
 toc: true
 # thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
-tags: [ MySQL, Database ]
-categories: [ Database ]
+tags: 
+    - MySQL
+    - database 
+categories:
+    - storage
+    - database
 ---
 
 # Mysql 笔记

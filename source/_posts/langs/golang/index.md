@@ -1,8 +1,11 @@
 ---
 title: golang 学习笔记
 toc: true
-tags: [golang, language]
-categories: [language]
+tags:
+	- golang
+	- lang
+categories:
+	- lang
 ---
 
 # go-doc
