@@ -1,7 +1,7 @@
 theme: jekyll-theme-architect
-title: 学而思, 行而知
+title: Winjeg's Blog
 author: winjeg
-aubout: "一个地地道道的工程师，擅长Mysql, linux, Java, golang"
+aubout: "你费尽心机，却不知道自己想要的是什么"
 indexContent: true
 style: index.css
 favicon: 'favicon.ico'
