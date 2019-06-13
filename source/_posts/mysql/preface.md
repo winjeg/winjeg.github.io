@@ -1,3 +1,15 @@
+---
+title: Mysql 简介
+toc: true
+thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
+tags:
+  - MySQL
+  - database
+categories:
+  - storage
+  - database
+---
+
 # 前言
 
 ## 简介

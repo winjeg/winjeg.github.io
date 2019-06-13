@@ -1,3 +1,13 @@
+---
+title: 关于音频文件的一些小知识
+toc: true
+thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
+tags:
+  - multi-meida
+categories:
+  - other
+---
+
 # 音频相关知识
 
 我们常用的音频格式，大部分都是基于音频CD（采样率44.1khz、采样精度16bit，2通道）的

@@ -1,3 +1,15 @@
+---
+title: Mysql 如何找回Root密码
+toc: true
+thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
+tags:
+  - MySQL
+  - database
+categories:
+  - storage
+  - database
+---
+
 ## 1  修改 /etc/my.cnf
 加上
 ```

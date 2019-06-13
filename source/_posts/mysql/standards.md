@@ -1,3 +1,15 @@
+---
+title: MySQL 使用规范
+toc: true
+thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
+tags:
+  - MySQL
+  - database
+categories:
+  - storage
+  - database
+---
+
 # MySQL 使用规范
 目前我们数据库使用缺乏一个统一的使用规范，这篇规范是我参考阿里的部分的BP以及赶集网的SQL 军规结合酷家乐自身的情况制定的。
 ## 约定

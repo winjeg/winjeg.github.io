@@ -1,9 +1,20 @@
-# MySQL 客户端
+---
+title: 常见的MySQL客户端
+toc: true
+thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
+tags:
+  - MySQL
+  - database
+categories:
+  - storage
+  - database
+---
+
 
 ## 驱动/程序连接
 ### java 
 如果你是maven项目，则只需要引入以下依赖
-```
+```xml
 <dependency>
     <groupId>mysql</groupId>
     <artifactId>mysql-connector-java</artifactId>
@@ -13,7 +24,7 @@
 如果不是， 可以下载Jar包直接使用
 
 ### go
-```
+```bash
 go get -u github.com/go-sql-driver/mysql
 ```
 对于go项目直接引入依赖即可

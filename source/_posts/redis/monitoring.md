@@ -1,4 +1,14 @@
-## redis 监控
+---
+title: redis 简谈redis监控
+toc: true
+thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
+tags:
+  - redis
+  - database
+categories:
+  - storage
+  - database
+---
 
 ### 简介
 由于redis是一个内存型的数据库，关注的点势必跟MySQL等非内存型的数据库相差比较多， 因此有必要单独对redis的监控关注项进行梳理。
@@ -10,7 +20,7 @@
 由于redis是内存型数据库，因此对于内存的需求是最大的需求， 监控项里面最重要的也是对于内存的监控，一般出问题，大概率是内存满掉的问题。
 一般内存满了之后会导致一系列的问题，比如逐出了不该逐出的key、写不进数据、 超时阻塞等问题。 对于内存的监控是至关重要的。
 一般一个合理的范围是在 30% 到70%之间。而超过了80%就需要报警和升级了。
-```
+```bash
 10.1.9.164:7300> info memory
 # Memory
 used_memory:108476200

@@ -1,3 +1,16 @@
+---
+title: 使用Hexo创建博客
+toc: true
+thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
+tags:
+  - MySQL
+  - database
+categories:
+  - storage
+  - database
+---
+
+
 ##  报警
 报警时我们保证稳定性的最后一道坎， 如果进入了报警的阶段，应用离Down掉就不远了。 报警也是我们保障稳定性的一个重要的环节。
 对于报警的设置是比较考究的， 下面主要会分析一下报警的几个方面。

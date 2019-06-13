@@ -1,4 +1,14 @@
-# tidb 相关
+---
+title: Tidb 笔记
+toc: true
+# thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
+tags:
+  - tidb
+  - notes
+  - database
+categories:
+  - database
+---
 
 ## 简介
 TIDB是一种分布式高可用实现MySQL协议的可动态扩容的数据库

@@ -1,5 +1,16 @@
-# 学会Explain
-Explain 是告诉你一个SQL的执行计划的最容易的手段
+---
+title: 使用Explain了解SQL语句的执行计划
+toc: true
+thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
+tags:
+  - sql
+  - MySQL
+  - database
+categories:
+  - storage
+  - database
+---
+
 ## 语法与含义
 语义上讲EXPLAIN 、DESCRIBE 、 DESC 是一样的
 但习惯上用法不太一样， DESC 经常用于描述一个表或者列的信息

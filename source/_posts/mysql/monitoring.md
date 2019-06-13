@@ -1,5 +1,14 @@
-
-## Mysql 的监控
+---
+title: Mysql 的监控
+toc: true
+thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
+tags:
+  - MySQL
+  - database
+categories:
+  - storage
+  - database
+---
 
 ### MySQL监控的必要性
 对于MySQL的稳定性而言，一个合理的监控是十分必要的， 监控是提前预知问题并解决问题的最后一道坎， 过了这道坎，服务或者应用基本就是在挂掉的边缘了。为了未雨绸缪，大部分比较知名的公司都回具备相对健全的监控体系。

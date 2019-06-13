@@ -1,5 +1,16 @@
-# Schema 设计
+---
+title: MySQL Schema 设计
+toc: true
+thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
+tags:
+  - MySQL
+  - database
+categories:
+  - storage
+  - database
+---
 
+## Schema 简介
 说到使用MySQL我们接触最早的就是Schema设计，俗称建表，这个小节主要介绍MySQL Schema的设计方法与一些基本的使用原则。
 
 Schema 设计在用户应用设计前期是非常重要的，一般情况下它会影响到业务以后的健康程度，以及其他业务代码的设计，Schema一旦设计成型并投入使用，当数据量达到一定程度的时候将会对索引的要求会越来越高，变更Schema也将会花费更多的代价，应用设计之前，认真正确的设计Schema是非常有必要的。
