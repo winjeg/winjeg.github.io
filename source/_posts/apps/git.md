@@ -2,7 +2,7 @@
 title: 版本管理工具Git的使用
 date: 2019-06-13 22:14:11
 toc: true
-# thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
+thumbnail: https://user-images.githubusercontent.com/7270177/59480122-fb5ba480-8e91-11e9-9c26-7f8d6d97868a.png
 tags:
   - git
 categories:
@@ -15,7 +15,44 @@ Git 是一个开源的分布式版本控制系统，可以有效、高速地处�
 
 ## Git的基础使用
 
+### 克隆代码
+```bash
+git clone https://github.com/winjeg/demos-go
+```
+### 拉取远端
+```bash
+# 拉取指定分支的变化
+git fetch origin master 
+# 拉取所有分支的变化
+git fetch 
+# 拉取所有分支的变化，并且将远端不存在的分支同步移除【推荐】
+git fetch -p 
+```
+
+### 查看当前状态
+```bash
+git status
+```
+对于当前repo， 增加， 删除，修改等的状态都会被列出来
+```
+HEAD detached from fd07db2
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+        deleted:    rops.yaml
+        modified:   values.yaml
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        a.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
 ### 暂存
+暂存文件是commit这些变更的前提
 ```bash
 git add file_name # 暂存某文件
 git add . # 暂存所有变更
@@ -39,11 +76,30 @@ git push
 
 #### 新建分支
 ```bash
-git branch -b new_branch
+git checkout -b new_branch # 新建
+git checkout new_branch # 切换到新建的分支
 ```
-推送新建的分支到远端
+
+#### 删除分支
+```bash
+# 删除本地分支，如果本地还有未合并的代码，则不能删除
+git branch -d qixiu/feature
+# 强制删除本地分支
+git branch -D qixiu/feature 
 ```
+
+#### 推送新建的分支到远端
+```bash
 git push origin new_branch
+```
+#### 设置本地分支与远程同步
+```bash
+git branch --set-upstream-to=origin/<branch> hexo
+```
+#### 删除远程分支
+```bash
+# 等同于git push origin -d qixiu/feaure
+git push origin :qixiu/feature
 ```
 
 #### 切换分支
@@ -68,6 +124,12 @@ git merge branch_name
 git merge branch_name
 git mergetool
 ```
+mergetool 的设置， 下面以`Kdiff`为例
+```bash
+git config --global  merge.tool kdiff3
+git config mergetool.kdiff3.path "/usr/bin/kdiff3"
+```
+设置好mergetool之后，以后有merge冲突的时候， `kdiff3` 会自动跳出并让你人工merge
 
 ---
 TODO
