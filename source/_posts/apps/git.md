@@ -12,13 +12,37 @@ categories:
 ## 什么是Git
 Git 是一个开源的分布式版本控制系统，可以有效、高速地处理从很小到非常大的项目版本管理，是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件， Git也是计算机界最重要的软件之一， 被广泛的适用于各大中小公司的各类项目中。
 
+小插曲: 为啥我们不提其他的版本控制系统， 因为对于一般的情况下， 有`Git`就足够了，它至少能满足99 %的人的需求。
+
+## Git 配置
+### SSH配置
+1. 生成 RSA 秘钥对， 私钥自己保存， 公钥需要给
+
+### 
+
+
 
 ## Git的基础使用
+### 新建Git 项目
+####  克隆代码
 
-### 克隆代码
 ```bash
 git clone https://github.com/winjeg/demos-go
 ```
+
+#### 新建本地项目，并关联到远程
+```bash
+git init repo_name   # 创建 repo_name 的文件夹， 并创建好相关的 .git 隐藏文件夹等
+cd repo_name  
+git remote add origin git@github.com:winjeg/repo.git # 设置远端地址(这个关系到推送的地址)
+git add .  # 把当前的项目文件都暂存
+git commit -m "Initial commit" # 把暂存的文件作为一次 commit  提交
+git push -u origin master # 把commit push 到远程的master分支
+```
+
+经过以上步骤， 一个本地可以用的repo就建立好啦
+
+
 ### 拉取远端
 ```bash
 # 拉取指定分支的变化
