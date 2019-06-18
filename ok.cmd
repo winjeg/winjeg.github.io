@@ -1,4 +1,4 @@
 git add .
-git commit -m "add article"
+git commit -S -m "add article"
 git push origin hexo
 hexo generate -d
