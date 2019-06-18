@@ -34,6 +34,12 @@ ssh-keygen -t rsa -b 4096 -C "winjeg@qq.com"
 1. windows 下安装
 由于安装Git 比较简单，只需要去官方网站， 去下载并且按照默认步骤安装即可。
 因此，此处不做更多详细的介绍。
+
+如果想用`gpg`签名则比较复杂， 但注意一点， 如果出现 `key not avalible` 类似的， 尝试设置下gpg的位置
+
+```bash
+git config --global gpg.program "C:\Program Files (x86)\GnuPG\bin\gpg.exe"
+```
 2. Linux 下安装
 ```bash
 sudo apt-get install git # debian based
