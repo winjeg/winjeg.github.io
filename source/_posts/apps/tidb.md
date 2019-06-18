@@ -8,6 +8,7 @@ tags:
   - notes
   - database
 categories:
+  - storage
   - database
 ---
 
