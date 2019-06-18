@@ -7,7 +7,7 @@ tags:
   - biz
   - openapi
 categories:
-  -biz
+  - biz
 ---
 
 ## open 简介
