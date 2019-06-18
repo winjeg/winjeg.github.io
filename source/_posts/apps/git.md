@@ -31,8 +31,22 @@ ssh-keygen -t rsa -b 4096 -C "winjeg@qq.com"
 2. windows 用户直接把 `id_rsa` 放到 用户目录下的 .ssh 文件夹中即可
 
 ### 安装Git
+1. windows 下安装
 由于安装Git 比较简单，只需要去官方网站， 去下载并且按照默认步骤安装即可。
 因此，此处不做更多详细的介绍。
+2. Linux 下安装
+```bash
+sudo apt-get install git # debian based
+sudo yum install git # redhat based
+sudo pacman -S git # archlinux  based
+sudo emerge git    # gentoo based
+```
+
+3. mac 下安装
+我猜是：
+```bash
+brew install git
+```
 
 ## Git的基础使用
 ### 新建Git 项目
