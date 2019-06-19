@@ -57,7 +57,7 @@ touch conf.yml
 修改内容 , 如下加粗的内容都要改
 
 
-```cnf
+```yaml
 # This is the configuration file for the etcd server.
 
 # Human-readable name for this member.
@@ -206,7 +206,6 @@ force-new-cluster: false
 auto-compaction-mode: periodic
 auto-compaction-retention: "1"
 
-
 ```
 
 注意： 里面关于集群的一些点， 和本机配置的一些点， 如果要配置tls/https 需要自行准备证书， 然后配置被如上注释了， 根据经验，如果配置了https， 再转到http需要清空数据才可以转， 否则是不能转的
@@ -245,7 +244,7 @@ WantedBy=multi-user.target
 ## 验证
 为了方便etcdctl的使用
 
-```
+```bash
 ln -sf /opt/etcd/etcdctl /usr/bin/etcdctl
 ```
 
@@ -311,7 +310,6 @@ QPS > 5000	16-64G
 需要稳定可靠的网络， 网络不行的话，容易导致可用性比较低
 
 如果要多数据中心部署， 尽量离近一些。
-
 
 
 ## Etcd的一些限制

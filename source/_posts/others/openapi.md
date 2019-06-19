@@ -183,10 +183,6 @@ func OpenApiHandler(ctx iris.Context) {
 
 ```
 
-
 是不是很简单，如果文中有误，或者缺失的内容欢迎各种批评教育。
 
 如果您能读到这里， 我会感觉到十分荣幸，谢谢您的关注。
-
-
-[谢谢支持](https://github.com/winjeg)
