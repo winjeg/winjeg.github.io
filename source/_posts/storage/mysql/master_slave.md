@@ -12,8 +12,8 @@ categories:
 ---
 
 
-====================================================
 同步时mysql -> backup 
+
 ```bash
 mkdir -p /backup/mysql
 tar -izxvf /backup/hins1851643_data_20170301022021.tar.gz -C /backup/mysql/
@@ -63,10 +63,23 @@ replicate-do-db=fenshua123
 ```
 
 
-
 ```sql
 CHANGE MASTER TO MASTER_HOST='10.1.8.160', MASTER_USER='rdsinner',  MASTER_PORT = 3306, MASTER_LOG_POS=120, MASTER_PASSWORD='the_password', MASTER_LOG_FILE='mysql-bin.002458';
 ```
+
+## 主从同步
+
+1. SLAVE  切换命令： CHANGE MASTER TO MASTER_HOST='10.1.6.111', MASTER_USER='fenshuaprod', MASTER_LOG_POS=120, MASTER_PASSWORD='TUzu4515', MASTER_LOG_FILE='mysql-bin.000001', relay-log=mysqld-relay-bin;
+2. Master 重启在先， Slave重启在后，即可保持复制关系， 如果Slave 重启在先， 则需要在Slave 上手动 start slave；才可以维持复制关系
+3. MySql 支持引入其他配置文件， 用 !include /filepath 即可，但注意引入的文件要标明在那个section 下面，否则很容易就会抛异常 
+4.检查relay_log_info_repository是否修改成功。
+	show variables where variable_name in  ('relay_log_info_repository','master_info_repository');
+5. 设置表只读 lock table t_depart_info read;  
+6. 设置表名忽略大小写 lower_case_table_names=1
+7. 设置库只读read-only
+8. sudo innobackupex --user=root --password --defaults-file=/data/backup-my.cnf --tables-file=/data/site.cnf --ibbackup=xtrabackup_56 --apply-log /data/mysql
+
+
 
 
 1．在ECS服务器上安装MySQL，详细步骤可以参考如下：
@@ -74,6 +87,7 @@ http://www.centoscn.com/mysql/2014/0924/3833.html
 一些关键注意点：
 a.数据库的版本至少为5.6.16及以上
 b.需要在my.cnf中配置的一些关键参数：
+```ini
 server-id ###Slave配置需要
 master-info-repository=file### Slave配置需要
 relay-log-info_repository=file### Slave配置需要
@@ -83,33 +97,43 @@ enforce-gtid-consistency=true###开启GTID需要
 innodb_data_file_path=ibdata1:200M:autoextend###使用RDS的物理备份中的backup-my.cnf参数
 innodb_log_files_in_group=2###使用RDS的物理备份中的backup-my.cnf参数
 innodb_log_file_size=524288000###使用RDS的物理备份中的backup-my.cnf参数
+```
 2.MySQL安装好后，可以使用RDS提供的物理备份文件恢复到本地MySQL中，可以参考：
 http://help.aliyun.com/knowledge_detail/5973700.html?spm=5176.7114037.1996646101.1.7qe3ot&pos=1
 注意：
 需要将备份解压后的文件backup-my.cnf中的三个参数加到启动文件中去
+```ini
 innodb_checksum_algorithm=innodb
 innodb_data_file_path=ibdata1:200M:autoextend
 innodb_log_files_in_group=2
+```
 3.数据库启动后，开始设置本地数据库与RDS的同步关系
 a．reset slave;####用于重置本地MySQL的复制关系，这一步操作有可能报错：
+```
 mysql> reset slave;
 ERROR 1794 (HY000): Slave is not configured or failed to initialize properly. You must at least set –server-id to enable either a master or a slave. Additional error messages can be found in the MySQL error log.
+```
 原因是由于RDS的备份文件中包含了RDS的主从复制关系，需要把这些主从复制关系清理掉，清理方法：
+```sql
 truncate table  slave_relay_log_info;
 truncate table  mysql.slave_master_info;
 truncate table  mysql.slave_worker_info;
-
+```
 然后重启MySQL；
 b.SET @@GLOBAL.GTID_PURGED
 =’818795a2-8aa8-11e5-95b1:1-289,8da7b8ab-8aa8-11e5-95b1:1-75′;
 打开备份解压文件可以看到文件xtrabackup_slave_info，其中第一行就是我们需要在本地MySQL执行的命令，他表示在备份结束时刻RDS当前GTID值’
-c.change master to
+c.
+```sql
+change master to
 master_host=’gtid1.mysql.rds.aliyuncs.com’,
 master_user=’qianyi’,master_port=3306,master_password=’qianyi’,
 master_auto_position=1;
+```
 设置本地MySQL与RDS的复制关系，账户qianyi是在RDS控制系统中添加（注意：
 同步账户不要以repl开头）；
 4．测试同步关系是否正常，可以在本地MySQL执行show slave status\G查看同步状态，同时可以在RDS中插入测试一些数据，或者重启实例，观察同步情况：
+```
 mysql> show slave status\G;
 Slave_IO_State: Queueing master event to the relay log
 Master_Host: gtid1.mysql.rds.aliyuncs.com
@@ -137,6 +161,7 @@ Master_Retry_Count: 86400
 818795a2-8aa8-11e5-95b1-6c92bf20cfcf:17754-17811
 Executed_Gtid_Set: 818795a2-8aa8-11e5-95b1-6c92bf20cfcf:1-17761
 Auto_Position: 1
+```
 5.做好监控，由于采用MySQL的原生复制，所以可能会导致本地MySQL与RDS的复制出现中断，可以定时去探测  Slave_IO_Running和 Slave_SQL_Running两个状态值是否为yes，同时也需要关注本地MySQL与RDS的延迟： Seconds_Behind_Master。
 
 

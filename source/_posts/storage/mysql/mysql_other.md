@@ -35,19 +35,7 @@ FROM
     ON r.`trx_id` = w.`requesting_trx_id` ;
  
 ```
-
-
-## 主从同步
-
-1. SLAVE  切换命令： CHANGE MASTER TO MASTER_HOST='10.1.6.111', MASTER_USER='fenshuaprod', MASTER_LOG_POS=120, MASTER_PASSWORD='TUzu4515', MASTER_LOG_FILE='mysql-bin.000001', relay-log=mysqld-relay-bin;
-2. Master 重启在先， Slave重启在后，即可保持复制关系， 如果Slave 重启在先， 则需要在Slave 上手动 start slave；才可以维持复制关系
-3. MySql 支持引入其他配置文件， 用 !include /filepath 即可，但注意引入的文件要标明在那个section 下面，否则很容易就会抛异常 
-4.检查relay_log_info_repository是否修改成功。
-	show variables where variable_name in  ('relay_log_info_repository','master_info_repository');
-5. 设置表只读 lock table t_depart_info read;  
-6. 设置表名忽略大小写 lower_case_table_names=1
-7. 设置库只读read-only
-8. sudo innobackupex --user=root --password --defaults-file=/data/backup-my.cnf --tables-file=/data/site.cnf --ibbackup=xtrabackup_56 --apply-log /data/mysql
+## 查询外键
 
 ```sql
 select concat('alter table ',table_name,' drop foreign key ',constraint_name,';') 
