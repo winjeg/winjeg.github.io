@@ -180,19 +180,68 @@ git merge branch_name
 git merge branch_name
 git mergetool
 ```
-mergetool 的设置， 下面以`Kdiff`为例
+mergetool 的设置， 下面以`Kdiff`为例， 当然merge工具也有非常多， 如 `meld`， `beyond compare` 等。
+其设置方法都雷同，因此此处仅仅只举出一个例子作为说明。
+
 ```bash
 git config --global  merge.tool kdiff3
 git config mergetool.kdiff3.path "/usr/bin/kdiff3"
 ```
-设置好mergetool之后，以后有merge冲突的时候， `kdiff3` 会自动跳出并让你人工merge
+设置好mergetool之后，以后有merge冲突的时候， `kdiff3` 会自动跳出并让你人工merge。
 
----
-TODO
+### Rebase
+```bash
+git rebase -i HEAD~4 # 合并提交记录
+git:(feature1) git rebase master # rebase 到master分支
+git rebase --continue # 继续rebase
+git rebase —abort # 放弃rebase回到原始状态
+
+```
+在合并提交记录的时候会有如下信息打印出来
+```bash
+s cacc52da add: qrcode
+s f072ef48 update: indexeddb hack
+s 4e84901a feat: add indexedDB floder
+s 8f33126c feat: add test2.js
+
+# Rebase 5f2452b2..8f33126c onto 5f2452b2 (4 commands)
+#
+# Commands:
+# p, pick = use commit
+# r, reword = use commit, but edit the commit message
+# e, edit = use commit, but stop for amending
+# s, squash = use commit, but meld into previous commit
+# f, fixup = like "squash", but discard this commit's log message
+# x, exec = run command (the rest of the line) using shell
+# d, drop = remove commit
+#
+# These lines can be re-ordered; they are executed from top to bottom.
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+#
+# However, if you remove everything, the rebase will be aborted.
+#
+```
+选择其中一种作为合并的方式， 上述是在vim（也可以是其他设置的编辑器）的一个窗口中展示的。
+如果你异常退出了 `vim`  窗口，不要紧张：
+```bash
+git rebase --edit-todo
+```
+这时候会一直处在这个编辑的模式里，我们可以回去继续编辑，修改完保存一下：
+
+```
+git rebase --continue
+```
+
+与其他版本管理工具类似， 下图比较形象的展示了`git`中 `rebase`与`merge`的区别
+![image](https://user-images.githubusercontent.com/7270177/60004279-e1467100-969e-11e9-9d2f-16b6d437ac74.png)
+
+### Git命令别名
+git是一个比较开放的系统， 与bash类似， git可以自定义别名来取代冗长的命令行输入如可以设置 `git st` 代替 `git status`， 使用 `git l`代替 `git log` 等等， 这些都被定义在git的配置文件中(`~/.gitconfig`)， 修改起来非常方便。 
+
 
 ## Git 高级用法
 
-### Rebase
 
 ### 节点操作
 
