@@ -242,14 +242,46 @@ git是一个比较开放的系统， 与bash类似， git可以自定义别名�
 
 ## Git 高级用法
 
+### Git对象
+接下来，新建一个空文件test.txt。
 
-### 节点操作
+```bash
+touch test.txt
+```
+然后，把这个文件加入 Git 仓库，也就是为test.txt的当前内容创建一个副本。
+```bash
+git hash-object -w test.txt
+e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+```
+上面代码中，`git hash-object`命令把`test.txt`的当前内容压缩成二进制文件，存入 Git。压缩后的二进制文件，称为一个 Git 对象，保存在.git/objects目录。
+
+这个命令还会计算当前内容的 SHA1 哈希值（长度40的字符串），作为该对象的文件名。
+
+查看文件对象的内容
+```bash
+git cat-file -p 3b18e512dba79e4c8300dd08aeb37f8e728b8dad
+hello world
+```
+### 暂存区 (`git add`)
+文件保存成二进制对象以后，还需要通知 Git 哪些文件发生了变动。所有变动的文件，Git 都记录在一个区域，叫做"暂存区"（英文叫做 index 或者 stage）。等到变动告一段落，再统一把暂存区里面的文件写入正式的版本历史。
+```bash
+git update-index --add --cacheinfo 100644 \
+3b18e512dba79e4c8300dd08aeb37f8e728b8dad test.txt
+git ls-files --stage
+100644 3b18e512dba79e4c8300dd08aeb37f8e728b8dad 0   test.txt
+```
+
+### Git 快照 （`commit`）
+暂存区保留本次变动的文件信息，等到修改了差不多了，就要把这些信息写入历史，这就相当于生成了当前项目的一个快照（snapshot）。
+
+项目的历史就是由不同时点的快照构成。Git 可以将项目恢复到任意一个快照。快照在 Git 里面有一个专门名词，叫做 commit，生成快照又称为完成一次提交。
+
+下文所有提到"快照"的地方，指的就是 commit。
 
 
-## Git 基本思想
 
+### Git分支
+Git分支其实是指向某个快照节点的指针， 对于Git来说， 分支的创建成本是极其低廉的。另外，Git 有一个特殊指针HEAD， 总是指向当前分支的最近一次快照。另外，Git 还提供简写方式，HEAD^指向 HEAD的前一个快照（父节点），HEAD~6则是HEAD之前的第6个快照。
 
-## Git 工具
-
-
-## Git API
+---
+本文将不对其他内容做过多介绍, 仅仅介绍到此为止
