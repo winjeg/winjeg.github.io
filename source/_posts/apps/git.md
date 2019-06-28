@@ -240,6 +240,40 @@ git rebase --continue
 git是一个比较开放的系统， 与bash类似， git可以自定义别名来取代冗长的命令行输入如可以设置 `git st` 代替 `git status`， 使用 `git l`代替 `git log` 等等， 这些都被定义在git的配置文件中(`~/.gitconfig`)， 修改起来非常方便。 
 
 
+### Git 的GPG签名设置(Windows)
+
+安装`gpg4win` 如果没有响相应的GPG的KEY， 利用这个工具生成相应的key与配置， 记得备份。  
+如果是已有备份， 可以直接用这个工具导入，非常简单。
+
+然而仅仅这样设置还是不够的， 你需要在`Github/Gitlab`上添加相应的 `PGP PUBLIC KEY BLOCK`  
+提交的时候使用如下命令， 则会自动签名。
+
+```bash
+$ git commit -S -m "change readme"
+ggpg: directory '/c/Users/winjeg/.gnupg' created
+igpg: keybox '/c/Users/winjeg/.gnupg/pubring.kbx' created
+gpg: skipped "winjeg <winjeg@qq.com>": No secret key
+gpg: signing failed: No secret key
+error: gpg failed to sign the data
+fatal: failed to write commit object
+
+```
+
+如上产生的错误则是由于Git默认的寻找签名证书的程序的路径有误。按照下面的方法进行设置。
+
+```bash
+git config --global gpg.program "C:\Program Files (x86)\GnuPG\bin\gpg.exe"
+```
+
+设置完毕再次运行， 则可以看到成功签名`commit`
+
+```bash
+winjeg@gpc MINGW64 /d/projects/go/github.com/winjeg/cloudb (master)
+$ git commit -S -m "change readme"
+[master eca6b52] change readme
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+```
+
 ## Git 高级用法
 
 ### Git对象
@@ -279,9 +313,9 @@ git ls-files --stage
 下文所有提到"快照"的地方，指的就是 commit。
 
 
-
 ### Git分支
 Git分支其实是指向某个快照节点的指针， 对于Git来说， 分支的创建成本是极其低廉的。另外，Git 有一个特殊指针HEAD， 总是指向当前分支的最近一次快照。另外，Git 还提供简写方式，HEAD^指向 HEAD的前一个快照（父节点），HEAD~6则是HEAD之前的第6个快照。
+
 
 ---
 本文将不对其他内容做过多介绍, 仅仅介绍到此为止
