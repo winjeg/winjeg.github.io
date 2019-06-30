@@ -79,3 +79,11 @@ go mod tidy
 ```
 go mod graph
 ```
+
+## 依赖设置代理
+由于墙的原因， 想要去使用Go， 没有代理还是不行的
+
+```bash
+set GOPROXY=https://goproxy.io # windows, 也可以设置环境变量
+export GOPROXY=https://goproxy.io # windows
+```
