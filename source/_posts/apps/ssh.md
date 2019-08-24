@@ -1,5 +1,5 @@
 ---
-title: ssh 相关的知识
+title: ssh 周边知识
 date: 2013-09-13 15:14:11
 toc: true
 # thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
@@ -24,7 +24,7 @@ ssh-keygen -y -f id_rsa > id_rsa.pub
 2. open ssh与  windows ppk相互转换
 关键工具 `puttygen.exe`
 
-## 免密码ssh登录的设置
+## ssh免密码登录
 1. 要把自己的公钥添加至目标机的
 ```
 .ssh/authorized_keys
