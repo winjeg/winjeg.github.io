@@ -1,0 +1,2840 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>winjeg&#39;s blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="keywords" content="golang, java, mysql, devops, linux">
+<meta property="og:type" content="website">
+<meta property="og:title" content="winjeg&#39;s blog">
+<meta property="og:url" content="https://winjeg.github.io/page/5/index.html">
+<meta property="og:site_name" content="winjeg&#39;s blog">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://winjeg.github.io/images/og_image.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="winjeg&#39;s blog">
+<meta name="twitter:image" content="https://winjeg.github.io/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.ico">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <!-- 雪花特效 -->
+    <script type="text/javascript">
+        var windowWidth = $(window).width();
+        if (windowWidth > 480) {
+            document.write('<script type="text/javascript" src="/js/src/snow.js"><\/script>');
+        }
+    </script>
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.svg" alt="winjeg&#39;s blog" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">首页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/winjeg">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2016-03-13T07:14:11.000Z">2016-03-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/lang/">lang</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    a few seconds 读完 (大约 55 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2016/03/13/langs/java/java/">java 笔记</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="线程状态"><a href="#线程状态" class="headerlink" title="线程状态"></a>线程状态</h2><p><img src="https://user-images.githubusercontent.com/7270177/59737806-90470f00-9291-11e9-904b-20ab88db3e52.png" alt="image"></p>
+<h2 id="高cpu-使用的代码查找"><a href="#高cpu-使用的代码查找" class="headerlink" title="高cpu 使用的代码查找"></a>高cpu 使用的代码查找</h2><p>1<br>ps H -eo user,pid,ppid,tid,time,%cpu,cmd –sort=%cpu </p>
+<p>tid 是线程ID 转成十六进制去查</p>
+<p>jstack 9002 &gt; stack.log</p>
+<ol start="2">
+<li>arthas</li>
+</ol>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2016-03-13T07:14:11.000Z">2016-03-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/lang/">lang</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    a few seconds 读完 (大约 23 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2016/03/13/langs/java/develop/">java 开发环境的配置</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="JDK"><a href="#JDK" class="headerlink" title="JDK"></a>JDK</h2><h2 id="IDE"><a href="#IDE" class="headerlink" title="IDE"></a>IDE</h2><h2 id="工具：maven"><a href="#工具：maven" class="headerlink" title="工具：maven"></a>工具：maven</h2><h2 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h2><p>自动项目生成工具 <code>initializr</code></p>
+<h3 id="spring-mvc"><a href="#spring-mvc" class="headerlink" title="spring mvc"></a>spring mvc</h3><h3 id="spring-boot"><a href="#spring-boot" class="headerlink" title="spring boot"></a>spring boot</h3><h3 id="orm-mybatis"><a href="#orm-mybatis" class="headerlink" title="orm mybatis"></a>orm mybatis</h3>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2016-03-13T07:14:11.000Z">2016-03-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/storage/">storage</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/storage/database/">database</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    13 minutes 读完 (大约 1885 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2016/03/13/storage/mysql/schema/">MySQL Schema 设计</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="Schema-简介"><a href="#Schema-简介" class="headerlink" title="Schema 简介"></a>Schema 简介</h2><p>说到使用MySQL我们接触最早的就是Schema设计，俗称建表，这个小节主要介绍MySQL Schema的设计方法与一些基本的使用原则。</p>
+<p>Schema 设计在用户应用设计前期是非常重要的，一般情况下它会影响到业务以后的健康程度，以及其他业务代码的设计，Schema一旦设计成型并投入使用，当数据量达到一定程度的时候将会对索引的要求会越来越高，变更Schema也将会花费更多的代价，应用设计之前，认真正确的设计Schema是非常有必要的。</p>
+<p>下面将主要分Schema的数据类型，索引与外键，使用原则，默认值等来介绍Schema的设计，在此之前，下面是一个最常见的一个schema设计语句。</p>
+<figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`userinfo`</span> (</span><br><span class="line"><span class="hljs-string">`id`</span>  <span class="hljs-built_in">int</span>(<span class="hljs-number">10</span>) <span class="hljs-keyword">UNSIGNED</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> AUTO_INCREMENT <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'主键'</span> ,</span><br><span class="line"><span class="hljs-string">`name`</span>  <span class="hljs-built_in">varchar</span>(<span class="hljs-number">20</span>) <span class="hljs-built_in">CHARACTER</span> <span class="hljs-keyword">SET</span> utf8 <span class="hljs-keyword">COLLATE</span> utf8_general_ci <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'名字'</span> ,</span><br><span class="line"><span class="hljs-string">`gender`</span>  <span class="hljs-built_in">bit</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'性别 0 男 1 女 NULL 未知'</span> ,</span><br><span class="line"><span class="hljs-string">`height`</span>  <span class="hljs-built_in">float</span> <span class="hljs-keyword">UNSIGNED</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'身高， 单位m'</span> ,</span><br><span class="line"><span class="hljs-string">`account_id`</span>  <span class="hljs-built_in">int</span> <span class="hljs-keyword">UNSIGNED</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'账户ID'</span> ,</span><br><span class="line"><span class="hljs-string">`created`</span>  <span class="hljs-built_in">timestamp</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'记录创建时间'</span> ,</span><br><span class="line"><span class="hljs-string">`last_modfied`</span>  <span class="hljs-built_in">timestamp</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span> <span class="hljs-keyword">ON</span> <span class="hljs-keyword">UPDATE</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'记录最后修改时间'</span> ,</span><br><span class="line">PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`id`</span>),</span><br><span class="line"><span class="hljs-keyword">INDEX</span> <span class="hljs-string">`idx_name`</span> (<span class="hljs-string">`name`</span>) <span class="hljs-keyword">USING</span> BTREE <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'用于按姓名查找'</span>,</span><br><span class="line"><span class="hljs-keyword">UNIQUE</span> <span class="hljs-keyword">INDEX</span> <span class="hljs-string">`idx_account_id`</span> (<span class="hljs-string">`account_id`</span>) <span class="hljs-keyword">USING</span> BTREE <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'用于对应某个账户的唯一ID'</span>,</span><br><span class="line"><span class="hljs-keyword">INDEX</span> <span class="hljs-string">`idx_heigt_gender`</span> (<span class="hljs-string">`height`</span>, <span class="hljs-string">`gender`</span>) <span class="hljs-keyword">USING</span> BTREE <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'用户筛选用户特征'</span></span><br><span class="line">)</span><br><span class="line"><span class="hljs-keyword">DEFAULT</span> <span class="hljs-built_in">CHARACTER</span> <span class="hljs-keyword">SET</span>=utf8 <span class="hljs-keyword">COLLATE</span>=utf8_general_ci;</span><br></pre></td></tr></table></figure>
+
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h3 id="整形数据：-TINYINT-SMALLINT-MEDIUMINT-INT-BIGINT"><a href="#整形数据：-TINYINT-SMALLINT-MEDIUMINT-INT-BIGINT" class="headerlink" title="整形数据： TINYINT, SMALLINT, MEDIUMINT, INT BIGINT"></a>整形数据： TINYINT, SMALLINT, MEDIUMINT, INT BIGINT</h3><p>整形的数据类型一旦类型确定长度也就确定了，所以之前文章里面给定的那个长度是不起实际作用的，可以不指定长度只指定类型。<br>下表是各种整形所对应的长度<br>| 数据类型      | 位数 | 范围                                                       |<br>|———–|—-|———————————————————-|<br>| TINYINT   | 8  | -2^7 到 2^7-1      (-128-127)                             |<br>| SMALLINT  | 16 | -2^15到2^15-1     (-32768-32767)                          |<br>| MEDIUMINT | 24 | -2^23到2^23-1   (-8388608-8388607)                        |<br>| INT       | 32 | -2^31到2^31-1     (-2147483648-2147483647)                |<br>| BIGINT    | 64 | -2^63到2^63-1  (-9223372036854775808-9223372036854775807) |<br>应用场景：INT 通常用作一个实体表的主键部分，比如用户表的用户ID<br>TINYINT 通常用作枚举类型的数据，需要很小长度比如 status/type/deleted<br>通常会根据一个数据将来可能的最大量来选择类型数据， 一般使用前会做一个预估来选择数据类型。</p>
+<h3 id="实数型数据：-DECIMAL，-FLOAT，-DOUBLE"><a href="#实数型数据：-DECIMAL，-FLOAT，-DOUBLE" class="headerlink" title="实数型数据： DECIMAL， FLOAT， DOUBLE"></a>实数型数据： DECIMAL， FLOAT， DOUBLE</h3><p>DECIMAL 可以用于存储比BIGINT 更大的整数，计算方法MYSQL自行实现<br>FLOAT与DOUBLE 都可以指定精度<br>应用场景：实数类型通常应用与需求精度非常高的字段<br>可能的改进方法：在存储面积，身高等需要精度低的领域，在最大值可预估的时候，可以用整形来存取 </p>
+<h3 id="字符串类型-VARCHAR-CHAR-TEXT-BLOB"><a href="#字符串类型-VARCHAR-CHAR-TEXT-BLOB" class="headerlink" title="字符串类型 VARCHAR CHAR TEXT BLOB"></a>字符串类型 VARCHAR CHAR TEXT BLOB</h3><p>VARCHAR可变长字符串， 需要额外字节来存储当前的长度, 用于存储，改动不太频繁，且长度变化范围比较大的字符串<br>CHAR 固定长字符串 用于存储相对固定的东西，如密码的MD5，以及经常要改变的列<br>TEXT与BLOB 分别是指用字符存储与二进制的存取<br>可能的改进：<br>如果一个列的字符串的数量基本是确定的， 比如性别： Male Female Unknown 只有固定的几种String 或者是可以遇见的几种，尽量可以使用tinyint 来代替<br>常用函数</p>
+<figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CHAR_LENGT</span><br><span class="line">STR_CMP</span><br><span class="line">STR_TO_DATE</span><br></pre></td></tr></table></figure>
+
+<h3 id="日期类型-TIMESTAMP-DATETIME"><a href="#日期类型-TIMESTAMP-DATETIME" class="headerlink" title="日期类型 TIMESTAMP, DATETIME"></a>日期类型 TIMESTAMP, DATETIME</h3><p>MYSQL支持毫秒级别的时间， MariaDb 支持微秒级的时间值<br>DATETIME (1001-9999)  时区无关  使8Byte的存储空间<br>TIMESTAMP（1970-2038）时区相关 使用4Byte的存储空间<br>常用函数</p>
+<figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment"># 把UNIX时间戳转成TIMESTAMP</span></span><br><span class="line">UNIX_TIMESTAMP() /FROM_UNIXTIME() </span><br><span class="line">DATE()</span><br><span class="line">DATE_ADD</span><br><span class="line">DATE_SUB</span><br><span class="line">DATE_FORMAT</span><br></pre></td></tr></table></figure>
+
+<h3 id="枚举类型与集合类型"><a href="#枚举类型与集合类型" class="headerlink" title="枚举类型与集合类型"></a>枚举类型与集合类型</h3><p>此类型仅作列出， 不作实际使用， 一般这些类型可以用TINYINT 等值来代替，不建议用这些类型</p>
+<h2 id="默认值"><a href="#默认值" class="headerlink" title="默认值"></a>默认值</h2><h3 id="NULL"><a href="#NULL" class="headerlink" title="NULL"></a>NULL</h3><p>NULL 是最常见的默认值，一切默认值都可以设置为NULL， 但不是所有默认值都要设置为NULL， 要根据情况具体设定</p>
+<h3 id="Empty-String"><a href="#Empty-String" class="headerlink" title="Empty String"></a>Empty String</h3><p>空字符串，是很多char, varchar, text 的默认值的选项，如果你的应用程序没有处理NULL值的时候可以把默认值设置为这个避免空指针异常， 但一般情况下不希望MySQL给你做这类的检测。</p>
+<h3 id="CURRENT-TIMESTAMP"><a href="#CURRENT-TIMESTAMP" class="headerlink" title="CURRENT_TIMESTAMP"></a>CURRENT_TIMESTAMP</h3><p>当前时间， 一般用于TIMESTAMP的默认值，它在使用跟理论上均优于创建TRIGGER来设置默认值</p>
+<h2 id="索引与外键"><a href="#索引与外键" class="headerlink" title="索引与外键"></a>索引与外键</h2><p>索引与外键是建立Schema 永远不能避开的话题，你可以避开外键，但你可能会想到它，但你不能避开索引。这里不会对索引进行详细的表述，具体的描述在后面小节中会详细道来。在这里你只需要记住一点，建立表的时候，一定要根据查询建立索引，最好不要建立外键，除非非常必要。</p>
+<h2 id="Schema设计误区"><a href="#Schema设计误区" class="headerlink" title="Schema设计误区"></a>Schema设计误区</h2><h3 id="太多的列"><a href="#太多的列" class="headerlink" title="太多的列"></a>太多的列</h3><p>太多的列需要更大的维护成本， 对与SELECT * 的效率来说也更低</p>
+<h3 id="太多的JOIN"><a href="#太多的JOIN" class="headerlink" title="太多的JOIN"></a>太多的JOIN</h3><p>JOIN过多，会导致查询复杂，结果更难判断，查询效率变低</p>
+<h3 id="泛滥的外键与索引"><a href="#泛滥的外键与索引" class="headerlink" title="泛滥的外键与索引"></a>泛滥的外键与索引</h3><p>索引与外键并不越多越好， 每个外键与索引都需要额外的维护成本</p>
+<h3 id="随意性建表"><a href="#随意性建表" class="headerlink" title="随意性建表"></a>随意性建表</h3><p>在很小的数据量的情况下， 通常存在一个汇总表，或者设置表里面比较合适]</p>
+<h2 id="范式与反范式"><a href="#范式与反范式" class="headerlink" title="范式与反范式"></a>范式与反范式</h2><table>
+<thead>
+<tr>
+<th>设计模式</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>范式</td>
+<td>数据量小，单实体表查询效率高</td>
+<td>需要做很多的JOIN</td>
+</tr>
+<tr>
+<td>反范式</td>
+<td>反范式把冗余信息都放在一张表里面，可以很好的避免JOIN</td>
+<td>数据量的增大，导致查询的速度，稍受影响； 更新须保证冗余信息的更新</td>
+</tr>
+</tbody></table>
+<p>两者要结合实际情况，可以混合使用，但一般不推荐过多的JOIN，SQL语句JOIN不能超过两张表。</p>
+<h2 id="Schema-设计原则"><a href="#Schema-设计原则" class="headerlink" title="Schema 设计原则"></a>Schema 设计原则</h2><h3 id="简单就好，更小的通常更好"><a href="#简单就好，更小的通常更好" class="headerlink" title="简单就好，更小的通常更好"></a>简单就好，更小的通常更好</h3><p>越简单的Schema所需要的存储空间就越小，对于MySQL而言需要的存储空间， IO， 运算等资源就越少，MySQL支持的QPS就越高</p>
+<h3 id="尽量避免大量NULL值的列"><a href="#尽量避免大量NULL值的列" class="headerlink" title="尽量避免大量NULL值的列"></a>尽量避免大量NULL值的列</h3><p>如果一个列有80%甚至90%以上的行都是NULL，那么这个属性值，很可能可以采取其他方法来实现，比如新建一张表，用ID去关联</p>
+<h3 id="不使用外键"><a href="#不使用外键" class="headerlink" title="不使用外键"></a>不使用外键</h3><p>外键在MySQL维护与使用中始终是一个坑，大家尽量在建表的时候避免使用外键。</p>
+<h3 id="合理建立索引"><a href="#合理建立索引" class="headerlink" title="合理建立索引"></a>合理建立索引</h3><p>索引要根据查询而建， 并不是越多越好，索引多有可能会引起MySQL不能正确使用索引，MySQL维护索引的空间变大等等</p>
+<h3 id="写好表注释"><a href="#写好表注释" class="headerlink" title="写好表注释"></a>写好表注释</h3><p>与写代码一样一个良好的习惯就是所有MySQL的字段，及索引，表等都要有详尽的注释，注释不会占用多余空间，最好的注释是大家都能看懂的注释。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2016-02-13T07:14:11.000Z">2016-02-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/storage/">storage</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/storage/database/">database</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    6 minutes 读完 (大约 917 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2016/02/13/storage/mysql/standards/">MySQL 使用规范</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="MySQL-使用规范"><a href="#MySQL-使用规范" class="headerlink" title="MySQL 使用规范"></a>MySQL 使用规范</h1><p>目前我们数据库使用缺乏一个统一的使用规范，这篇规范是我参考阿里的部分的BP以及赶集网的SQL 军规结合酷家乐自身的情况制定的。</p>
+<h2 id="约定"><a href="#约定" class="headerlink" title="约定"></a>约定</h2><ol>
+<li>数据库操作与使用一定要按照规范进行</li>
+<li>所有的变更必须提前4小时提交申请，进过审批后才能执行操作</li>
+<li>全网变更必须经过线下测试，线上小规模验证后，才能全网推送</li>
+<li>数据订正和数据提取必须经过团队leader审核通过后才能进行操作；</li>
+<li>禁止未经正式审批进行查阅，变更，传播，移动线上数据；</li>
+<li>禁止对无关人员提供系统登录和发布权限；</li>
+<li>重大变更（数据库停机，扩容，迁移）必须团队review</li>
+<li>新发布的任何sql都必须进过严格的审核，添加上必要的索引</li>
+<li>线上的操作务必谨慎，必须在测试环境中完全验证后才能到线上执行，同时需要必要的数据备份</li>
+<li>禁止在非变更窗口执行变更， 添加索引或者添加字段的操作， 都需要在业务的低峰期进行</li>
+<li>禁止在程序端显式加锁 </li>
+<li>统一字符集为UTF8, 排序规则为 UTF-generic-ci</li>
+<li>统一命名规范 表名一律用大小写，schema设计避免关键字（MYSQL 关键字列表），索引使用同一前缀 index_ + colname 用下划线分割<h2 id="核心"><a href="#核心" class="headerlink" title="核心"></a>核心</h2></li>
+<li>尽量不在数据库做运算， 把MySQL作为一个存储组件</li>
+<li>在设计表之前就把表将来的使用场景考虑清楚，做好相应准备</li>
+<li>控制单表数据量 </li>
+<li>保持表身段苗条 </li>
+<li>平衡范式使用，不冗余非必要字段</li>
+<li>拒绝3B： BIG SQL)   大事务 (BIG Transaction)  大批量 (BIG Batch)<h2 id="Schema设计"><a href="#Schema设计" class="headerlink" title="Schema设计"></a>Schema设计</h2></li>
+<li>INNODB 引擎是你的最佳选择</li>
+<li>用好数值字段类型 </li>
+<li>将字符转化为数字， 如时间采用bigint, IP 采用 Unsigned Int， Enum 转为tinyint</li>
+<li>比较小的表，通常情况下数据量小于5000的表，在未来的预期内也不会增加到比较大的，不用建立索引。</li>
+<li>避免使用NULL字段 </li>
+<li>不在在数据库里存图片</li>
+<li>谨慎合理添加索引， 不要每个查询的字段都建立索引</li>
+<li>字符字段必须建前缀索引 </li>
+<li>不在索引列做运算 </li>
+<li>自增列或全局ID做INNODB主键 </li>
+<li>尽量不用外键</li>
+<li>自增主键是你的最佳选择</li>
+<li>新建表时总是设计添加冗余字段<h2 id="SQL-语句类"><a href="#SQL-语句类" class="headerlink" title="SQL 语句类"></a>SQL 语句类</h2></li>
+<li>SQL语句尽可能简单</li>
+<li>保持事务(连接)短小 </li>
+<li>尽可能避免使用SP/TRIG/FUNC </li>
+<li>尽量不用 SELECT *  改写OR语句 </li>
+<li>避免负向查询和% 前缀模糊查询 </li>
+<li>减少COUNT(*) </li>
+<li>LIMIT的高效分页 可以用where pk &gt; 之后limit num</li>
+<li>避免单次数据库操作涉及行数过多的查询，此类查询没有加limit的都应该warning</li>
+<li>尽量不使用UNION， 在代码里面实现Union</li>
+<li>分解联接保证高幵发 </li>
+<li>GROUP BY 去除排序 </li>
+<li>order by,确认排序字段是否用到索引，避免filesort</li>
+<li>在Update 操作的时候尽量不用 SELECT， 避免造成在此类操作的时候锁表</li>
+<li>同数据类型的列值比较 </li>
+<li>Load data导数据 </li>
+<li>打散大批量更新尽量不用 INSERT … SELEC</li>
+<li>SQL 中 JOIN不超过两张表</li>
+<li>Know Your SQL!</li>
+</ol>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2016-01-13T07:14:11.000Z">2016-01-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/gramma/">gramma</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    a minute 读完 (大约 120 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2016/01/13/langs/grammar/markdown/">markdown 语法笔记</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="Markdown基本常用语法"><a href="#Markdown基本常用语法" class="headerlink" title="Markdown基本常用语法"></a>Markdown基本常用语法</h1><h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><ul>
+<li>你好</li>
+<li>xx列表</li>
+</ul>
+<ul>
+<li><code>There is a literal backtick (`) here.</code></li>
+<li>Use the <code>printf()</code> function.</li>
+</ul>
+<h2 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h2><hr>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li>链接 <a href="http://www.baidu.com" target="_blank" rel="noopener">百度</a><blockquote>
+<h2 id="这是一个标题。"><a href="#这是一个标题。" class="headerlink" title="这是一个标题。"></a>这是一个标题。</h2><ol>
+<li>这是第一行列表项。</li>
+<li>这是第二行列表项。</li>
+</ol>
+<p>给出一些例子代码：</p>
+<pre><code>return shell_exec(&quot;echo $input | $markdown_script&quot;);</code></pre></blockquote>
+</li>
+</ul>
+<h2 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h2><p><img src="https://www.baidu.com/img/bd_logo1.png" alt="百度" title="其他标题"></p>
+<h2 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h2><table>
+<thead>
+<tr>
+<th align="left">表头1</th>
+<th align="center">列11</th>
+<th align="right">列2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">居左</td>
+<td align="center">居中</td>
+<td align="right">居右</td>
+</tr>
+</tbody></table>
+<h2 id="强调"><a href="#强调" class="headerlink" title="强调"></a>强调</h2><ul>
+<li><em>被强调的文本</em></li>
+<li><strong>被强调的文本</strong> </li>
+</ul>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2015-09-13T07:14:11.000Z">2015-09-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/storage/">storage</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/storage/bigtable/">bigtable</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    a minute 读完 (大约 144 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2015/09/13/storage/big_table/">Big table 笔记</a>
+            
+        </h1>
+        <div class="content">
+            <p>Big Table 是一种稀疏的多维分布式的有序Map</p>
+<p>Big Table 的基本数据结构<br><img src="https://user-images.githubusercontent.com/7270177/59737028-a56e6e80-928e-11e9-8509-18415344cfcc.png" alt="image"></p>
+<p>Tablet Server 的服务方式<br><img src="https://user-images.githubusercontent.com/7270177/59737043-b4552100-928e-11e9-9da6-85a4d186ebc6.png" alt="image"><br>Compaction 往往发生是为了合并一些数据，节省内存空间(memtable)， 与Log文件的空间需要进行Compation</p>
+<p>其他一些基础组件<br><img src="https://user-images.githubusercontent.com/7270177/59737081-d0f15900-928e-11e9-9e8f-8715a5742311.png" alt="image"></p>
+<p>当一些基础的SSTable分开或者合并的时候， 读写仍然可以同步进行</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2015-09-13T07:14:11.000Z">2015-09-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/storage/">storage</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/storage/database/">database</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    a minute 读完 (大约 137 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2015/09/13/storage/mysql/">MySQL笔记</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="Mysql-笔记"><a href="#Mysql-笔记" class="headerlink" title="Mysql 笔记"></a>Mysql 笔记</h1><p>此文档下将会放mysql 运维， 使用，应用等相关的文档， 也包括一些高级应用的知识</p>
+<h2 id="mysql-使用"><a href="#mysql-使用" class="headerlink" title="mysql 使用"></a>mysql 使用</h2><p><a href="./mysql/catlog.md">MySQL 应用速成入门</a></p>
+<h2 id="mysql-运维"><a href="#mysql-运维" class="headerlink" title="mysql 运维"></a>mysql 运维</h2><h3 id="Centos7-安装Mysql"><a href="#Centos7-安装Mysql" class="headerlink" title="Centos7 安装Mysql"></a>Centos7 安装Mysql</h3><p><a href="./mysql/install.md">Centos7 安装配置 mysql5.6</a></p>
+<h3 id="Mysql-忘记Root密码"><a href="#Mysql-忘记Root密码" class="headerlink" title="Mysql 忘记Root密码"></a>Mysql 忘记Root密码</h3><p><a href="./mysql/passwd.md">MySQL密码找回</a></p>
+<h2 id="mysql-规范"><a href="#mysql-规范" class="headerlink" title="mysql 规范"></a>mysql 规范</h2><p><a href="./mysql/standards.md">MySQL使用规范</a></p>
+<h2 id="mysql-优化"><a href="#mysql-优化" class="headerlink" title="mysql 优化"></a>mysql 优化</h2><h2 id="mysql-应用"><a href="#mysql-应用" class="headerlink" title="mysql 应用"></a>mysql 应用</h2><h3 id="如何做数据库分库分表"><a href="#如何做数据库分库分表" class="headerlink" title="如何做数据库分库分表"></a>如何做数据库分库分表</h3><h4 id="1-基于客户端路由"><a href="#1-基于客户端路由" class="headerlink" title="1. 基于客户端路由"></a>1. 基于客户端路由</h4><h4 id="2-基于代理和HA的服务的路由"><a href="#2-基于代理和HA的服务的路由" class="headerlink" title="2. 基于代理和HA的服务的路由"></a>2. 基于代理和HA的服务的路由</h4><h3 id="常见的分库分表的场景"><a href="#常见的分库分表的场景" class="headerlink" title="常见的分库分表的场景"></a>常见的分库分表的场景</h3>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2015-03-13T07:14:11.000Z">2015-03-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/os/">os</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/os/linux/">linux</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    2 minutes 读完 (大约 316 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2015/03/13/linux/apps/">linux 下常用的应用软件</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="ssh-相关"><a href="#ssh-相关" class="headerlink" title="ssh 相关"></a>ssh 相关</h2><p>ssh 是linux下最为广泛使用的远程连接工具， 也是每个linux学习者必备的技能<br>ssh最常用的一些操作包括 <a href="./apps/ssh.md">ssh key转换、免密登录，连接管理</a> 也是使用者最应该知悉的内容</p>
+<p>免密码ssh登录的设置 </p>
+<p>1.确保你有公钥私钥对，确保安装了ssh<br>如果没有可以用下面的命令生成<br>ssh-keygen<br>如果有私钥可以用下面的命令生成公钥<br>ssh-keygen -y -f id_rsa &gt; id_rsa.pub </p>
+<p>2.要把自己的公钥添加至目标机的<br>.ssh/authorized_keys<br>文件中去，authorized_keys的权限是600 </p>
+<p>open ssh与  windows ppk相互转换<br>关键工具 puttygen<br>由私钥生成公钥如上</p>
+<p>ssh 连接 linux<br>自动补全需要bash_completion<br>还需要在 .ssh/config 文件中记录 host user ip三个字段<br>另外，如果仅需要补全自己</p>
+<p>ssh-copy-id 会自动加免密到目标机器</p>
+<h2 id="设置hostname"><a href="#设置hostname" class="headerlink" title="设置hostname"></a>设置hostname</h2><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"># setting up hostenv</span><br><span class="line"># @author winjeg@qq.com</span><br><span class="line">#</span><br><span class="line"></span><br><span class="line">### setting hostname now</span><br><span class="line">hostname $1</span><br><span class="line">echo $1 &gt; /etc/hostname</span><br><span class="line">echo -e &quot;127.0.0.1\t$1$2\t$1&quot; &gt;&gt; /etc/hosts</span><br></pre></td></tr></table></figure>
+
+<h2 id="openvpn"><a href="#openvpn" class="headerlink" title="openvpn"></a>openvpn</h2><p>openvpn </p>
+<p>添加  /etc/openvpn/client/xxxx.conf</p>
+<p>systemctl enable <a href="mailto:openvpn-client@jiaxing.service" target="_blank" rel="noopener">openvpn-client@jiaxing.service</a></p>
+<p>设置免密<br>在conf中<br>auth-user-pass  xxx.txt</p>
+<p>xxx.txt 中第一行用户名，第二行密码</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2014-11-13T07:14:11.000Z">2014-11-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/os/">os</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/os/linux/">linux</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    5 minutes 读完 (大约 700 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2014/11/13/linux/summary/">关于Linux的一些思考</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>如果你能看到这里， 我想再次表达自己的感激与感动。山不在高，有仙则灵，此系列的文章也不再多，说清就行。看完本系列的文章，我相信大家都能够独立的安装自己喜欢的Linux操作系统，能够没有太大障碍的使用Linux系统，能够自行利用搜索引擎切切实实的去解决自己遇到的问题，接触到很多开源社区。如果是这样，恭喜你，你已经成功入门。 如果你对我的任何一个章节比较感兴趣，仍然， 搜索引擎是你最大的帮助，当然如果你的理解力比较好，或者我的表述足够通俗易懂的话， 你也不需要去专门去挨个查。有很多东西不一定需要当场学会，而是在以后的日积月累中慢慢学会， 知识是一种累计的过程，而非一蹴而就的。</p>
+<p>另外笔者相信大家有耐心，也有信心去逐渐更加深入的学习和了解Linux系统。开源世界的用户体验有时候是不比闭源世界的操作系统做的好， 但<code>开源世界给你提供了做的更好的可能性</code>。</p>
+<h2 id="路向何方"><a href="#路向何方" class="headerlink" title="路向何方"></a>路向何方</h2><p>如果你看完本文还是觉得自己对Linux的兴趣有增无减， 那么恭喜你，你是一名Linux爱好者，也是一个爱好自由的人。看完这些， 最多只能够你安装并使用Linux，但不能带你精通Linux，因为笔者水平也是有限，因此更长的路还是需要读者自己去走完。</p>
+<h3 id="这里笔者推荐几个精通Linux必备的技能"><a href="#这里笔者推荐几个精通Linux必备的技能" class="headerlink" title="这里笔者推荐几个精通Linux必备的技能."></a>这里笔者推荐几个精通Linux必备的技能.</h3><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">1. shell 编程</span><br><span class="line"></span><br><span class="line">2. python 编程</span><br><span class="line"></span><br><span class="line">3. 常用Linux命令学习 find, sed, grep, awk, ssh, vim/emacs, ls, cat等的学习</span><br><span class="line"></span><br><span class="line">4. linux 管道</span><br><span class="line"></span><br><span class="line">5. linux的用户、组与权限设计</span><br><span class="line"></span><br><span class="line">6. linux的初始化工具了解 systemd/sysinit</span><br><span class="line"></span><br><span class="line">7. linux 网络</span><br><span class="line"></span><br><span class="line">8. linux 内核*</span><br></pre></td></tr></table></figure>
+
+<p>有人会问笔者为什么笔者不去自己去写完精通相关的文章，其原因有二:</p>
+<ol>
+<li>第一笔者自认为水平有限， 不是那种精通的类型， 笔者最多敢说自己是熟悉Linux, 因为Linux是一篇森林， 我所知道的只是深林里的一颗小草。</li>
+<li>以上推荐的每一块，有很多人会专门出书或者质量更高的文章来教学，希望此文更多的目的在于指明一些方向，让大家少走弯路， 而非如何交大家如何去走路。</li>
+</ol>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2014-09-13T07:14:11.000Z">2014-09-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/os/">os</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/os/linux/">linux</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    a few seconds 读完 (大约 85 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2014/09/13/linux/linux_des/">Linux桌面环境对比与介绍</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>桌面环境是什么， 常见的有哪些</p>
+<h2 id="桌面环境列表"><a href="#桌面环境列表" class="headerlink" title="桌面环境列表"></a>桌面环境列表</h2><h3 id="Gnome"><a href="#Gnome" class="headerlink" title="Gnome"></a>Gnome</h3><h3 id="Kde"><a href="#Kde" class="headerlink" title="Kde"></a>Kde</h3><h3 id="Xfce"><a href="#Xfce" class="headerlink" title="Xfce"></a>Xfce</h3><h3 id="i3"><a href="#i3" class="headerlink" title="i3"></a>i3</h3><h3 id="lxde"><a href="#lxde" class="headerlink" title="lxde"></a>lxde</h3><h3 id="awesome"><a href="#awesome" class="headerlink" title="awesome"></a>awesome</h3><h3 id="flux"><a href="#flux" class="headerlink" title="flux"></a>flux</h3><h3 id="…-桌面环境也是百花齐放，-萝卜白菜"><a href="#…-桌面环境也是百花齐放，-萝卜白菜" class="headerlink" title="… 桌面环境也是百花齐放， 萝卜白菜"></a>… 桌面环境也是百花齐放， 萝卜白菜</h3><h2 id="构成桌面环境的要素"><a href="#构成桌面环境的要素" class="headerlink" title="构成桌面环境的要素"></a>构成桌面环境的要素</h2><h3 id="窗口管理器-（Windows-Manager）"><a href="#窗口管理器-（Windows-Manager）" class="headerlink" title="窗口管理器 （Windows Manager）"></a>窗口管理器 （Windows Manager）</h3><h3 id="设置管理器-（Settings-Manager）"><a href="#设置管理器-（Settings-Manager）" class="headerlink" title="设置管理器 （Settings Manager）"></a>设置管理器 （Settings Manager）</h3><h3 id="登陆管理器-（Login-Manager）"><a href="#登陆管理器-（Login-Manager）" class="headerlink" title="登陆管理器 （Login Manager）"></a>登陆管理器 （Login Manager）</h3><h3 id="文件管理器"><a href="#文件管理器" class="headerlink" title="文件管理器"></a>文件管理器</h3>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+    
+<div class="card card-transparent">
+    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+        <div class="pagination-previous">
+            <a class="is-flex-grow has-text-black-ter" href="/page/4/">上一页</a>
+        </div>
+        <div class="pagination-next">
+            <a class="is-flex-grow has-text-black-ter" href="/page/6/">下一页</a>
+        </div>
+        <ul class="pagination-list is-hidden-mobile">
+            
+            <li><a class="pagination-link has-text-black-ter" href="/">1</a></li>
+            
+            <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/page/4/">4</a></li>
+            
+            <li><a class="pagination-link is-current" href="/page/5/">5</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/page/6/">6</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/page/7/">7</a></li>
+            
+        </ul>
+    </nav>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="winjeg">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        winjeg
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        A Developer
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Hangzhou, China</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        66
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        20
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        39
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/winjeg" target="_blank">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/winjeg">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Facebook" href="https://www.facebook.com/gong.winjeg">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Mail" href="mailto://winjeg@qq.com">
+                
+                <i class="fab fa-medium-m"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Twitter" href="https://twitter.com/winjeg">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://github.com/winjeg" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">我的Github</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">github.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/application/">
+            <span class="level-start">
+                <span class="level-item">application</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/biz/">
+            <span class="level-start">
+                <span class="level-item">biz</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/container/">
+            <span class="level-start">
+                <span class="level-item">container</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/container/docker/">
+            <span class="level-start">
+                <span class="level-item">docker</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/container/k8s/">
+            <span class="level-start">
+                <span class="level-item">k8s</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/devops/">
+            <span class="level-start">
+                <span class="level-item">devops</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/gramma/">
+            <span class="level-start">
+                <span class="level-item">gramma</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/lang/">
+            <span class="level-start">
+                <span class="level-item">lang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/os/">
+            <span class="level-start">
+                <span class="level-item">os</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">16</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/os/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">16</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/other/">
+            <span class="level-start">
+                <span class="level-item">other</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/storage/">
+            <span class="level-start">
+                <span class="level-item">storage</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">26</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/storage/bigtable/">
+            <span class="level-start">
+                <span class="level-item">bigtable</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/storage/database/">
+            <span class="level-start">
+                <span class="level-item">database</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/storage/etcd/">
+            <span class="level-start">
+                <span class="level-item">etcd</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/storage/middleware/">
+            <span class="level-start">
+                <span class="level-item">middleware</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/storage/mongodb/">
+            <span class="level-start">
+                <span class="level-item">mongodb</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/storage/redis/">
+            <span class="level-start">
+                <span class="level-item">redis</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/storage/rocksdb/">
+            <span class="level-start">
+                <span class="level-item">rocksdb</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/tools/">
+            <span class="level-start">
+                <span class="level-item">tools</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/antd/" style="font-size: 10px;">antd</a> <a href="/tags/bigtable/" style="font-size: 10px;">bigtable</a> <a href="/tags/biz/" style="font-size: 10px;">biz</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/cicd/" style="font-size: 10px;">cicd</a> <a href="/tags/container/" style="font-size: 11.43px;">container</a> <a href="/tags/database/" style="font-size: 20px;">database</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 11.43px;">docker</a> <a href="/tags/etcd/" style="font-size: 10px;">etcd</a> <a href="/tags/ftp/" style="font-size: 10px;">ftp</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/golang/" style="font-size: 15.71px;">golang</a> <a href="/tags/gramma/" style="font-size: 11.43px;">gramma</a> <a href="/tags/java/" style="font-size: 12.86px;">java</a> <a href="/tags/json/" style="font-size: 10px;">json</a> <a href="/tags/k8s/" style="font-size: 10px;">k8s</a> <a href="/tags/lang/" style="font-size: 11.43px;">lang</a> <a href="/tags/ldap/" style="font-size: 10px;">ldap</a> <a href="/tags/linux/" style="font-size: 18.57px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/middleware/" style="font-size: 11.43px;">middleware</a> <a href="/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/tags/multi-media/" style="font-size: 11.43px;">multi-media</a> <a href="/tags/notes/" style="font-size: 10px;">notes</a> <a href="/tags/npm/" style="font-size: 12.86px;">npm</a> <a href="/tags/openapi/" style="font-size: 10px;">openapi</a> <a href="/tags/project/" style="font-size: 11.43px;">project</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/redis/" style="font-size: 14.29px;">redis</a> <a href="/tags/rocksdb/" style="font-size: 10px;">rocksdb</a> <a href="/tags/sql/" style="font-size: 10px;">sql</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/tidb/" style="font-size: 10px;">tidb</a> <a href="/tags/tidis/" style="font-size: 10px;">tidis</a> <a href="/tags/tutorial/" style="font-size: 10px;">tutorial</a> <a href="/tags/yaml/" style="font-size: 10px;">yaml</a> <a href="/tags/索引/" style="font-size: 10px;">索引</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/12/02/langs/golang/json/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Golang JSON 详解">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-02T07:14:11.000Z">2019-12-02</time></div>
+                    <a href="/2019/12/02/langs/golang/json/" class="has-link-black-ter is-size-6">Golang JSON 详解</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/lang/">lang</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/12/02/langs/golang/slice/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Golang slice 与 数组详解">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-02T07:14:11.000Z">2019-12-02</time></div>
+                    <a href="/2019/12/02/langs/golang/slice/" class="has-link-black-ter is-size-6">Golang slice 与 数组详解</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/lang/">lang</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/07/30/devops/cicd/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://user-images.githubusercontent.com/7270177/62824144-685a9480-bbcc-11e9-9b8c-7052affc5b9f.png" alt="CICD 笔记">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-30T07:14:11.000Z">2019-07-30</time></div>
+                    <a href="/2019/07/30/devops/cicd/" class="has-link-black-ter is-size-6">CICD 笔记</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/devops/">devops</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/07/02/storage/mysql/mysql_docker/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://user-images.githubusercontent.com/7270177/59422808-880b5180-8e03-11e9-9dfe-ff8a9a024be7.png" alt="使用docker运行MySQL服务">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-02T07:14:11.000Z">2019-07-02</time></div>
+                    <a href="/2019/07/02/storage/mysql/mysql_docker/" class="has-link-black-ter is-size-6">使用docker运行MySQL服务</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/storage/">storage</a> / <a class="has-link-grey -link" href="/categories/storage/database/">database</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/06/18/langs/fe/project/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="web 前端一些基本知识">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-18T07:14:11.000Z">2019-06-18</time></div>
+                    <a href="/2019/06/18/langs/fe/project/" class="has-link-black-ter is-size-6">web 前端一些基本知识</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/lang/">lang</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2015/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2015</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2015/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2015</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2013/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2013</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2013/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2013</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2013/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2013</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/MySQL/">
+                        <span class="tag">MySQL</span>
+                        <span class="tag is-grey">16</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/antd/">
+                        <span class="tag">antd</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/bigtable/">
+                        <span class="tag">bigtable</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/biz/">
+                        <span class="tag">biz</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/blog/">
+                        <span class="tag">blog</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/cicd/">
+                        <span class="tag">cicd</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/container/">
+                        <span class="tag">container</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/database/">
+                        <span class="tag">database</span>
+                        <span class="tag is-grey">24</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/devops/">
+                        <span class="tag">devops</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/docker/">
+                        <span class="tag">docker</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/etcd/">
+                        <span class="tag">etcd</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ftp/">
+                        <span class="tag">ftp</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/git/">
+                        <span class="tag">git</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/golang/">
+                        <span class="tag">golang</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/gramma/">
+                        <span class="tag">gramma</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/java/">
+                        <span class="tag">java</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/json/">
+                        <span class="tag">json</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/k8s/">
+                        <span class="tag">k8s</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/lang/">
+                        <span class="tag">lang</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ldap/">
+                        <span class="tag">ldap</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/linux/">
+                        <span class="tag">linux</span>
+                        <span class="tag is-grey">17</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/markdown/">
+                        <span class="tag">markdown</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/middleware/">
+                        <span class="tag">middleware</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/mongodb/">
+                        <span class="tag">mongodb</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/multi-media/">
+                        <span class="tag">multi-media</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/notes/">
+                        <span class="tag">notes</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/npm/">
+                        <span class="tag">npm</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/openapi/">
+                        <span class="tag">openapi</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/project/">
+                        <span class="tag">project</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/react/">
+                        <span class="tag">react</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/redis/">
+                        <span class="tag">redis</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/rocksdb/">
+                        <span class="tag">rocksdb</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/sql/">
+                        <span class="tag">sql</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ssh/">
+                        <span class="tag">ssh</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/tidb/">
+                        <span class="tag">tidb</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/tidis/">
+                        <span class="tag">tidis</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/tutorial/">
+                        <span class="tag">tutorial</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/yaml/">
+                        <span class="tag">yaml</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/索引/">
+                        <span class="tag">索引</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/12/02/langs/golang/json/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Golang JSON 详解">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-02T07:14:11.000Z">2019-12-02</time></div>
+                    <a href="/2019/12/02/langs/golang/json/" class="has-link-black-ter is-size-6">Golang JSON 详解</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/lang/">lang</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/12/02/langs/golang/slice/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Golang slice 与 数组详解">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-02T07:14:11.000Z">2019-12-02</time></div>
+                    <a href="/2019/12/02/langs/golang/slice/" class="has-link-black-ter is-size-6">Golang slice 与 数组详解</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/lang/">lang</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/07/30/devops/cicd/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://user-images.githubusercontent.com/7270177/62824144-685a9480-bbcc-11e9-9b8c-7052affc5b9f.png" alt="CICD 笔记">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-30T07:14:11.000Z">2019-07-30</time></div>
+                    <a href="/2019/07/30/devops/cicd/" class="has-link-black-ter is-size-6">CICD 笔记</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/devops/">devops</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/07/02/storage/mysql/mysql_docker/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://user-images.githubusercontent.com/7270177/59422808-880b5180-8e03-11e9-9dfe-ff8a9a024be7.png" alt="使用docker运行MySQL服务">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-02T07:14:11.000Z">2019-07-02</time></div>
+                    <a href="/2019/07/02/storage/mysql/mysql_docker/" class="has-link-black-ter is-size-6">使用docker运行MySQL服务</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/storage/">storage</a> / <a class="has-link-grey -link" href="/categories/storage/database/">database</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/06/18/langs/fe/project/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="web 前端一些基本知识">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-18T07:14:11.000Z">2019-06-18</time></div>
+                    <a href="/2019/06/18/langs/fe/project/" class="has-link-black-ter is-size-6">web 前端一些基本知识</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/lang/">lang</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2015/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2015</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2015/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2015</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2013/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2013</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2013/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2013</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2013/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2013</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/MySQL/">
+                        <span class="tag">MySQL</span>
+                        <span class="tag is-grey">16</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/antd/">
+                        <span class="tag">antd</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/bigtable/">
+                        <span class="tag">bigtable</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/biz/">
+                        <span class="tag">biz</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/blog/">
+                        <span class="tag">blog</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/cicd/">
+                        <span class="tag">cicd</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/container/">
+                        <span class="tag">container</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/database/">
+                        <span class="tag">database</span>
+                        <span class="tag is-grey">24</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/devops/">
+                        <span class="tag">devops</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/docker/">
+                        <span class="tag">docker</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/etcd/">
+                        <span class="tag">etcd</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ftp/">
+                        <span class="tag">ftp</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/git/">
+                        <span class="tag">git</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/golang/">
+                        <span class="tag">golang</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/gramma/">
+                        <span class="tag">gramma</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/java/">
+                        <span class="tag">java</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/json/">
+                        <span class="tag">json</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/k8s/">
+                        <span class="tag">k8s</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/lang/">
+                        <span class="tag">lang</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ldap/">
+                        <span class="tag">ldap</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/linux/">
+                        <span class="tag">linux</span>
+                        <span class="tag is-grey">17</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/markdown/">
+                        <span class="tag">markdown</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/middleware/">
+                        <span class="tag">middleware</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/mongodb/">
+                        <span class="tag">mongodb</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/multi-media/">
+                        <span class="tag">multi-media</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/notes/">
+                        <span class="tag">notes</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/npm/">
+                        <span class="tag">npm</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/openapi/">
+                        <span class="tag">openapi</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/project/">
+                        <span class="tag">project</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/react/">
+                        <span class="tag">react</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/redis/">
+                        <span class="tag">redis</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/rocksdb/">
+                        <span class="tag">rocksdb</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/sql/">
+                        <span class="tag">sql</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ssh/">
+                        <span class="tag">ssh</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/tidb/">
+                        <span class="tag">tidb</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/tidis/">
+                        <span class="tag">tidis</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/tutorial/">
+                        <span class="tag">tutorial</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/yaml/">
+                        <span class="tag">yaml</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/索引/">
+                        <span class="tag">索引</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.svg" alt="winjeg&#39;s blog" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 winjeg&nbsp;
+                All Rights Reserved. 
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/winjeg">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-Hans");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
