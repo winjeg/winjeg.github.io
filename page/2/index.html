@@ -146,6 +146,79 @@
     <div class="card">
     
     <div class="card-image">
+        <a href="/2019/05/13/storage/mysql/mysql_other/" class="image is-7by1">
+            <img class="thumbnail" src="https://user-images.githubusercontent.com/7270177/59422808-880b5180-8e03-11e9-9dfe-ff8a9a024be7.png" alt="Mysql 其他杂记">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-13T07:14:11.000Z">2019-05-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/storage/">storage</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/storage/database/">database</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    4 minutes 读完 (大约 601 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/05/13/storage/mysql/mysql_other/">Mysql 其他杂记</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="事务查询"><a href="#事务查询" class="headerlink" title="事务查询"></a>事务查询</h2><figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">SELECT</span> @@tx_isolation</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">SELECT</span> </span><br><span class="line">  r.<span class="hljs-string">`trx_id`</span> waiting_trx_id,</span><br><span class="line">  r.<span class="hljs-string">`trx_mysql_thread_id`</span> waiting_thread,</span><br><span class="line">  r.<span class="hljs-string">`trx_query`</span> waiting_query,</span><br><span class="line">  b.<span class="hljs-string">`trx_id`</span> bolcking_trx_id,</span><br><span class="line">  b.<span class="hljs-string">`trx_mysql_thread_id`</span> blocking_thread,</span><br><span class="line">  b.<span class="hljs-string">`trx_query`</span> block_query </span><br><span class="line"><span class="hljs-keyword">FROM</span></span><br><span class="line">  information_schema.<span class="hljs-string">`INNODB_LOCK_WAITS`</span> w </span><br><span class="line">  <span class="hljs-keyword">INNER</span> <span class="hljs-keyword">JOIN</span> information_schema.<span class="hljs-string">`INNODB_TRX`</span> b </span><br><span class="line">    <span class="hljs-keyword">ON</span> b.<span class="hljs-string">`trx_id`</span> = w.<span class="hljs-string">`blocking_trx_id`</span> </span><br><span class="line">  <span class="hljs-keyword">INNER</span> <span class="hljs-keyword">JOIN</span> information_schema.<span class="hljs-string">`INNODB_TRX`</span> r </span><br><span class="line">    <span class="hljs-keyword">ON</span> r.<span class="hljs-string">`trx_id`</span> = w.<span class="hljs-string">`requesting_trx_id`</span> ;</span><br></pre></td></tr></table></figure>
+
+<h2 id="查询外键"><a href="#查询外键" class="headerlink" title="查询外键"></a>查询外键</h2><figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">select</span> <span class="hljs-keyword">concat</span>(<span class="hljs-string">'alter table '</span>,table_name,<span class="hljs-string">' drop foreign key '</span>,constraint_name,<span class="hljs-string">';'</span>) </span><br><span class="line"><span class="hljs-keyword">from</span> information_schema.key_column_usage</span><br><span class="line"><span class="hljs-keyword">where</span> constraint_schema = <span class="hljs-string">'dbname'</span> <span class="hljs-keyword">and</span> referenced_table_name = <span class="hljs-string">'tbName'</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">concat</span>(<span class="hljs-string">'alter table '</span>,table_schema,<span class="hljs-string">'.'</span>,table_name,<span class="hljs-string">' DROP FOREIGN KEY '</span>,constraint_name,<span class="hljs-string">';'</span>)</span><br><span class="line"><span class="hljs-keyword">FROM</span> information_schema.table_constraints</span><br><span class="line"><span class="hljs-keyword">WHERE</span> constraint_type=<span class="hljs-string">'FOREIGN KEY'</span></span><br><span class="line"><span class="hljs-keyword">AND</span> table_schema=<span class="hljs-string">'dbname'</span>;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">SELECT</span> TABLE_NAME <span class="hljs-keyword">FROM</span> information_schema.<span class="hljs-string">`TABLES`</span></span><br><span class="line"><span class="hljs-keyword">WHERE</span> TABLE_TYPE=<span class="hljs-string">"BASE TABLE"</span></span><br><span class="line"><span class="hljs-keyword">AND</span> TABLE_SCHEMA=<span class="hljs-string">"dbname"</span></span><br></pre></td></tr></table></figure>
+
+<p>原因是由于RDS的备份文件中包含了RDS的主从复制关系，需要把这些主从复制关系清理掉，清理方法：</p>
+<figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">truncate</span> <span class="hljs-keyword">table</span>  slave_relay_log_info;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">truncate</span> <span class="hljs-keyword">table</span>  mysql.slave_master_info;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Mysql-DUMP-表"><a href="#Mysql-DUMP-表" class="headerlink" title="Mysql DUMP 表"></a>Mysql DUMP 表</h3><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -u root -h 127.0.0.1  dbName msgattach  &gt; msgattach.sql</span><br></pre></td></tr></table></figure>
+
+<h3 id="MySQL-客户端"><a href="#MySQL-客户端" class="headerlink" title="MySQL 客户端"></a>MySQL 客户端</h3><p>从表现上来看分两种：</p>
+<ol>
+<li>客户端执行完query之后， 直接返回， 并开始用rows.next 去取数据， 其中很快</li>
+<li>如果在客户端取数据的时候打上断点， 服务端发送完数据之后， 客户端只能取到部分数据， 不能取到全部数据， 怀疑客户端有一个缓冲区，不断接收服务端的数据并刷新</li>
+<li>如果客户端收到数据后，不打断点， 则可以获取全部数据（前提是建立在客户端执行速度比较快的情况下）</li>
+</ol>
+<p>底层代码里面来看， mysql服务端发送数据给客户端的时候， 客户端会把数据存在一个 默认4096大小的buffer 里面， 从这个buffer里面再读到rows里面<br>如果buffer里的数据没有被及时消费掉， 那么连接上面传送过来的数据会丢失掉。</p>
+<p>MySQL 本身的问题对于数据量传输不完的时候有个write_timeout,  出现错误之后， 会返回EOF 相关的Error</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[mysql] 2019/04/25 14:31:27 packets.go:72: unexpected EOF</span><br><span class="line">[mysql] 2019/04/25 14:31:27 packets.go:393: busy buffer</span><br></pre></td></tr></table></figure>
+
+<h3 id="实用脚本"><a href="#实用脚本" class="headerlink" title="实用脚本"></a>实用脚本</h3><h4 id="Mysql-查看表的外键"><a href="#Mysql-查看表的外键" class="headerlink" title="Mysql 查看表的外键"></a>Mysql 查看表的外键</h4><figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">select</span> </span><br><span class="line">TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME, REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME </span><br><span class="line"><span class="hljs-keyword">from</span> INFORMATION_SCHEMA.KEY_COLUMN_USAGE </span><br><span class="line"> <span class="hljs-keyword">WHERE</span> CONSTRAINT_NAME != <span class="hljs-string">'PRIMARY'</span> <span class="hljs-keyword">AND</span> REFERENCED_TABLE_NAME <span class="hljs-keyword">IS</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="测试稳定情况"><a href="#测试稳定情况" class="headerlink" title="测试稳定情况"></a>测试稳定情况</h4><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> `seq 1 100`; <span class="hljs-keyword">do</span> </span><br><span class="line">    mysql -u username -h host -P 3306 -ppassword -e <span class="hljs-string">"use dbName; select askid from ask limit 1"</span>; <span class="hljs-built_in">echo</span> <span class="hljs-string">"==============<span class="hljs-variable">$i</span>"</span>; sleep 1;</span><br><span class="line"><span class="hljs-keyword">done</span></span><br></pre></td></tr></table></figure>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
         <a href="/2019/05/13/storage/mysql/passwd/" class="image is-7by1">
             <img class="thumbnail" src="https://user-images.githubusercontent.com/7270177/59422808-880b5180-8e03-11e9-9dfe-ff8a9a024be7.png" alt="Mysql 如何找回Root密码">
         </a>
@@ -499,60 +572,6 @@
 
 <p>是不是很简单，如果文中有误，或者缺失的内容欢迎各种批评教育。</p>
 <p>如果您能读到这里， 我会感觉到十分荣幸，谢谢您的关注。</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2018/12/13/others/year2020/" class="image is-7by1">
-            <img class="thumbnail" src="https://user-images.githubusercontent.com/7270177/71637791-210e9680-2c88-11ea-8dd3-06f6ccf2f10a.png" alt="Happy Year 2020 (2020快乐)">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-12-13T02:14:11.000Z">2018-12-13</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/other/">other</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    a minute 读完 (大约 113 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2018/12/13/others/year2020/">Happy Year 2020 (2020快乐)</a>
-            
-        </h1>
-        <div class="content">
-            <h1 id="祝大家2020快乐"><a href="#祝大家2020快乐" class="headerlink" title="祝大家2020快乐"></a>祝大家2020快乐</h1><p><img src="https://user-images.githubusercontent.com/7270177/71637837-94fd6e80-2c89-11ea-86b8-b5dc6636d00b.png" alt="image"></p>
-<hr>
-<h1 id="每一个清晨，都是一个美好的开始，每一个清晨，都意味着前进的脚步，不管昨天怎么样，今天我们只做最好的自己，带着微笑，带着善良，带着梦想起航。再见，2019！你好，2020！"><a href="#每一个清晨，都是一个美好的开始，每一个清晨，都意味着前进的脚步，不管昨天怎么样，今天我们只做最好的自己，带着微笑，带着善良，带着梦想起航。再见，2019！你好，2020！" class="headerlink" title="每一个清晨，都是一个美好的开始，每一个清晨，都意味着前进的脚步，不管昨天怎么样，今天我们只做最好的自己，带着微笑，带着善良，带着梦想起航。再见，2019！你好，2020！"></a>每一个清晨，都是一个美好的开始，每一个清晨，都意味着前进的脚步，不管昨天怎么样，今天我们只做最好的自己，带着微笑，带着善良，带着梦想起航。再见，2019！你好，2020！</h1><hr>
-<p><img src="https://user-images.githubusercontent.com/7270177/71637861-55835200-2c8a-11ea-8a2e-938e3c13df35.png" alt="image"></p>
 
         </div>
         
@@ -2166,6 +2185,25 @@
         
         <article class="media">
             
+            <a href="/20120/01/01/others/year2020/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://user-images.githubusercontent.com/7270177/71637791-210e9680-2c88-11ea-8dd3-06f6ccf2f10a.png" alt="Happy Year 2020 (2020快乐)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="+020120-01-01T02:00:00.000Z">20120-01-01</time></div>
+                    <a href="/20120/01/01/others/year2020/" class="has-link-black-ter is-size-6">Happy Year 2020 (2020快乐)</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/other/">other</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/12/02/langs/golang/json/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Golang JSON 详解">
@@ -2240,25 +2278,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/06/18/langs/fe/new_project/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="react+ts+webpack+antd 实战">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-18T07:14:11.000Z">2019-06-18</time></div>
-                    <a href="/2019/06/18/langs/fe/new_project/" class="has-link-black-ter is-size-6">react+ts+webpack+antd 实战</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/lang/">lang</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -2270,6 +2289,17 @@
             归档
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/20120/01/">
+                <span class="level-start">
+                    <span class="level-item">January 20120</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/12/">
@@ -2321,7 +2351,7 @@
                     <span class="level-item">December 2018</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -2952,6 +2982,25 @@
         
         <article class="media">
             
+            <a href="/20120/01/01/others/year2020/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://user-images.githubusercontent.com/7270177/71637791-210e9680-2c88-11ea-8dd3-06f6ccf2f10a.png" alt="Happy Year 2020 (2020快乐)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="+020120-01-01T02:00:00.000Z">20120-01-01</time></div>
+                    <a href="/20120/01/01/others/year2020/" class="has-link-black-ter is-size-6">Happy Year 2020 (2020快乐)</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/other/">other</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/12/02/langs/golang/json/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Golang JSON 详解">
@@ -3026,25 +3075,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/06/18/langs/fe/new_project/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="react+ts+webpack+antd 实战">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-18T07:14:11.000Z">2019-06-18</time></div>
-                    <a href="/2019/06/18/langs/fe/new_project/" class="has-link-black-ter is-size-6">react+ts+webpack+antd 实战</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/lang/">lang</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -3056,6 +3086,17 @@
             归档
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/20120/01/">
+                <span class="level-start">
+                    <span class="level-item">January 20120</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/12/">
@@ -3107,7 +3148,7 @@
                     <span class="level-item">December 2018</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
