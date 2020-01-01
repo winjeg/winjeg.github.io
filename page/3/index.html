@@ -1,0 +1,2923 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>winjeg&#39;s blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="keywords" content="golang, java, mysql, devops, linux">
+<meta property="og:type" content="website">
+<meta property="og:title" content="winjeg&#39;s blog">
+<meta property="og:url" content="https://winjeg.github.io/page/3/index.html">
+<meta property="og:site_name" content="winjeg&#39;s blog">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://winjeg.github.io/images/og_image.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="winjeg&#39;s blog">
+<meta name="twitter:image" content="https://winjeg.github.io/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.ico">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <!-- 雪花特效 -->
+    <script type="text/javascript">
+        var windowWidth = $(window).width();
+        if (windowWidth > 480) {
+            document.write('<script type="text/javascript" src="/js/src/snow.js"><\/script>');
+        }
+    </script>
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.svg" alt="winjeg&#39;s blog" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">首页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/winjeg">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-04-13T07:14:11.000Z">2018-04-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/container/">container</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/container/k8s/">k8s</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    2 minutes 读完 (大约 301 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2018/04/13/container/k8s_commands/">k8s 常用命令笔记</a>
+            
+        </h1>
+        <div class="content">
+            <h3 id="k8s-常用命令"><a href="#k8s-常用命令" class="headerlink" title="k8s 常用命令"></a>k8s 常用命令</h3><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">kubectl version</span><br><span class="line">kubectl cluster-info</span><br><span class="line">kubectl get nodes</span><br><span class="line"></span><br><span class="line">kubectl run kubernetes-bootcamp --image=gcr.io/google-samples/kubernetes-bootcamp:v1 --port=8080</span><br><span class="line"># 当完成run的时候就相当于部署了一个应用</span><br><span class="line">kubectl get deployments</span><br><span class="line"># expose 后相当于  service</span><br><span class="line">kubectl expose deployment hello-node --type=LoadBalancer</span><br><span class="line">kubectl get services</span><br><span class="line"></span><br><span class="line">kubectl describe pods</span><br><span class="line">kubectl get pods -o wide</span><br><span class="line"></span><br><span class="line">kubectl logs $POD_NAME</span><br><span class="line">kubectl exec -ti $POD_NAME bash</span><br><span class="line">kubectl exec $POD_NAME env</span><br><span class="line">kubectl describe services/kubernetes-bootcamp</span><br><span class="line">export NODE_PORT=$(kubectl get services/kubernetes-bootcamp -o go-template=&apos;&#123;&#123;(index .spec.ports 0).nodePort&#125;&#125;&apos;)</span><br><span class="line">echo NODE_PORT=$NODE_PORT</span><br><span class="line">kubectl scale deployments/kubernetes-bootcamp --replicas=2</span><br><span class="line">kubectl set image deployments/kubernetes-bootcamp kubernetes-bootcamp=jocatalin/kubernetes-bootcamp:v2</span><br><span class="line"></span><br><span class="line"># 看是否更新完</span><br><span class="line">kubectl rollout status deployments/kubernetes-bootcamp</span><br><span class="line">kubectl rollout undo deployments/kubernetes-bootcamp</span><br><span class="line">kubectl get events</span><br><span class="line">kubectl config view</span><br><span class="line">kubectl delete service hello-node</span><br><span class="line">kubectl delete deployment hello-node</span><br><span class="line"></span><br><span class="line">kubectl create -f https://k8s.io/docs/user-guide/walkthrough/pod-nginx-with-label.yaml</span><br><span class="line">kubectl apply -f https://k8s.io/docs/user-guide/walkthrough//deployment-update.yaml</span><br><span class="line"></span><br><span class="line">kubectl get pods -l app=nginx</span><br><span class="line">kubectl delete pod -l app=nginx</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">kubectl create configmap example-redis-config --from-file=https://k8s.io/docs/tutorials/configuration/configmap/redis/redis-config</span><br><span class="line">kubectl get configmap example-redis-config -o yaml</span><br></pre></td></tr></table></figure>
+
+<h3 id="在一个k8s集群内部各个pod默认跟其他服务与pod是可见的"><a href="#在一个k8s集群内部各个pod默认跟其他服务与pod是可见的" class="headerlink" title="在一个k8s集群内部各个pod默认跟其他服务与pod是可见的"></a>在一个k8s集群内部各个pod默认跟其他服务与pod是可见的</h3><p>一个Pod可以包含多个应用， 但一个pod里面的应用应该是强绑定的，共享存储网络，跟一些容器信息</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
+        <a href="/2017/12/14/storage/redis/redis_standards/" class="image is-7by1">
+            <img class="thumbnail" src="https://user-images.githubusercontent.com/7270177/59422638-49759700-8e03-11e9-8bdd-dd708ca69e1f.png" alt="redis 使用规范">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-12-14T07:14:11.000Z">2017-12-14</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/storage/">storage</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/storage/database/">database</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    6 minutes 读完 (大约 844 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2017/12/14/storage/redis/redis_standards/">redis 使用规范</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="key-value规范"><a href="#key-value规范" class="headerlink" title="key/value规范"></a>key/value规范</h2><ol>
+<li>所有的key 应该有合理的业务前缀</li>
+<li>key 不应该包含特殊字符，应尽量使用常见的字母，数字， 下划线等组合</li>
+<li>key 的大小应该保证在<code>16kb</code> 之内</li>
+<li>value 的大小应该保证在<code>1M</code>之内， 拒绝bigkey(防止网卡流量、慢查询)</li>
+<li>string类型控制在10KB以内，hash、list、set、zset元素个数不要超过5000。</li>
+<li>控制key的生命周期，redis不是垃圾桶, 能过期的key一定要设置过期时间</li>
+</ol>
+<h2 id="数据类型使用注意"><a href="#数据类型使用注意" class="headerlink" title="数据类型使用注意"></a>数据类型使用注意</h2><ol>
+<li>hash 不推荐使用 <code>hkeys</code> 命令除非hash表的尺寸非常小， 否则推荐使用scan</li>
+<li>set/zset/list 需要遍历整个列表也尽量使用<code>scan</code>与 <code>lindex</code>等命令</li>
+<li>非字符串的bigkey，不要使用del删除，使用hscan、sscan、zscan方式渐进式删除，同时要注意防止bigkey过期时间自动删除问题(例如一个200万的zset设置1小时过期，会触发del操作，造成阻塞，而且该操作不会不出现在慢查询中(latency可查))</li>
+<li>选择适合的数据类型, 注意节省内存和性能之间的平衡</li>
+</ol>
+<h2 id="命令使用"><a href="#命令使用" class="headerlink" title="命令使用"></a>命令使用</h2><ol>
+<li><p>O(N)命令关注N的数量</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">例如hgetall、lrange、smembers、zrange、sinter等并非不能使用，但是需要明确N的值。有遍历的需求可以使用hscan、sscan、zscan代替。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>禁用命令</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">禁止线上使用keys、flushall、flushdb等，通过redis的rename机制禁掉命令，或者使用scan的方式渐进式处理。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>不推荐使用select,  新业务禁止使用 select</p>
+</li>
+<li><p>用批量操作提高效率, 但要注意控制一次批量操作的元素个数(例如500以内，实际也和元素字节数有关)。</p>
+</li>
+<li><p>Redis事务功能较弱，不建议过多使用</p>
+</li>
+<li><p>必要情况下使用monitor命令时，要注意不要长时间使用</p>
+</li>
+</ol>
+<h2 id="客户端使用"><a href="#客户端使用" class="headerlink" title="客户端使用"></a>客户端使用</h2><ol>
+<li>避免多个应用使用一个Redis实例, 不相干的业务拆分，公共数据做服务化</li>
+<li>使用带有连接池的数据库，可以有效控制连接，同时提高效率</li>
+<li>高并发下建议客户端添加熔断功能(例如netflix hystrix)</li>
+<li>设置合理的密码</li>
+<li>根据自身业务类型，选好maxmemory-policy(最大内存淘汰策略)，设置好过期时间</li>
+</ol>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">volatile-lru: 即超过最大内存后，在过期键中使用lru算法进行key的剔除，保证不过期数据不被删除，但是可能会出现OOM问题</span><br><span class="line">allkeys-lru：根据LRU算法删除键，不管数据有没有设置超时属性，直到腾出足够空间为止。</span><br><span class="line">allkeys-random：随机删除所有键，直到腾出足够空间为止。</span><br><span class="line">volatile-random:随机删除过期键，直到腾出足够空间为止。</span><br><span class="line">volatile-ttl：根据键值对象的ttl属性，删除最近将要过期数据。如果没有，回退到noeviction策略。</span><br><span class="line">noeviction：不会剔除任何数据，拒绝所有写入操作并返回客户端错误信息&quot;(error) OOM command not allowed when used memory&quot;，此时Redis只响应读操作。</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-12-13T07:14:11.000Z">2017-12-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/storage/">storage</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/storage/database/">database</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    8 minutes 读完 (大约 1205 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2017/12/13/storage/redis/monitoring/">redis 简谈redis监控</a>
+            
+        </h1>
+        <div class="content">
+            <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>由于redis是一个内存型的数据库，关注的点势必跟MySQL等非内存型的数据库相差比较多， 因此有必要单独对redis的监控关注项进行梳理。<br>此外由于redis的单线程模型， 以及速度要求非常高，因此对于redis的监控需要因事制宜。</p>
+<h3 id="监控项"><a href="#监控项" class="headerlink" title="监控项"></a>监控项</h3><h4 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h4><p>由于redis是内存型数据库，因此对于内存的需求是最大的需求， 监控项里面最重要的也是对于内存的监控，一般出问题，大概率是内存满掉的问题。<br>一般内存满了之后会导致一系列的问题，比如逐出了不该逐出的key、写不进数据、 超时阻塞等问题。 对于内存的监控是至关重要的。<br>一般一个合理的范围是在 30% 到70%之间。而超过了80%就需要报警和升级了。</p>
+<figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">10.1.9.164:7300&gt; info memory</span><br><span class="line"><span class="hljs-comment"># Memory</span></span><br><span class="line">used_memory:108476200</span><br><span class="line">used_memory_human:103.45M</span><br><span class="line">used_memory_rss:129523712</span><br><span class="line">used_memory_rss_human:123.52M</span><br><span class="line">used_memory_peak:109672760</span><br><span class="line">used_memory_peak_human:104.59M</span><br><span class="line">total_system_memory:16658898944</span><br><span class="line">total_system_memory_human:15.51G</span><br><span class="line">used_memory_lua:37888</span><br><span class="line">used_memory_lua_human:37.00K</span><br><span class="line">maxmemory:4294967296</span><br><span class="line">maxmemory_human:4.00G</span><br><span class="line">maxmemory_policy:volatile-lru</span><br><span class="line">mem_fragmentation_ratio:1.19</span><br><span class="line">mem_allocator:jemalloc-4.0.3</span><br><span class="line">10.1.9.164:7300&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="大Key，-慢查询"><a href="#大Key，-慢查询" class="headerlink" title="大Key， 慢查询"></a>大Key， 慢查询</h3><p>另外一个比较常见的导致线上问题的一大因素是对于redis的不合理的使用，如 大key与慢查询<br>一般而言redis的key与数据越大， 导致的查询时长就越长， 加上redis本身是单线程的模型，因此这类查询往往会影响到其他查询的正常进行， 对大key的控制一方面可以通过中间件或者proxy 等手段来截断或者拒绝， 一方面也是需要使用一定的手段如 redis的 <code>slowlog get</code>命令来查看。<br>有了能获取的方法，那自然就可以对这些东西进行监控并合理的进行报警。 一般来讲redis模型中， 还是以尽量不出现慢查询为宜， 一旦出现慢查询就应该立即报警。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">10.1.9.164:7300&gt; slowlog get</span><br><span class="line">1) 1) (integer) 155</span><br><span class="line">   2) (integer) 1545025300</span><br><span class="line">   3) (integer) 19422</span><br><span class="line">   4) 1) &quot;COMMAND&quot;</span><br><span class="line">2) 1) (integer) 154</span><br><span class="line">   2) (integer) 1544754674</span><br><span class="line">   3) (integer) 11571</span><br><span class="line">   4) 1) &quot;scan&quot;</span><br><span class="line">      2) &quot;26005&quot;</span><br><span class="line">      3) &quot;MATCH&quot;</span><br><span class="line">      4) &quot;*&quot;</span><br><span class="line">      5) &quot;COUNT&quot;</span><br><span class="line">      6) &quot;10000&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="连接数"><a href="#连接数" class="headerlink" title="连接数"></a>连接数</h3><p>redis在与客户端进行通信也是维护了连接的， 这些连接用来处理服务端与redis server之间的命令发送与数据发送等等 另外redis的最大连接数是有上限的 可以通过命令 <code>config get maxclients</code>来取得， 也可以使用<code>info clients</code>来看连接的使用情况，一般而言，连接数只要使用不满其实是不会出现太多的问题的， 但一定用满了，则会导致应用端错误。 因此对于连接数的监控也是以比率为标准比较好， 建议合理的范围是 &lt; 60%, 对于超过80%的情况应给予报警</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; info clients</span><br><span class="line">#Clients</span><br><span class="line">connected_clients:621</span><br><span class="line">client_longest_output_list:0</span><br><span class="line">client_biggest_input_buf:0</span><br><span class="line">blocked_clients:0</span><br><span class="line">127.0.0.1:6379&gt;</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; CONFIG GET maxclients</span><br><span class="line">    ##1) &quot;maxclients&quot;</span><br><span class="line">    ##2) &quot;10000&quot;</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h4><p>CPU对于redis来说也是比较重要的需要关注的一个项， 一般跟QPS直接相关， QPS越高，CPU使用的也就越高。<br>对于redis服务来讲， CPU 跟其他服务的要求差别也不大， 不正常区间是 &lt;70% 超过80%则需要报警。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">10.1.9.164:7300&gt; info cpu</span><br><span class="line"># CPU</span><br><span class="line">used_cpu_sys:88088.66</span><br><span class="line">used_cpu_user:39641.02</span><br><span class="line">used_cpu_sys_children:40.78</span><br><span class="line">used_cpu_user_children:131.68</span><br><span class="line">10.1.9.164:7300&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="QPS"><a href="#QPS" class="headerlink" title="QPS"></a>QPS</h4><p>QPS 即每秒钟Redis接受的请求数量，不同的Key的大小支持的QPS对于Redis是不同的， 因此单一的对redis的QPS进行监控可能意义不大。<br>如果要做redis QPS的监控应该与历史同期相比较，是否有剧增等情况。 还有一个可以参照点就是经验值， 一般这个配置的redis可以承受多少的QPS。 通过经验值与历史对比两个标准来决定是否需要报警。一般是历史同期的两倍，且比高峰期高的时候，是应该报警的。</p>
+<p>QPS 可以通过计算两个时间间隔内执行的总命令数量来计算出来</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">10.1.9.164:7300&gt; info  stats</span><br><span class="line"># Stats</span><br><span class="line">total_connections_received:215774</span><br><span class="line">total_commands_processed:2980658450</span><br><span class="line">instantaneous_ops_per_sec:50</span><br><span class="line">total_net_input_bytes:1135673367887</span><br><span class="line">total_net_output_bytes:594951090244</span><br><span class="line">instantaneous_input_kbps:30.66</span><br><span class="line">instantaneous_output_kbps:13.65</span><br><span class="line">rejected_connections:0</span><br><span class="line">sync_full:0</span><br><span class="line">sync_partial_ok:0</span><br><span class="line">sync_partial_err:0</span><br><span class="line">expired_keys:161591</span><br><span class="line">evicted_keys:0</span><br><span class="line">keyspace_hits:112552664</span><br><span class="line">keyspace_misses:809125690</span><br><span class="line">pubsub_channels:0</span><br><span class="line">pubsub_patterns:0</span><br><span class="line">latest_fork_usec:3349</span><br><span class="line">migrate_cached_sockets:0</span><br><span class="line">10.1.9.164:7300&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="网络IO"><a href="#网络IO" class="headerlink" title="网络IO"></a>网络IO</h4><p>网络IO就是redis在处理命令的时候占用的网络的流入与流出的量， 一般而言， 网络IO是较少关注的一个点， 但在网络达到带宽的上限的时候我们还是应该重视起来， 因为这个时候其他的东西是会阻塞的， 一般推荐的报警值为超过网络带宽的 80%</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-09-13T07:14:11.000Z">2017-09-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/storage/">storage</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/storage/database/">database</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    2 minutes 读完 (大约 308 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2017/09/13/apps/tidb/">Tidb 笔记</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>TIDB是一种分布式高可用实现MySQL协议的可动态扩容的数据库<br>动态扩容是指计算能力与存储空间两个维度的动态扩容<br>tidb 由 tidb server， PDserver 与 TIKV组成<br>基本结构如下图<br><img src="imgs/tidb-architecture.png" alt="TIDB架构"></p>
+<h2 id="TIDB"><a href="#TIDB" class="headerlink" title="TIDB"></a>TIDB</h2><p>TIDB 是一个无状态可以动态扩展的服务， 本身并不存储任何数据</p>
+<h3 id="主要功能"><a href="#主要功能" class="headerlink" title="主要功能"></a>主要功能</h3><ol>
+<li>接收SQL请求</li>
+<li>处理SQL相关的逻辑</li>
+<li>与PD Server 通信定位数据实际存储位置</li>
+<li>与TIKV实际交换数据</li>
+<li>返回数据</li>
+</ol>
+<h2 id="PD-server"><a href="#PD-server" class="headerlink" title="PD server"></a>PD server</h2><p>PD Server 负责整个集群信息的管理与通信， 通常要部署奇数台</p>
+<h3 id="主要功能-1"><a href="#主要功能-1" class="headerlink" title="主要功能"></a>主要功能</h3><ol>
+<li>存储集群数据元信息</li>
+<li>管理与负载均衡TIKV， 并负责数据迁移</li>
+<li>分配全局唯一单调递增ID</li>
+</ol>
+<h2 id="TIKV"><a href="#TIKV" class="headerlink" title="TIKV"></a>TIKV</h2><p>TIKV 是一种分布式事务型Key-Value型存储， 它是负责整个TIDB集群所有的实际数据存储的。<br>它使用Raft协议来保证集群数据的一致性与故障恢复，区域是它最基本的存储单元，所有不同节点<br>上的区域副本构成了一个Raft的分组</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-09-13T07:14:11.000Z">2017-09-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/lang/">lang</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    2 minutes 读完 (大约 256 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2017/09/13/langs/golang/goland/">Golang 简介</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="IDE-选择"><a href="#IDE-选择" class="headerlink" title="IDE 选择"></a>IDE 选择</h2><h3 id="vscode"><a href="#vscode" class="headerlink" title="vscode"></a>vscode</h3><h3 id="goland-（收费）"><a href="#goland-（收费）" class="headerlink" title="goland （收费）"></a>goland （收费）</h3><p>需要装的插件列表</p>
+<ol>
+<li>material theme UI</li>
+<li>m</li>
+</ol>
+<p>jetbrains 出品， 省去了很多的配置麻烦，而且用IDEA的用户可以无缝切换到这个的使用。</p>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="SQL查询的Rows不关闭的时候回造成阻塞的问题"><a href="#SQL查询的Rows不关闭的时候回造成阻塞的问题" class="headerlink" title="SQL查询的Rows不关闭的时候回造成阻塞的问题"></a>SQL查询的Rows不关闭的时候回造成阻塞的问题</h3><p>对此的英文解释大概意思是， 如果不关闭rows， 缓冲区就有未读完的数据， 然后就造成了连接阻塞，影响接下来的查询， 最终会导致连接池的连接全部用满。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.Query(..) returns a rows struct which must be closed or completely iterated (with for rows.Next()). Otherwise there is unread data on the connection stream and the connection blocks.</span><br></pre></td></tr></table></figure>
+
+<p>如果需要执行但不需要结果可以用 <code>db.Exec(..)</code></p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Simple solution: use db.Exec(..) instead. Does it work then?</span><br></pre></td></tr></table></figure>
+
+<p>gorm 的问题</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.Raw.Row()</span><br></pre></td></tr></table></figure>
+
+<p>  如果这个row不被消费则会造成这个问题<br>如果不想消费</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.Exec()</span><br></pre></td></tr></table></figure>
+
+<h2 id="golang-初始化顺序"><a href="#golang-初始化顺序" class="headerlink" title="golang 初始化顺序"></a>golang 初始化顺序</h2><p><img src="https://user-images.githubusercontent.com/7270177/59737472-62ad9600-9290-11e9-92e7-54556e4618de.png" alt="image"></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-03-18T07:14:11.000Z">2017-03-18</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/storage/">storage</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/storage/database/">database</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    15 minutes 读完 (大约 2250 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2017/03/18/storage/mysql/roll_back/">Mysql 闪回方案设计</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="mysql-数据闪回"><a href="#mysql-数据闪回" class="headerlink" title="mysql 数据闪回"></a>mysql 数据闪回</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>数据闪回属于数据恢复的一个范畴, 常见的数据恢复的方法有很多， 但都大同小异。<br>主要有以下两种方案：</p>
+<ol>
+<li>进行变更之前把变更前的数据存储下来用于恢复</li>
+<li>基于全量备份+ binlog增量备份的方式</li>
+</ol>
+<p>这两种方案，私下里操作最多的往往是第一种， 因为第一种比较小作坊， 容易操作， 但操作也相对零碎， 人工化， 容易产生失误。第二种是业界许多解决方案的标准， 例如RDS的备份恢复克隆等功能就是按照第二种方案去做的， 但第二种有三个问题， 第一，备份数据比较庞大， 比较多，恢复时间非常久， 第二， 需要有一整套的体系支持（包括不仅限于服务器、运维、等）第三，第二种需要比较大的开发量。需要对binlog 进行订阅解析以及合理的安排， 对备份策略进行合理的程序化定制。</p>
+<p>很多企业在发展到一定阶段之后必定会对线上数据变更进行相应的管控， 建立好相应的变更管控的流程。 但这个流程也非万能的， 数据被误操作的概率还是存在， 当数据被误操作后，如何快速恢复到操作前的一个状态， 成了本文主要关注的一个话题。</p>
+<h2 id="闪回工具现状"><a href="#闪回工具现状" class="headerlink" title="闪回工具现状"></a>闪回工具现状</h2><h3 id="mysqlbinlog工具配合sed、awk"><a href="#mysqlbinlog工具配合sed、awk" class="headerlink" title="mysqlbinlog工具配合sed、awk"></a>mysqlbinlog工具配合sed、awk</h3><p>该方式先将binlog解析成类SQL的文本，然后使用sed、awk把类SQL文本转换成真正的SQL。</p>
+<ul>
+<li>优点：当SQL中字段类型比较简单时，可以快速生成需要的SQL，且编程门槛也比较低。</li>
+<li>缺点：当SQL中字段类型比较复杂时，尤其是字段中的文本包含HTML代码，用awk、sed等工具时，就需要考虑极其复杂的转义等情况，出错概率很大。</li>
+</ul>
+<h3 id="给数据库源码打patch。该方式扩展了mysqlbinlog的功能，增加Flashback选项。"><a href="#给数据库源码打patch。该方式扩展了mysqlbinlog的功能，增加Flashback选项。" class="headerlink" title="给数据库源码打patch。该方式扩展了mysqlbinlog的功能，增加Flashback选项。"></a>给数据库源码打patch。该方式扩展了mysqlbinlog的功能，增加Flashback选项。</h3><ul>
+<li>优点：复用了MySQL Server层中binlog解析等代码，一旦稳定之后，无须关心复杂的字段类型，且效率较高。</li>
+<li>缺点：在修改前，需要对MySQL的复制代码结构和细节需要较深的了解。版本比较敏感，在MySQL 5.6上做的patch，基本不能用于MySQL 5.7的回滚操作。升级困难，因为patch的代码是分布在MySQL的各个文件和函数中，一旦MySQL代码改变，特别是复制层的重构，升级的难度不亚于完全重新写一个。</li>
+</ul>
+<h3 id="使用业界提供的解析binlog的库，然后进行SQL构造，其优秀代表是binlog2sql。"><a href="#使用业界提供的解析binlog的库，然后进行SQL构造，其优秀代表是binlog2sql。" class="headerlink" title="使用业界提供的解析binlog的库，然后进行SQL构造，其优秀代表是binlog2sql。"></a>使用业界提供的解析binlog的库，然后进行SQL构造，其优秀代表是binlog2sql。</h3><ul>
+<li>优点：使用业界成熟的库，因此稳定性较好，且上手难度较低。</li>
+<li>缺点：效率往往较低，且实现上受制于binlog库提供的功能。</li>
+</ul>
+<p>上述几种实现方式，主要是提供的过滤选项较少，比如不能提供基于SQL类型的过滤，需要回滚一个delete语句，导致在回滚时，需要结合awk、sed等工具进行筛选。</p>
+<h2 id="开源方案"><a href="#开源方案" class="headerlink" title="开源方案"></a>开源方案</h2><p>总体来讲如下的两种方案其实是一个原理，其中一个程序化了， 产品化了而已。</p>
+<h3 id="美团的-MyFlash"><a href="#美团的-MyFlash" class="headerlink" title="美团的 MyFlash"></a>美团的 MyFlash</h3><p>  <a href="https://github.com/Meituan-Dianping/MyFlash" target="_blank" rel="noopener">MyFlash</a>  是由美团点评公司技术工程部开发维护的一个回滚DML操作的工具。该工具通过解析v4版本的binlog，完成回滚操作。相对已有的回滚工具，其增加了更多的过滤选项，让回滚更加容易。</p>
+<ol>
+<li>无需把binlog解析成文本，再进行转换。</li>
+<li>提供原生的基于库、表、SQL类型、位置、时间等多种过滤方式。</li>
+<li>支持MySQL多个版本。</li>
+<li>对于数据库的代码重构不敏感，利于升级。</li>
+<li>自主掌控binlog解析，提供尽可能灵活的方式。</li>
+</ol>
+<h2 id="闪回工具分析"><a href="#闪回工具分析" class="headerlink" title="闪回工具分析"></a>闪回工具分析</h2><p> 以上业界的一些闪回方案，基本上都是基于Binlog 去倒腾的， 有一些明显的限制</p>
+<ol>
+<li>不能针对某条语句(tansaction)进行回滚操作</li>
+<li>需要维护binlog, 建立binlog 相关的逻辑体系</li>
+<li>人工变更与应用变更不能真正分开(闪回是针对某个表， 某个类型，在某一段时间内的全部数据)</li>
+<li>使用起来不方便， 对于普通研发来说成本还是蛮高的</li>
+<li>…</li>
+</ol>
+<h2 id="闪回工具的方案"><a href="#闪回工具的方案" class="headerlink" title="闪回工具的方案"></a>闪回工具的方案</h2><p>为了解决以上所有问题， 主要考虑以下两种方案（两种都是原创）</p>
+<h3 id="基于SQL重写与备份的方案"><a href="#基于SQL重写与备份的方案" class="headerlink" title="基于SQL重写与备份的方案"></a>基于SQL重写与备份的方案</h3><p>这种方案的整个大的流程如下：</p>
+<p><img src="https://qhyxpicoss.kujiale.com/2019/04/24/LS75DLYKAQBZMRS4AAAAABQ8_768x189.png" alt="AST"></p>
+<ol>
+<li>变更前备份： 在实际执行语句前，通过对SQL语句的重写，来达到保存变更前状态的一个目的。</li>
+<li>变更执行： 进行实际的变更操作</li>
+<li>备份恢复： 利用备份的数据进行恢复（一般是自动生成rollback的SQL语句进行执行）</li>
+</ol>
+<p>上述环节中， 最重的一部分工作就是变更前的备份，其中工作量最大的一部分就是进行SQL的重写，这有可能涉及到AST语法树的部分， 当然对于比较简单的SQL语句， 也用不着AST语法树。<br>这里面最大的工作量就是SQL语句的重写， 利用重写的SQL进行原数据查询， 再将变更前的数据备份下来。</p>
+<p>整体的一个流程如下：</p>
+<p><img src="https://qhyxpicoss.kujiale.com/2019/04/24/LS75X3QKAQBZOUT4AAAAAAQ8_1125x181.png" alt="ast"></p>
+<p>存在的问题： 备份与实际写入之间是存在时间间隔的， 如果这个时间间隔内存在其他变数，则也只能恢复到备份的时候的状态。</p>
+<h3 id="基于binlog-映射SQL语句的方案"><a href="#基于binlog-映射SQL语句的方案" class="headerlink" title="基于binlog 映射SQL语句的方案"></a>基于binlog 映射SQL语句的方案</h3><p>对于每一个DML操作， binlog 总是忠实的记录了DML操作的详情，我们可以利用这个详情用于事后恢复数据。<br>但binlog 并未将语句与binlog一一对应起来， 如果要做，可能需要花费的代价比较大，浪费很多的存储空间。<br>由于我们的需求是仅对我们的变更进行回滚，不对其他同类型同时间的变更进行回滚， 所以，我们需要有能力将binlog与我们的变更进行一一对应。<br>整体的操作流程如下：</p>
+<p><img src="https://qhyxpicoss.kujiale.com/2019/04/24/LS74QSYKAQBZOUT4AAAAADQ8_749x192.png" alt="binlog"></p>
+<p>从图中可以看到， 变更的执行跟数据的备份恢复其实是分开的， 变更执行只是变更执行，不用去卡很多时间点相关的概念， 也不同担心备份的跟实际变更的数据会不一致。<br>避免了上面方案的一个时间差的问题，而且不需要进行SQL语句的重写与反查数据库。</p>
+<p>为了能做变更与binlog 的唯一对应， 我们需要对变更执行这个步骤做一些手脚， 加入一个唯一对应的标志。<br>由于binlog 是会忠实记录变更的， 因此我们可以给每个变更生成一个唯一标志， 并把这个唯一标志体现在binlog 里面， 这样我们就实现了变更与binlog的对应。<br>有了这层对应关系我们就可以轻松的对这个变更进行数据的恢复， 从而不影响其他同时间同类型的变更。</p>
+<p>数据备份模块也是需要投入开发的一个模块他主要涉及到以下工作：</p>
+<ol start="0">
+<li>binlog 名称与位点的确定</li>
+<li>slave 伪装</li>
+<li>binlog 接收与解析</li>
+<li>定位变更的binlog</li>
+<li>由对应的binlog生成相应的备份</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>就开发量上来讲， 两种方案都是差不多的， 整个周期至少都需要2-3周左右的开发量，<br>我们显然应该采取第二种方案， 因为第二种方案与业界许多方案有比较多的共通之处， 也是比较通用靠谱的一种方案， 而且避免了查询间隔带来的数据不一致问题。<br>而且它与现有生态融合比较好。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-03-13T07:14:11.000Z">2017-03-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/lang/">lang</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    a few seconds 读完 (大约 4 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2017/03/13/langs/golang/memory_analyze/">Golang的内存分析工具pprof</a>
+            
+        </h1>
+        <div class="content">
+            <p>pprof 的使用</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-03-13T07:14:11.000Z">2017-03-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/lang/">lang</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    7 minutes 读完 (大约 1104 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2017/03/13/langs/golang/index/">golang 学习笔记</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="go-doc"><a href="#go-doc" class="headerlink" title="go-doc"></a>go-doc</h1><p>golang 中文文档<br>本文主要分三部分来帮助初学者能够顺利入坑<code>golang</code>， 第一部分主要是讲golang语法， 第二部分主要是讲golang的工程化的东西，附带会推荐一些常用的三方包。<br>第三部分则主要是介绍这门语言的编程思想，常见的思路。<br>学习一门语言，主要是学习语法、工程化、以及这门语言的编程思想。<br>附录则会讲一些工具的使用</p>
+<h2 id="golang-基本语法"><a href="#golang-基本语法" class="headerlink" title="golang 基本语法"></a>golang 基本语法</h2><p>参见<a href="demo">demo</a>下面的， 基本10分钟看完就学会了</p>
+<h2 id="golang-工程化"><a href="#golang-工程化" class="headerlink" title="golang 工程化"></a>golang 工程化</h2><p>golang 工程化是教大家如何配置golang项目，如何组织代码结构，以及如何调试分析，进行单元测试与性能测试等等。工程化是一门语言离不开的话题，好的工程化与工具可以令人事半功倍。</p>
+<h3 id="golang-开发工具"><a href="#golang-开发工具" class="headerlink" title="golang 开发工具"></a>golang 开发工具</h3><p>常见的golang开发工具有非常多，但有着比较好的代码补全，以及其他提高编程体验的IDE却为数不多。目前市面上比较流行的开发工具主要有如下几个，也可能有些高手手写vim插件使用vim之类的，此类的不做说明了。</p>
+<ol>
+<li>goland</li>
+<li>vscode</li>
+<li>lite ide</li>
+</ol>
+<p>以上三个IDE(集成开发环境) 我更倾向于使用jetbrains 的 goland, 虽然goland目前有成吨的bug, 但由于习惯问题，我还是习惯使用，大家也可以根据自己的习惯来使用相应的IDE。后面会有专门的文章对goland下如何配置golang项目进行详细说明。</p>
+<h3 id="golang-项目组织结构"><a href="#golang-项目组织结构" class="headerlink" title="golang 项目组织结构"></a>golang 项目组织结构</h3><p>一般而言一个非库型golang项目会存在一个main.go, 用作程序的主入口。<br>同时也会存在一些模块，跟一些配置文件。这些配置文件与模块的推荐的放置方式如下。后面也会有专题去说明我们这样放置的道理与好处。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">module1_dir</span><br><span class="line">module2_dir</span><br><span class="line">others.go</span><br><span class="line">main.go</span><br><span class="line">config_file</span><br><span class="line">readme</span><br></pre></td></tr></table></figure>
+
+<h3 id="dep与-go-module"><a href="#dep与-go-module" class="headerlink" title="dep与 go module"></a><code>dep</code>与 <code>go module</code></h3><p> <code>dep</code> 是 <code>go module</code> 推出之前半官方的一个依赖管理工具，它使用起来非常简单， 它的总体思想是把依赖代码集成到项目中的vendor目录去，但不需要手动管理这些依赖。这样做有一个好处：在编译期不用下载额外的依赖。但也有个坏处：会使得代码仓库变得比较庞大， 除非使用ignore 忽略这个vendor目录</p>
+<ol start="2">
+<li><code>go module</code> 是golang官方推出的在 <code>1.11</code>版本后用来取代其他各种依赖管理工具的官方工具，它的思想跟<code>maven</code>的思想有点像， 与<code>dep</code>不同的就是它会把依赖不放入项目中去，而是管理到 <code>GOPATH</code>下面。这样做可以节省很多的代码仓库的空间。在进行编译的时候提前把依赖下载好，就不存在编译的时候下载依赖的问题了， 是以后的方向。</li>
+</ol>
+<h3 id="golang-生成各个平台下的可执行文件"><a href="#golang-生成各个平台下的可执行文件" class="headerlink" title="golang 生成各个平台下的可执行文件"></a>golang 生成各个平台下的可执行文件</h3><p>golang 生成其他平台的二进制文件是非常非常简单的，只需要进行简单的一个环境变量的设置即可生成 mac/windows/linux 等平台下的二进制文件， 二进制文件可以直接运行而不需要像java一样需要一个 <code>jre</code>, 这也许就是golang的一个简单哲学。</p>
+<h3 id="golang-单元测试与性能测试"><a href="#golang-单元测试与性能测试" class="headerlink" title="golang 单元测试与性能测试"></a>golang 单元测试与性能测试</h3><p>golang提供了简单的单元测试与性能测试的功能， 虽然简单却很强大，后面会专门文档来说明如何去写单元测试与性能测试。<br>golang的单元测试与性能测试的文件需要以 <code>_test.go</code>结尾<br>单测方法和性能测试方法需要用类似如下方法声名。</p>
+<figure class="highlight go hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> <span class="hljs-string">"testing"</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 单元测试需要以Test开头的函数名称</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">TestGenerateQrCode</span><span class="hljs-params">(t *testing.T)</span></span> &#123;</span><br><span class="line">	GenerateQrCode()</span><br><span class="line">	<span class="hljs-comment">// t.Fail()</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 性能测试需要以Benchmark 开头的函数名称</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">BenchmarkGenerateQrCode</span><span class="hljs-params">(b *testing.B)</span></span> &#123;</span><br><span class="line">	GenerateQrCode()</span><br><span class="line">	<span class="hljs-comment">// b.ReportAllocs()</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="golang-内存分析"><a href="#golang-内存分析" class="headerlink" title="golang 内存分析"></a>golang 内存分析</h3><p><code>pprof</code></p>
+<h3 id="golang-远程调试"><a href="#golang-远程调试" class="headerlink" title="golang 远程调试"></a>golang 远程调试</h3><p><code>dlv</code></p>
+<h2 id="golang-编程思想"><a href="#golang-编程思想" class="headerlink" title="golang 编程思想"></a>golang 编程思想</h2><h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><h3 id="go-fmt"><a href="#go-fmt" class="headerlink" title="go fmt"></a>go fmt</h3><h3 id="go-doc-1"><a href="#go-doc-1" class="headerlink" title="go doc"></a>go doc</h3><h3 id="go-mod"><a href="#go-mod" class="headerlink" title="go mod"></a>go mod</h3>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
+        <a href="/2016/09/13/storage/tddl_config/" class="image is-7by1">
+            <img class="thumbnail" src="https://user-images.githubusercontent.com/7270177/59735413-0c3c5980-9288-11e9-8f32-d8e6836e65b6.png" alt="TDDL 常见配置详解">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2016-09-13T07:14:11.000Z">2016-09-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/storage/">storage</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/storage/middleware/">middleware</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    8 minutes 读完 (大约 1182 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2016/09/13/storage/tddl_config/">TDDL 常见配置详解</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="TDDL-简介"><a href="#TDDL-简介" class="headerlink" title="TDDL 简介"></a>TDDL 简介</h2><p>TDDL 是淘宝开源的一个基于Client做的， 用于如下特性的一个中间件：</p>
+<ol>
+<li>读写分离</li>
+<li>权重调配</li>
+<li>分库分表</li>
+<li>流控/限速</li>
+<li>数据库信息配置化</li>
+<li>查询重写与优化<br>TDDL 最新的版本是个<a href="https://github.com/loye168/tddl5" target="_blank" rel="noopener">泄露的版本</a>, 有兴趣的同学可以下载源代码研究一下。</li>
+</ol>
+<p>TDDL的配置均以Key-Value 形式存储， 拥有 内存-磁盘-远程 三级降级措施, 官方默认存储配置的地方为<code>Diamond</code>服务器。<br>由于TDDL的配置规则相对复杂， 也许很多人并不能入门， 此文档就是给大家一个配置入门的方案。</p>
+<h2 id="变量列表说明"><a href="#变量列表说明" class="headerlink" title="变量列表说明"></a>变量列表说明</h2><ol>
+<li><code>${dbName}</code> 数据库名称</li>
+<li><code>${envName}</code> 环境名称</li>
+<li><code>${userName}</code> 访问数据库使用的用户名</li>
+<li><code>${ip}</code> mysql 服务器的IP地址</li>
+<li><code>${appName}</code> appName，数据源名称</li>
+<li><code>${groupName}</code> 分组名称</li>
+<li><code>${atomName}</code> 物理数据库别名</li>
+</ol>
+<h2 id="数据源的拓扑结构"><a href="#数据源的拓扑结构" class="headerlink" title="数据源的拓扑结构"></a>数据源的拓扑结构</h2><h3 id="com-taobao-tddl-v1-ds-appName-topology"><a href="#com-taobao-tddl-v1-ds-appName-topology" class="headerlink" title="com.taobao.tddl.v1_ds-${appName}_topology"></a>com.taobao.tddl.v1_ds-${appName}_topology</h3><figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">matrix</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"https://github.com/tddl/tddl/schema/matrix"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">"https://github.com/tddl/tddl/schema/matrix https://raw.github.com/tddl/tddl/master/tddl-common/src/main/resources/META-INF/matrix.xsd"</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">appName</span>&gt;</span>$&#123;appName&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">appName</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">group</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"$&#123;groupName&#125;"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"mysql_jdbc"</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">atom</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"$&#123;atomName&#125;"</span> /&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;/<span class="hljs-name">group</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">matrix</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>这份key-value 对， 配置的是数据源的整体的拓扑结构信息， 这里会想尽的写清楚有哪些 数据分组， 哪些物理数据库会被用到.<br>其中  <code>appName</code> 元素只允许存在一个， 但 <code>group</code> 元素允许存在多个， 也允许非mysql段的存在， <code>atom</code>元素只能存在于<code>group</code> 元素之中，但可以存在多个， 每个<code>group</code> 下面的 <code>atom</code> 都是在数据上是等价的（数据集合相同， 可能读写属性不同）</p>
+<h2 id="数据源的规则集合"><a href="#数据源的规则集合" class="headerlink" title="数据源的规则集合"></a>数据源的规则集合</h2><h3 id="com-taobao-tddl-rule-le-appName"><a href="#com-taobao-tddl-rule-le-appName" class="headerlink" title="com.taobao.tddl.rule.le.${appName}"></a>com.taobao.tddl.rule.le.${appName}</h3><figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://www.springframework.org/schema/beans"</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"designsnapshot_bean"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"com.taobao.tddl.rule.TableRule"</span>&gt;</span></span><br><span class="line">       <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"dbNamePattern"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"designsnapshot_&#123;0000&#125;"</span>/&gt;</span></span><br><span class="line">       <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"dbRuleArray"</span>&gt;</span></span><br><span class="line">           <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>(#designid,1,64#.longValue() % 256).intdiv(64)<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span></span><br><span class="line">       <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span></span><br><span class="line">       <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"tbNamePattern"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"designsnapshot_&#123;0000&#125;"</span> /&gt;</span></span><br><span class="line">       <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"tbRuleArray"</span>&gt;</span></span><br><span class="line">           <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>#designid,1,64#.longValue() % 64<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span></span><br><span class="line">       <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span></span><br><span class="line">       <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"allowFullTableScan"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"true"</span>/&gt;</span></span><br><span class="line">   <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span></span><br><span class="line">   <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"vtabroot"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"com.taobao.tddl.rule.VirtualTableRoot"</span>&gt;</span></span><br><span class="line">       <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"tableRules"</span>&gt;</span></span><br><span class="line">           <span class="hljs-tag">&lt;<span class="hljs-name">map</span>&gt;</span></span><br><span class="line">               <span class="hljs-tag">&lt;<span class="hljs-name">entry</span> <span class="hljs-attr">key</span>=<span class="hljs-string">"design_snapshot"</span> <span class="hljs-attr">value-ref</span>=<span class="hljs-string">"designsnapshot_bean"</span> /&gt;</span></span><br><span class="line">           <span class="hljs-tag">&lt;/<span class="hljs-name">map</span>&gt;</span></span><br><span class="line">       <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span></span><br><span class="line">       <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"dbIndexMap"</span>&gt;</span></span><br><span class="line">           <span class="hljs-tag">&lt;<span class="hljs-name">map</span>&gt;</span></span><br><span class="line">               <span class="hljs-tag">&lt;<span class="hljs-name">entry</span> <span class="hljs-attr">key</span>=<span class="hljs-string">"designsnapshot_sequence"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"designsnapshot_0000"</span> /&gt;</span></span><br><span class="line">           <span class="hljs-tag">&lt;/<span class="hljs-name">map</span>&gt;</span></span><br><span class="line">       <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span></span><br><span class="line">       <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"defaultDbIndex"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"tms-db-dev"</span> /&gt;</span></span><br><span class="line">   <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+<p>这是一个表明整个数据源拓扑结构的规则文件， 也是分库分表规则配置的地方. <code>vtabroot</code> 是总的规则入口的<code>bean</code>。下面有几个概念需要详细解释一下。</p>
+<ol>
+<li><code>defaultDbIndex</code> 是默认的数据分组的设定， 当一个数据源（逻辑）有多个数据库（不同的数据库）的时候， 一个查询分发需要知道这个查询所涉及的表在哪个库上， 如果没有特殊指定， 那就会分发到这个东西指定的 <code>group</code>上。</li>
+<li><code>dbIndexMap</code> 用于指定哪些表在哪 <code>group</code>， 具体来说就是表库的映射关系， 优先级比 <code>defaultDbIndex</code> 高， 同样是在用于配置多个不同数据的数据库的时候使用的。</li>
+<li><code>tableRules</code> 用于定义虚拟表与虚拟表对应的分库分表规则的实际物理数据库关系。 key 是虚拟表名， 可以直接 SELECT FROM , value-ref 是 分库分表规则对应的bean</li>
+<li><code>分库分表的bean</code> 用于设置分库分表的规则<br><code>dbRuleArra</code> 是分库规则。如例所示， 以 designid列 进行分库， 每个库64张表， 共分为 256/64个库，比如designid = 500,  244 / 64  = 3 分到第四个库上。<br><code>tbRuleArray</code> 是分表规则。进入到每个库上的ID再进行取余64决定最后落到哪个表里。 这两个字段写法并非固定， 都是支持TDDL内置的一些表达式语法的， 具体得去看代码，此处只列出了最常用的取模的表达式。</li>
+</ol>
+<h2 id="数据源的读写分离权重优先级等配置"><a href="#数据源的读写分离权重优先级等配置" class="headerlink" title="数据源的读写分离权重优先级等配置"></a>数据源的读写分离权重优先级等配置</h2><h3 id="com-taobao-tddl-jdbc-group-V2-4-1-groupName"><a href="#com-taobao-tddl-jdbc-group-V2-4-1-groupName" class="headerlink" title="com.taobao.tddl.jdbc.group_V2.4.1_${groupName}"></a>com.taobao.tddl.jdbc.group_V2.4.1_${groupName}</h3><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$&#123;atomName&#125;:rwp0i0,$&#123;atomName&#125;:rp1i1</span><br></pre></td></tr></table></figure>
+
+<p>逗号是各个数据库原的分隔符，冒号前面的是<code>atom</code>的名字。<code>rw</code> 是指读写, <code>r</code> 是指只读, <code>p</code> 是优先级的意思， p越大则越优先分配到。<code>i</code> index， 是指各个数据源的一个index， 此外还有个权重配置的<code>w</code>可以写在 <code>p</code> 后面 </p>
+<h2 id="数据库本身的配置"><a href="#数据库本身的配置" class="headerlink" title="数据库本身的配置"></a>数据库本身的配置</h2><h3 id="com-taobao-tddl-atom-global-atomName"><a href="#com-taobao-tddl-atom-global-atomName" class="headerlink" title="com.taobao.tddl.atom.global.${atomName}"></a>com.taobao.tddl.atom.global.${atomName}</h3><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dbName=$&#123;dbName&#125;</span><br><span class="line">dbType=mysql</span><br><span class="line">dbStatus=RW</span><br><span class="line">ip=$&#123;ip&#125;</span><br><span class="line">port=3306</span><br></pre></td></tr></table></figure>
+
+<p>数据库自身的配置， 与TDDL 无关， 需要让TDDL知道数据库的地址， 端口， 数据库名称等基本信息</p>
+<h2 id="连接池的配置"><a href="#连接池的配置" class="headerlink" title="连接池的配置"></a>连接池的配置</h2><h1 id="com-taobao-tddl-atom-app-appName-atomName"><a href="#com-taobao-tddl-atom-app-appName-atomName" class="headerlink" title="com.taobao.tddl.atom.app.${appName}.${atomName}"></a>com.taobao.tddl.atom.app.${appName}.${atomName}</h1><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">userName=$&#123;userName&#125;</span><br><span class="line">maxPoolSize=100</span><br><span class="line">minPoolSize=5</span><br><span class="line">idleTimeout=1</span><br><span class="line">testOnBorrow=1</span><br><span class="line">abandonedTimeout=60</span><br><span class="line">connectionProperties=charset=utf-8</span><br></pre></td></tr></table></figure>
+
+<p>由于TDDL底层使用<code>Driud</code>连接池， 因此， 这里主要用于配置 <code>druid</code> 连接池</p>
+<h2 id="数据库账号与密码指定"><a href="#数据库账号与密码指定" class="headerlink" title="数据库账号与密码指定"></a>数据库账号与密码指定</h2><h3 id="com-taobao-tddl-atom-passwd-dbName-mysql-userName"><a href="#com-taobao-tddl-atom-passwd-dbName-mysql-userName" class="headerlink" title="com.taobao.tddl.atom.passwd.${dbName}.mysql.${userName}"></a>com.taobao.tddl.atom.passwd.${dbName}.mysql.${userName}</h3><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">encPasswd=$&#123;password&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此处用于配置数据库用的密码。 由于开源出来的版本好像是没有对应的加密逻辑实现的， 因此， 这里的密码并不是加密的密码，而是明文的密码。<br>不过用户可以自行实现加密方法， 此处的接口TDDL是有留出来的。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2016-08-13T07:14:11.000Z">2016-08-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/storage/">storage</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/storage/redis/">redis</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    a few seconds 读完 (大约 87 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2016/08/13/storage/tidis/">tidis 笔记</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="策略"><a href="#策略" class="headerlink" title="策略"></a>策略</h2><ol>
+<li>懒删除</li>
+<li>用线程去扫所有的key以便删除该删的</li>
+<li>如果启用过期机制，则需要多一个key用来存过期时间</li>
+<li>不启用过期则比较快</li>
+</ol>
+<h2 id="缺少"><a href="#缺少" class="headerlink" title="缺少"></a>缺少</h2><ol>
+<li>监控与统计信息</li>
+<li>充足的压测信息</li>
+<li>单测不够</li>
+<li>key分析， 可以在扫描的时候做掉</li>
+</ol>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+    
+<div class="card card-transparent">
+    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+        <div class="pagination-previous">
+            <a class="is-flex-grow has-text-black-ter" href="/page/2/">上一页</a>
+        </div>
+        <div class="pagination-next">
+            <a class="is-flex-grow has-text-black-ter" href="/page/4/">下一页</a>
+        </div>
+        <ul class="pagination-list is-hidden-mobile">
+            
+            <li><a class="pagination-link has-text-black-ter" href="/">1</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/page/2/">2</a></li>
+            
+            <li><a class="pagination-link is-current" href="/page/3/">3</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/page/4/">4</a></li>
+            
+            <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/page/7/">7</a></li>
+            
+        </ul>
+    </nav>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="winjeg">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        winjeg
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        A Developer
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Hangzhou, China</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        67
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        20
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        40
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/winjeg" target="_blank">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/winjeg">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Facebook" href="https://www.facebook.com/gong.winjeg">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Mail" href="mailto://winjeg@qq.com">
+                
+                <i class="fab fa-medium-m"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Twitter" href="https://twitter.com/winjeg">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://github.com/winjeg" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">我的Github</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">github.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/application/">
+            <span class="level-start">
+                <span class="level-item">application</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/biz/">
+            <span class="level-start">
+                <span class="level-item">biz</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/container/">
+            <span class="level-start">
+                <span class="level-item">container</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/container/docker/">
+            <span class="level-start">
+                <span class="level-item">docker</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/container/k8s/">
+            <span class="level-start">
+                <span class="level-item">k8s</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/devops/">
+            <span class="level-start">
+                <span class="level-item">devops</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/gramma/">
+            <span class="level-start">
+                <span class="level-item">gramma</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/lang/">
+            <span class="level-start">
+                <span class="level-item">lang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/os/">
+            <span class="level-start">
+                <span class="level-item">os</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">16</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/os/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">16</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/other/">
+            <span class="level-start">
+                <span class="level-item">other</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/storage/">
+            <span class="level-start">
+                <span class="level-item">storage</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">26</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/storage/bigtable/">
+            <span class="level-start">
+                <span class="level-item">bigtable</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/storage/database/">
+            <span class="level-start">
+                <span class="level-item">database</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/storage/etcd/">
+            <span class="level-start">
+                <span class="level-item">etcd</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/storage/middleware/">
+            <span class="level-start">
+                <span class="level-item">middleware</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/storage/mongodb/">
+            <span class="level-start">
+                <span class="level-item">mongodb</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/storage/redis/">
+            <span class="level-start">
+                <span class="level-item">redis</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/storage/rocksdb/">
+            <span class="level-start">
+                <span class="level-item">rocksdb</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/tools/">
+            <span class="level-start">
+                <span class="level-item">tools</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Year2020/" style="font-size: 10px;">Year2020</a> <a href="/tags/antd/" style="font-size: 10px;">antd</a> <a href="/tags/bigtable/" style="font-size: 10px;">bigtable</a> <a href="/tags/biz/" style="font-size: 10px;">biz</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/cicd/" style="font-size: 10px;">cicd</a> <a href="/tags/container/" style="font-size: 11.43px;">container</a> <a href="/tags/database/" style="font-size: 20px;">database</a> <a href="/tags/devops/" style="font-size: 10px;">devops</a> <a href="/tags/docker/" style="font-size: 11.43px;">docker</a> <a href="/tags/etcd/" style="font-size: 10px;">etcd</a> <a href="/tags/ftp/" style="font-size: 10px;">ftp</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/golang/" style="font-size: 15.71px;">golang</a> <a href="/tags/gramma/" style="font-size: 11.43px;">gramma</a> <a href="/tags/java/" style="font-size: 12.86px;">java</a> <a href="/tags/json/" style="font-size: 10px;">json</a> <a href="/tags/k8s/" style="font-size: 10px;">k8s</a> <a href="/tags/lang/" style="font-size: 11.43px;">lang</a> <a href="/tags/ldap/" style="font-size: 10px;">ldap</a> <a href="/tags/linux/" style="font-size: 18.57px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/middleware/" style="font-size: 11.43px;">middleware</a> <a href="/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/tags/multi-media/" style="font-size: 11.43px;">multi-media</a> <a href="/tags/notes/" style="font-size: 10px;">notes</a> <a href="/tags/npm/" style="font-size: 12.86px;">npm</a> <a href="/tags/openapi/" style="font-size: 10px;">openapi</a> <a href="/tags/project/" style="font-size: 11.43px;">project</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/redis/" style="font-size: 14.29px;">redis</a> <a href="/tags/rocksdb/" style="font-size: 10px;">rocksdb</a> <a href="/tags/sql/" style="font-size: 10px;">sql</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/tidb/" style="font-size: 10px;">tidb</a> <a href="/tags/tidis/" style="font-size: 10px;">tidis</a> <a href="/tags/tutorial/" style="font-size: 10px;">tutorial</a> <a href="/tags/yaml/" style="font-size: 10px;">yaml</a> <a href="/tags/索引/" style="font-size: 10px;">索引</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/12/02/langs/golang/json/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Golang JSON 详解">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-02T07:14:11.000Z">2019-12-02</time></div>
+                    <a href="/2019/12/02/langs/golang/json/" class="has-link-black-ter is-size-6">Golang JSON 详解</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/lang/">lang</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/12/02/langs/golang/slice/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Golang slice 与 数组详解">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-02T07:14:11.000Z">2019-12-02</time></div>
+                    <a href="/2019/12/02/langs/golang/slice/" class="has-link-black-ter is-size-6">Golang slice 与 数组详解</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/lang/">lang</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/07/30/devops/cicd/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://user-images.githubusercontent.com/7270177/62824144-685a9480-bbcc-11e9-9b8c-7052affc5b9f.png" alt="CICD 笔记">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-30T07:14:11.000Z">2019-07-30</time></div>
+                    <a href="/2019/07/30/devops/cicd/" class="has-link-black-ter is-size-6">CICD 笔记</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/devops/">devops</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/07/02/storage/mysql/mysql_docker/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://user-images.githubusercontent.com/7270177/59422808-880b5180-8e03-11e9-9dfe-ff8a9a024be7.png" alt="使用docker运行MySQL服务">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-02T07:14:11.000Z">2019-07-02</time></div>
+                    <a href="/2019/07/02/storage/mysql/mysql_docker/" class="has-link-black-ter is-size-6">使用docker运行MySQL服务</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/storage/">storage</a> / <a class="has-link-grey -link" href="/categories/storage/database/">database</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/06/18/langs/fe/new_project/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="react+ts+webpack+antd 实战">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-18T07:14:11.000Z">2019-06-18</time></div>
+                    <a href="/2019/06/18/langs/fe/new_project/" class="has-link-black-ter is-size-6">react+ts+webpack+antd 实战</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/lang/">lang</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2015/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2015</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2015/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2015</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2013/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2013</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2013/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2013</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2013/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2013</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/MySQL/">
+                        <span class="tag">MySQL</span>
+                        <span class="tag is-grey">16</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Year2020/">
+                        <span class="tag">Year2020</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/antd/">
+                        <span class="tag">antd</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/bigtable/">
+                        <span class="tag">bigtable</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/biz/">
+                        <span class="tag">biz</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/blog/">
+                        <span class="tag">blog</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/cicd/">
+                        <span class="tag">cicd</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/container/">
+                        <span class="tag">container</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/database/">
+                        <span class="tag">database</span>
+                        <span class="tag is-grey">24</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/devops/">
+                        <span class="tag">devops</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/docker/">
+                        <span class="tag">docker</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/etcd/">
+                        <span class="tag">etcd</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ftp/">
+                        <span class="tag">ftp</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/git/">
+                        <span class="tag">git</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/golang/">
+                        <span class="tag">golang</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/gramma/">
+                        <span class="tag">gramma</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/java/">
+                        <span class="tag">java</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/json/">
+                        <span class="tag">json</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/k8s/">
+                        <span class="tag">k8s</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/lang/">
+                        <span class="tag">lang</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ldap/">
+                        <span class="tag">ldap</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/linux/">
+                        <span class="tag">linux</span>
+                        <span class="tag is-grey">17</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/markdown/">
+                        <span class="tag">markdown</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/middleware/">
+                        <span class="tag">middleware</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/mongodb/">
+                        <span class="tag">mongodb</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/multi-media/">
+                        <span class="tag">multi-media</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/notes/">
+                        <span class="tag">notes</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/npm/">
+                        <span class="tag">npm</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/openapi/">
+                        <span class="tag">openapi</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/project/">
+                        <span class="tag">project</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/react/">
+                        <span class="tag">react</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/redis/">
+                        <span class="tag">redis</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/rocksdb/">
+                        <span class="tag">rocksdb</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/sql/">
+                        <span class="tag">sql</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ssh/">
+                        <span class="tag">ssh</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/tidb/">
+                        <span class="tag">tidb</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/tidis/">
+                        <span class="tag">tidis</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/tutorial/">
+                        <span class="tag">tutorial</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/yaml/">
+                        <span class="tag">yaml</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/索引/">
+                        <span class="tag">索引</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/12/02/langs/golang/json/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Golang JSON 详解">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-02T07:14:11.000Z">2019-12-02</time></div>
+                    <a href="/2019/12/02/langs/golang/json/" class="has-link-black-ter is-size-6">Golang JSON 详解</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/lang/">lang</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/12/02/langs/golang/slice/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Golang slice 与 数组详解">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-02T07:14:11.000Z">2019-12-02</time></div>
+                    <a href="/2019/12/02/langs/golang/slice/" class="has-link-black-ter is-size-6">Golang slice 与 数组详解</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/lang/">lang</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/07/30/devops/cicd/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://user-images.githubusercontent.com/7270177/62824144-685a9480-bbcc-11e9-9b8c-7052affc5b9f.png" alt="CICD 笔记">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-30T07:14:11.000Z">2019-07-30</time></div>
+                    <a href="/2019/07/30/devops/cicd/" class="has-link-black-ter is-size-6">CICD 笔记</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/devops/">devops</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/07/02/storage/mysql/mysql_docker/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://user-images.githubusercontent.com/7270177/59422808-880b5180-8e03-11e9-9dfe-ff8a9a024be7.png" alt="使用docker运行MySQL服务">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-02T07:14:11.000Z">2019-07-02</time></div>
+                    <a href="/2019/07/02/storage/mysql/mysql_docker/" class="has-link-black-ter is-size-6">使用docker运行MySQL服务</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/storage/">storage</a> / <a class="has-link-grey -link" href="/categories/storage/database/">database</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/06/18/langs/fe/new_project/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="react+ts+webpack+antd 实战">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-18T07:14:11.000Z">2019-06-18</time></div>
+                    <a href="/2019/06/18/langs/fe/new_project/" class="has-link-black-ter is-size-6">react+ts+webpack+antd 实战</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/lang/">lang</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2016/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2016</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2015/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2015</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2015/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2015</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2014/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2014</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2013/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2013</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2013/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2013</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2013/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2013</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/MySQL/">
+                        <span class="tag">MySQL</span>
+                        <span class="tag is-grey">16</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Year2020/">
+                        <span class="tag">Year2020</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/antd/">
+                        <span class="tag">antd</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/bigtable/">
+                        <span class="tag">bigtable</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/biz/">
+                        <span class="tag">biz</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/blog/">
+                        <span class="tag">blog</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/cicd/">
+                        <span class="tag">cicd</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/container/">
+                        <span class="tag">container</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/database/">
+                        <span class="tag">database</span>
+                        <span class="tag is-grey">24</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/devops/">
+                        <span class="tag">devops</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/docker/">
+                        <span class="tag">docker</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/etcd/">
+                        <span class="tag">etcd</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ftp/">
+                        <span class="tag">ftp</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/git/">
+                        <span class="tag">git</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/golang/">
+                        <span class="tag">golang</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/gramma/">
+                        <span class="tag">gramma</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/java/">
+                        <span class="tag">java</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/json/">
+                        <span class="tag">json</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/k8s/">
+                        <span class="tag">k8s</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/lang/">
+                        <span class="tag">lang</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ldap/">
+                        <span class="tag">ldap</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/linux/">
+                        <span class="tag">linux</span>
+                        <span class="tag is-grey">17</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/markdown/">
+                        <span class="tag">markdown</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/middleware/">
+                        <span class="tag">middleware</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/mongodb/">
+                        <span class="tag">mongodb</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/multi-media/">
+                        <span class="tag">multi-media</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/notes/">
+                        <span class="tag">notes</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/npm/">
+                        <span class="tag">npm</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/openapi/">
+                        <span class="tag">openapi</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/project/">
+                        <span class="tag">project</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/react/">
+                        <span class="tag">react</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/redis/">
+                        <span class="tag">redis</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/rocksdb/">
+                        <span class="tag">rocksdb</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/sql/">
+                        <span class="tag">sql</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ssh/">
+                        <span class="tag">ssh</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/tidb/">
+                        <span class="tag">tidb</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/tidis/">
+                        <span class="tag">tidis</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/tutorial/">
+                        <span class="tag">tutorial</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/yaml/">
+                        <span class="tag">yaml</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/索引/">
+                        <span class="tag">索引</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.svg" alt="winjeg&#39;s blog" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 winjeg&nbsp;
+                All Rights Reserved. 
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/winjeg">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-Hans");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
