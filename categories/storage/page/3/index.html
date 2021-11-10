@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>分类: storage - 节哥的博客</title><meta description="技术博客，主要用于记录自己平时所学的一些笔记"><meta property="og:type" content="blog"><meta property="og:title" content="节哥的博客"><meta property="og:url" content="https://winjeg.github.io/"><meta property="og:site_name" content="节哥的博客"><meta property="og:description" content="技术博客，主要用于记录自己平时所学的一些笔记"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://winjeg.github.io/img/og_image.png"><meta property="article:author" content="winjeg"><meta property="article:tag" content="golang"><meta property="article:tag" content=" java"><meta property="article:tag" content=" mysql"><meta property="article:tag" content=" devops"><meta property="article:tag" content=" linux"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://winjeg.github.io"},"headline":"节哥的博客","image":["https://winjeg.github.io/img/og_image.png"],"author":{"@type":"Person","name":"winjeg"},"description":"技术博客，主要用于记录自己平时所学的一些笔记"}</script><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?89dca33903eb0fe3c058e7875e7861b0";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script></head><body class="is-3-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="节哥的博客" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">主页</a><a class="navbar-item" href="/archives">时间线</a><a class="navbar-item" href="/categories">文章分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/about">关于我</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Follow me on github" href="https://github.com/winjeg"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-6-widescreen"><div class="card"><div class="card-content"><nav class="breadcrumb" aria-label="breadcrumbs"><ul><li><a href="/categories">分类</a></li><li class="is-active"><a href="#" aria-current="page">storage</a></li></ul></nav></div></div><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2016-04-13T07:14:11.000Z" title="2016-04-13T07:14:11.000Z">2016-04-13</time><span class="level-item"><a class="link-muted" href="/categories/storage/">storage</a><span> / </span><a class="link-muted" href="/categories/storage/database/">database</a></span><span class="level-item">23 分钟 读完 (大约 3431 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2016/04/13/storage/mysql/monitoring/">Mysql 的监控</a></h1><div class="content"><h3 id="MySQL监控的必要性"><a href="#MySQL监控的必要性" class="headerlink" title="MySQL监控的必要性"></a>MySQL监控的必要性</h3><p>对于MySQL的稳定性而言，一个合理的监控是十分必要的， 监控是提前预知问题并解决问题的最后一道坎， 过了这道坎，服务或者应用基本就是在挂掉的边缘了。为了未雨绸缪，大部分比较知名的公司都回具备相对健全的监控体系。</p>
+<h3 id="关于监控项"><a href="#关于监控项" class="headerlink" title="关于监控项"></a>关于监控项</h3><p> MySQL的监控项有非常多， 多大几十上百项， 这些项中的大部分都是在日常应用场景中是使用不到的， 也不能帮助大家定位MySQL的监控问题。对于日常或者生产中所遇到的问题基本上都可以由下文中的常见的几项指标来定位并排查出来。 当然对于这些监控项， 不同的监控项的重要程度也不同， 因为MySQL的第一要义在于存储数据，因此对于MySQL而言，IOPS对于MySQL而言是最重要的指标。此外，很多指标也都是相互影响的，比如慢查询80%的情况下是因为IO过多，而非CPU占用过多。</p>
+<h3 id="健康度"><a href="#健康度" class="headerlink" title="健康度"></a>健康度</h3><p>健康是一个相对的概念，就如一个人是不是好看， 你只能用相对量来形容，而不是绝对量。<br>但一直以来，对于MySQL 的健康度的计算方法其实是很少有人总结的，因此本文希望能把这个健康度这个概念总结出来，并给出一定科学的依据。</p>
+<p>一个健康度的计算规则是否合理的唯一标准是它是否能真实的反映MySQL服务的健康状况，举例子来说，假设一个MySQL服务的健康度为50分， 那么这个MySQL中运行中必然会存在可以优化的地方，比如存在慢查询，连接数稍微偏多，在这种情况下虽然服务能正常服务， 但请求到达一定量的时候就可能使得这个健康度变为0分，直接导致服务挂掉。 对于一个很健康的Mysql服务，来讲， 它应该是各项指标在合理的范围内， 不存在潜在的问题。</p>
+<p>健康度的计算也很考究， 因为你要真实反馈问题，能够通过一个值来判断整体的情况， 那么必须就得存在一个科学的计算方法， 由于各项指标的重要程度不一， 因此我们需要对各项指标加上一个<code>权重</code>， 但仅仅加权重还是不够的， 因为往往某一项指标也能决定服务的存活与否， 因此我们还需要有另外一个概念 <code>checkpoint</code>, 在不同的checkpiont各项指标的权重应该都不一样。<br>比如CPU在到达100%的 checkpoint的时候它的权重就应该提高， 因此引发健康度分数下降到10分以内， 甚至更低。因此我们要加的这个权重是 动态的， 根据指标的重要程度以及checkpoint 进行相应的变化。</p>
+<h2 id="监控指标"><a href="#监控指标" class="headerlink" title="监控指标"></a>监控指标</h2><p>上文讲完健康度这一概念之后， 我们知道，要想完善一个监控， 必须要对我们的监控指标项目有比较清楚的了解。下面主要简单介绍一下各个参数的意义。</p>
+<h3 id="IOPS"><a href="#IOPS" class="headerlink" title="IOPS"></a>IOPS</h3><p>由于mysql是为了存储数据而存在的， 所有的查询直接或者间接的也是在操作存储， 而存储的硬件基础是磁盘，磁盘的一个重要的监控指标就是IO。 对于MySQL而言相关的指标就是IOPS. 顾名思义， IOPS是每秒的IO次数。 对于不同类型的磁盘的IOPS的支持情况不同， 一般的机械硬盘支持的IOPS为100左右， 像云服务提供商阿里云ECS的磁盘支持的IOPS为300左右， 一般固态硬盘支持的IOPS会有3000到5000， 对于RDS而言， IOPS是标明了总量的。</p>
+<p>IO主要是用户的查询从磁盘存取数据来用的， 所有的查询经过解析后都回最终涉及到IO操作，IO操作的多少也决定了查询的快慢，以及每秒能满足的查询数量（QPS）</p>
+<p>因为对于不同的存储介质而言QPS是不一样的，因此我们关注IOPS的使用率会更科学一点。</p>
+<h3 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h3><p>CPU一直以来都是各种类型的服务一项比较重要的资源， 对于MySQL而言，CPU主要用来对查询进行解析，优化， 以及聚合分析等等，有非常多的地方会使用到CPU， 当一个服务的CPU占用过高的时候必然会影响到它正常提供服务的能力， 对于MySQL而言，各种规范都是不推荐讲耗费CPU的计算放在MySQL端来做的。但要支持那么多的查询以及其他的东西往往还是要消费CPU资源， 当CPU计算一个查询所涉及到的任务的时候也必然会影响到其他任务的计算。 一般而言，CPU使用率在60%以内都还算健康的状态。最合理的使用范围是30%~60%</p>
+<h3 id="QPS"><a href="#QPS" class="headerlink" title="QPS"></a>QPS</h3><p>QPS (Query Per Seond)即每秒的查询数量，对于很多服务，都存在这么一个概念，如普通的业务服务每秒能支持多少次订单生成请求。QPS的高低与服务器资源的占用是正相关的。<br>过高的QPS会导致其他资源如CPU或者IOPS等资源的占用过高。而MySQL 对于QPS的支持不是确定的， 要根据具体运行的查询状况而定， 对于慢查询而言，一般运行一个或者两个就能占用非常多的CPU和IO资源， 对于效率比较高的查询（如按主键指定查询的）， 这类查询消费的CPU与IO资源相比而言非常小， 因此这个服务就可以支持更高的QPS</p>
+<h3 id="慢查询"><a href="#慢查询" class="headerlink" title="慢查询"></a>慢查询</h3><p>慢查询是各类企业经常会遇到的一些问题， 慢查询的多少与数据库实例的健康状况也直接相关。虽然慢查询的数量与查询的时长是比较间接的指标， 但它也是不可忽略的一部分。<br>一般优秀的程序员都会控制自己的查询时长在50ms之内， 并且考虑到随着数据量增长这样的查询是不是能够保持住这个时间量级。业界也很少有对慢查询确定非常明确的标准。不同企业，要求高低不同， 一般而言我推荐将超过100-200ms的查询列入为慢查询。 慢查询是必须要优化的对象， 如果不优化，后期会不得不为慢查询付出额外的惨痛的代价。</p>
+<h3 id="活跃连接数"><a href="#活跃连接数" class="headerlink" title="活跃连接数"></a>活跃连接数</h3><p><code>活跃连接</code>是指在某一时刻，MySQL 与客户端之间在处理着查询请求的连接， 它可以直接反应这个MySQL服务的繁忙程度， 一般而言活跃连接越多， QPS也会越高， CPU与IO占用的也相应越多。</p>
+<h3 id="连接数"><a href="#连接数" class="headerlink" title="连接数"></a>连接数</h3><p>对于mysql 的连接而言， 有活跃的，自然也有不活跃的， 这些活跃的和不活跃的连接加起来基本上就是所有的连接了。因为MySQL Service 在服务端都回设置 <code>max_connection_num</code> 这个参数，<br>这个参数决定了允许所有连向这个MySQL服务的总的连接数。如果超出这个数字， MySQL服务端就会拒绝连接，客户端一般会报出 <code>get connection failed</code>的错误。日常环境中，不管是MySQL 还是Redis或者一些其他的知名服务， 就有连接池这个概念，连接池是为了提高连接的复用率， 降低连接的创建与销毁所消耗的资源而存在的。连接池的设置的恰当与否也往往决定了一个MySQL服务的连接的使用情况。 如果一个MySQL服务中存在大量Sleep的连接，就要考虑连接池设置的调整了。</p>
+<h3 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h3><p>内存对于很多服务来讲也是非常重要的一个资源， 对于MySQL而言相对于其他的指标而言没有那么重要，因为MySQL的内存使用率，是应用程序无法直接决定的，Mysql会在很多地方使用到内存，如查询缓存， 连接缓存， 查询解析等等， 有很多一部分是为了加快查询的速度， 也有很多部分是为了维持MySQL的自身功能。一般而言MySQL服务的内存使用分配由DBA或者云服务提供商根据业界BP已经提前设置好了，是不需要更改的。 但对于内存使用的异常情况也是需要关注的， 因为它会影响到服务的正常使用。</p>
+<h3 id="网络IN-OUT"><a href="#网络IN-OUT" class="headerlink" title="网络IN/OUT"></a>网络IN/OUT</h3><p>网络IO情况主要包括两个方面， 一个是<code>入流量</code>，一个是<code>出流量</code>, 不管什么应用， 当网络带宽被占满的时候都会出现问题。因此这个也是一个重要指标， 而指标中主要关注的还是比率。</p>
+<h4 id="百分比监控项"><a href="#百分比监控项" class="headerlink" title="百分比监控项"></a>百分比监控项</h4><p>对于监控项与权重的说法如下：</p>
+<table>
+<thead>
+<tr>
+<th>监控项</th>
+<th>Check Point</th>
+<th>权重</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>IOPS使用率</td>
+<td>&lt;30%</td>
+<td>0</td>
+<td>健康</td>
+</tr>
+<tr>
+<td></td>
+<td>30%~60%</td>
+<td>1</td>
+<td>正常</td>
+</tr>
+<tr>
+<td></td>
+<td>60%~80%</td>
+<td>5</td>
+<td>偏高</td>
+</tr>
+<tr>
+<td></td>
+<td>80%~95%</td>
+<td>50</td>
+<td>非常高</td>
+</tr>
+<tr>
+<td></td>
+<td>&gt;95%</td>
+<td>90</td>
+<td>致命</td>
+</tr>
+<tr>
+<td>CPU使用率</td>
+<td>&lt;30%</td>
+<td>0</td>
+<td>健康</td>
+</tr>
+<tr>
+<td></td>
+<td>30%~60%</td>
+<td>1</td>
+<td>一般</td>
+</tr>
+<tr>
+<td></td>
+<td>60%~80%</td>
+<td>5</td>
+<td>偏高</td>
+</tr>
+<tr>
+<td></td>
+<td>80%~95%</td>
+<td>70</td>
+<td>非常高</td>
+</tr>
+<tr>
+<td></td>
+<td>&gt;95%</td>
+<td>90</td>
+<td>致命</td>
+</tr>
+<tr>
+<td>连接使用率</td>
+<td>&lt;40%</td>
+<td>0</td>
+<td>健康</td>
+</tr>
+<tr>
+<td></td>
+<td>40%~60%</td>
+<td>5</td>
+<td>正常</td>
+</tr>
+<tr>
+<td></td>
+<td>60%~80%</td>
+<td>30</td>
+<td>偏高</td>
+</tr>
+<tr>
+<td></td>
+<td>80%~95%</td>
+<td>50</td>
+<td>非常高</td>
+</tr>
+<tr>
+<td></td>
+<td>&gt;95%</td>
+<td>70</td>
+<td>急需优化</td>
+</tr>
+<tr>
+<td>内存使用率</td>
+<td>&lt;70%</td>
+<td>0</td>
+<td>健康</td>
+</tr>
+<tr>
+<td></td>
+<td>70%~90%</td>
+<td>10</td>
+<td>偏高</td>
+</tr>
+<tr>
+<td></td>
+<td>&gt;90%</td>
+<td>20</td>
+<td>急需优化</td>
+</tr>
+<tr>
+<td>网络出口带宽使用率</td>
+<td>&lt;60%</td>
+<td>0</td>
+<td>正常</td>
+</tr>
+<tr>
+<td></td>
+<td>60~90%</td>
+<td>10</td>
+<td>偏高</td>
+</tr>
+<tr>
+<td></td>
+<td>&gt;90%</td>
+<td>30</td>
+<td>急需优化</td>
+</tr>
+</tbody></table>
+<h4 id="其他监控项"><a href="#其他监控项" class="headerlink" title="其他监控项"></a>其他监控项</h4><p>活跃连接数，慢查询与QPS三项根据配置的不同，支持的也不同， 通常情况下如下来分<br>活跃连接就是客户端正在使用的连接，这类数据一般需要结合历史情况和现状来看， 如果一个数据库服务的活跃连接突然陡增，比历史同期要高好几倍（排除大促等情况），那肯定是不正常的， 有可能是应用端使用的问题， 也有可能是来自外部的攻击， 这个时候就要做相应的报警，以应对突发情况。</p>
+<p>对于慢查询，任何公司的态度都是始终如一的， 不管如何，慢查询都是不应该出现在线上的OLTP数据库里的，因为数据库出问题最多的原因也就是慢查询， 70%左右的问题都是跟慢查询直接相关的， 慢查询可以导致CPU/IOPS等的使用剧增，往往不需要几个慢查询就能就能拖垮一个数据库。因此对于慢查询的监控也是十分必要的。但通常情况下慢查询应该也要区分对待， 否则出现的频率会非常大，容易出现报警太多别人不关注的情况。我这里推荐一下查询的区分与等级。</p>
+<ol>
+<li><code>&lt;=50ms</code> 正常查询，一般不需要进行优化</li>
+<li><code>&gt; 50ms &amp;&amp; &lt;=100ms</code> 稍微慢一点的查询，如果能优化可以想办法优化， 但不适宜比较大规模的调用，支持的QPS会比较低</li>
+<li><code>&gt; 100ms &amp;&amp; &lt;= 300ms</code> 一般的还好的慢查询，这类慢查询往往出现在一些用了索引的统计任务里，就算有一般也应该加上缓存， 由任务定时刷新， 后期应该考虑迁移到其他解决方案上</li>
+<li><code>&gt; 300ms &lt;= 2000ms</code> 一般的慢查询， 对于这类慢查询， 如果出现就要尽快优化掉， 而且一定要控制触发这类查询的入口，不能让用户或者攻击者可以出发这类查询。 一旦留有口子， 数据库很容易被攻击挂掉。</li>
+<li><code>&gt; 2000ms</code> 这类查询不应该出现，出现之后应该紧急优化上线。</li>
+</ol>
+<p>一般很多应用开发者会经常问DBA的一个问题是这个配置的数据库能支持多少QPS， 其实这个是一个非常错误的问法。因为对于查询快慢， 数据库的支持情况是肯定不同的， 如果应用开发者只根据主键进行查询， 那一般可以支持比较高的QPS， 而且不需要很高的配置， 但如果都是慢查询， 可能支持的QPS也就只有个位数了， 所以大家一般问这类问题的时候，DBA给的值一般是按照经验，然后假定应用的查询还可以的情况下，给出的一个相对保守的值。</p>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2016-03-18T07:14:11.000Z" title="2016-03-18T07:14:11.000Z">2016-03-18</time><span class="level-item"><a class="link-muted" href="/categories/storage/">storage</a><span> / </span><a class="link-muted" href="/categories/storage/database/">database</a></span><span class="level-item">2 分钟 读完 (大约 325 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2016/03/18/storage/mysql/preface/">Mysql 简介</a></h1><div class="content"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>MySQL是一个关系型数据库管理系统，目前属于Oracle 旗下产品， 开源分支为MariaDB，它是最流行的关系型数据库管理系统之一，在 WEB 应用方面，MySQL是最好的免费 RDBMS (Relational Database Management System，关系数据库管理系统) 应用软件。<br>MySQL是一种关系数据库管理系统，它所使用的 SQL 语言是用于访问数据库的最常用标准化语言, 关系数据库将数据保存在不同的表中，而不是将所有数据放在一个大仓库内，这样就增加了速度并提高了灵活性。</p>
+<h2 id="内容概要"><a href="#内容概要" class="headerlink" title="内容概要"></a>内容概要</h2><p>本材料介绍内容涵盖如下几点</p>
+<ul>
+<li>MySQL简单介绍及常见工具</li>
+<li>MySQL Schema设计</li>
+<li>MySQL 索引</li>
+<li>Explain 的理解与使用</li>
+<li>MySQL规范与最佳实践<h2 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h2>本材料不会对具体SQL语法进行讲解， 也不会涉及到MySQL运维及分库分表之类的知识，具体相关知识可以自行百度或者看书。本文针对的读者主要在于使用MySQL的研发及想要了解MySQL的研发，仅仅涉及到工作中要经常遇到的部分</li>
+</ul>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2016-03-13T07:14:11.000Z" title="2016-03-13T07:14:11.000Z">2016-03-13</time><span class="level-item"><a class="link-muted" href="/categories/storage/">storage</a><span> / </span><a class="link-muted" href="/categories/storage/database/">database</a></span><span class="level-item">13 分钟 读完 (大约 1885 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2016/03/13/storage/mysql/schema/">MySQL Schema 设计</a></h1><div class="content"><h2 id="Schema-简介"><a href="#Schema-简介" class="headerlink" title="Schema 简介"></a>Schema 简介</h2><p>说到使用MySQL我们接触最早的就是Schema设计，俗称建表，这个小节主要介绍MySQL Schema的设计方法与一些基本的使用原则。</p>
+<p>Schema 设计在用户应用设计前期是非常重要的，一般情况下它会影响到业务以后的健康程度，以及其他业务代码的设计，Schema一旦设计成型并投入使用，当数据量达到一定程度的时候将会对索引的要求会越来越高，变更Schema也将会花费更多的代价，应用设计之前，认真正确的设计Schema是非常有必要的。</p>
+<p>下面将主要分Schema的数据类型，索引与外键，使用原则，默认值等来介绍Schema的设计，在此之前，下面是一个最常见的一个schema设计语句。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`userinfo`</span> (</span><br><span class="line"><span class="string">`id`</span>  <span class="built_in">int</span>(<span class="number">10</span>) <span class="keyword">UNSIGNED</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT <span class="keyword">COMMENT</span> <span class="string">'主键'</span> ,</span><br><span class="line"><span class="string">`name`</span>  <span class="built_in">varchar</span>(<span class="number">20</span>) <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'名字'</span> ,</span><br><span class="line"><span class="string">`gender`</span>  <span class="built_in">bit</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'性别 0 男 1 女 NULL 未知'</span> ,</span><br><span class="line"><span class="string">`height`</span>  <span class="built_in">float</span> <span class="keyword">UNSIGNED</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'身高， 单位m'</span> ,</span><br><span class="line"><span class="string">`account_id`</span>  <span class="built_in">int</span> <span class="keyword">UNSIGNED</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'账户ID'</span> ,</span><br><span class="line"><span class="string">`created`</span>  <span class="built_in">timestamp</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="keyword">CURRENT_TIMESTAMP</span> <span class="keyword">COMMENT</span> <span class="string">'记录创建时间'</span> ,</span><br><span class="line"><span class="string">`last_modfied`</span>  <span class="built_in">timestamp</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="keyword">CURRENT_TIMESTAMP</span> <span class="keyword">ON</span> <span class="keyword">UPDATE</span> <span class="keyword">CURRENT_TIMESTAMP</span> <span class="keyword">COMMENT</span> <span class="string">'记录最后修改时间'</span> ,</span><br><span class="line">PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>),</span><br><span class="line"><span class="keyword">INDEX</span> <span class="string">`idx_name`</span> (<span class="string">`name`</span>) <span class="keyword">USING</span> BTREE <span class="keyword">COMMENT</span> <span class="string">'用于按姓名查找'</span>,</span><br><span class="line"><span class="keyword">UNIQUE</span> <span class="keyword">INDEX</span> <span class="string">`idx_account_id`</span> (<span class="string">`account_id`</span>) <span class="keyword">USING</span> BTREE <span class="keyword">COMMENT</span> <span class="string">'用于对应某个账户的唯一ID'</span>,</span><br><span class="line"><span class="keyword">INDEX</span> <span class="string">`idx_heigt_gender`</span> (<span class="string">`height`</span>, <span class="string">`gender`</span>) <span class="keyword">USING</span> BTREE <span class="keyword">COMMENT</span> <span class="string">'用户筛选用户特征'</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">DEFAULT</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span>=utf8 <span class="keyword">COLLATE</span>=utf8_general_ci;</span><br></pre></td></tr></table></figure>
+
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h3 id="整形数据：-TINYINT-SMALLINT-MEDIUMINT-INT-BIGINT"><a href="#整形数据：-TINYINT-SMALLINT-MEDIUMINT-INT-BIGINT" class="headerlink" title="整形数据： TINYINT, SMALLINT, MEDIUMINT, INT BIGINT"></a>整形数据： TINYINT, SMALLINT, MEDIUMINT, INT BIGINT</h3><p>整形的数据类型一旦类型确定长度也就确定了，所以之前文章里面给定的那个长度是不起实际作用的，可以不指定长度只指定类型。<br>下表是各种整形所对应的长度<br>| 数据类型      | 位数 | 范围                                                       |<br>|———–|—-|———————————————————-|<br>| TINYINT   | 8  | -2^7 到 2^7-1      (-128-127)                             |<br>| SMALLINT  | 16 | -2^15到2^15-1     (-32768-32767)                          |<br>| MEDIUMINT | 24 | -2^23到2^23-1   (-8388608-8388607)                        |<br>| INT       | 32 | -2^31到2^31-1     (-2147483648-2147483647)                |<br>| BIGINT    | 64 | -2^63到2^63-1  (-9223372036854775808-9223372036854775807) |<br>应用场景：INT 通常用作一个实体表的主键部分，比如用户表的用户ID<br>TINYINT 通常用作枚举类型的数据，需要很小长度比如 status/type/deleted<br>通常会根据一个数据将来可能的最大量来选择类型数据， 一般使用前会做一个预估来选择数据类型。</p>
+<h3 id="实数型数据：-DECIMAL，-FLOAT，-DOUBLE"><a href="#实数型数据：-DECIMAL，-FLOAT，-DOUBLE" class="headerlink" title="实数型数据： DECIMAL， FLOAT， DOUBLE"></a>实数型数据： DECIMAL， FLOAT， DOUBLE</h3><p>DECIMAL 可以用于存储比BIGINT 更大的整数，计算方法MYSQL自行实现<br>FLOAT与DOUBLE 都可以指定精度<br>应用场景：实数类型通常应用与需求精度非常高的字段<br>可能的改进方法：在存储面积，身高等需要精度低的领域，在最大值可预估的时候，可以用整形来存取 </p>
+<h3 id="字符串类型-VARCHAR-CHAR-TEXT-BLOB"><a href="#字符串类型-VARCHAR-CHAR-TEXT-BLOB" class="headerlink" title="字符串类型 VARCHAR CHAR TEXT BLOB"></a>字符串类型 VARCHAR CHAR TEXT BLOB</h3><p>VARCHAR可变长字符串， 需要额外字节来存储当前的长度, 用于存储，改动不太频繁，且长度变化范围比较大的字符串<br>CHAR 固定长字符串 用于存储相对固定的东西，如密码的MD5，以及经常要改变的列<br>TEXT与BLOB 分别是指用字符存储与二进制的存取<br>可能的改进：<br>如果一个列的字符串的数量基本是确定的， 比如性别： Male Female Unknown 只有固定的几种String 或者是可以遇见的几种，尽量可以使用tinyint 来代替<br>常用函数</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CHAR_LENGT</span><br><span class="line">STR_CMP</span><br><span class="line">STR_TO_DATE</span><br></pre></td></tr></table></figure>
+<h3 id="日期类型-TIMESTAMP-DATETIME"><a href="#日期类型-TIMESTAMP-DATETIME" class="headerlink" title="日期类型 TIMESTAMP, DATETIME"></a>日期类型 TIMESTAMP, DATETIME</h3><p>MYSQL支持毫秒级别的时间， MariaDb 支持微秒级的时间值<br>DATETIME (1001-9999)  时区无关  使8Byte的存储空间<br>TIMESTAMP（1970-2038）时区相关 使用4Byte的存储空间<br>常用函数</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 把UNIX时间戳转成TIMESTAMP</span></span><br><span class="line">UNIX_TIMESTAMP() /FROM_UNIXTIME() </span><br><span class="line">DATE()</span><br><span class="line">DATE_ADD</span><br><span class="line">DATE_SUB</span><br><span class="line">DATE_FORMAT</span><br></pre></td></tr></table></figure>
+<h3 id="枚举类型与集合类型"><a href="#枚举类型与集合类型" class="headerlink" title="枚举类型与集合类型"></a>枚举类型与集合类型</h3><p>此类型仅作列出， 不作实际使用， 一般这些类型可以用TINYINT 等值来代替，不建议用这些类型</p>
+<h2 id="默认值"><a href="#默认值" class="headerlink" title="默认值"></a>默认值</h2><h3 id="NULL"><a href="#NULL" class="headerlink" title="NULL"></a>NULL</h3><p>NULL 是最常见的默认值，一切默认值都可以设置为NULL， 但不是所有默认值都要设置为NULL， 要根据情况具体设定</p>
+<h3 id="Empty-String"><a href="#Empty-String" class="headerlink" title="Empty String"></a>Empty String</h3><p>空字符串，是很多char, varchar, text 的默认值的选项，如果你的应用程序没有处理NULL值的时候可以把默认值设置为这个避免空指针异常， 但一般情况下不希望MySQL给你做这类的检测。</p>
+<h3 id="CURRENT-TIMESTAMP"><a href="#CURRENT-TIMESTAMP" class="headerlink" title="CURRENT_TIMESTAMP"></a>CURRENT_TIMESTAMP</h3><p>当前时间， 一般用于TIMESTAMP的默认值，它在使用跟理论上均优于创建TRIGGER来设置默认值</p>
+<h2 id="索引与外键"><a href="#索引与外键" class="headerlink" title="索引与外键"></a>索引与外键</h2><p>索引与外键是建立Schema 永远不能避开的话题，你可以避开外键，但你可能会想到它，但你不能避开索引。这里不会对索引进行详细的表述，具体的描述在后面小节中会详细道来。在这里你只需要记住一点，建立表的时候，一定要根据查询建立索引，最好不要建立外键，除非非常必要。</p>
+<h2 id="Schema设计误区"><a href="#Schema设计误区" class="headerlink" title="Schema设计误区"></a>Schema设计误区</h2><h3 id="太多的列"><a href="#太多的列" class="headerlink" title="太多的列"></a>太多的列</h3><p>太多的列需要更大的维护成本， 对与SELECT * 的效率来说也更低</p>
+<h3 id="太多的JOIN"><a href="#太多的JOIN" class="headerlink" title="太多的JOIN"></a>太多的JOIN</h3><p>JOIN过多，会导致查询复杂，结果更难判断，查询效率变低</p>
+<h3 id="泛滥的外键与索引"><a href="#泛滥的外键与索引" class="headerlink" title="泛滥的外键与索引"></a>泛滥的外键与索引</h3><p>索引与外键并不越多越好， 每个外键与索引都需要额外的维护成本</p>
+<h3 id="随意性建表"><a href="#随意性建表" class="headerlink" title="随意性建表"></a>随意性建表</h3><p>在很小的数据量的情况下， 通常存在一个汇总表，或者设置表里面比较合适]</p>
+<h2 id="范式与反范式"><a href="#范式与反范式" class="headerlink" title="范式与反范式"></a>范式与反范式</h2><table>
+<thead>
+<tr>
+<th>设计模式</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>范式</td>
+<td>数据量小，单实体表查询效率高</td>
+<td>需要做很多的JOIN</td>
+</tr>
+<tr>
+<td>反范式</td>
+<td>反范式把冗余信息都放在一张表里面，可以很好的避免JOIN</td>
+<td>数据量的增大，导致查询的速度，稍受影响； 更新须保证冗余信息的更新</td>
+</tr>
+</tbody></table>
+<p>两者要结合实际情况，可以混合使用，但一般不推荐过多的JOIN，SQL语句JOIN不能超过两张表。</p>
+<h2 id="Schema-设计原则"><a href="#Schema-设计原则" class="headerlink" title="Schema 设计原则"></a>Schema 设计原则</h2><h3 id="简单就好，更小的通常更好"><a href="#简单就好，更小的通常更好" class="headerlink" title="简单就好，更小的通常更好"></a>简单就好，更小的通常更好</h3><p>越简单的Schema所需要的存储空间就越小，对于MySQL而言需要的存储空间， IO， 运算等资源就越少，MySQL支持的QPS就越高</p>
+<h3 id="尽量避免大量NULL值的列"><a href="#尽量避免大量NULL值的列" class="headerlink" title="尽量避免大量NULL值的列"></a>尽量避免大量NULL值的列</h3><p>如果一个列有80%甚至90%以上的行都是NULL，那么这个属性值，很可能可以采取其他方法来实现，比如新建一张表，用ID去关联</p>
+<h3 id="不使用外键"><a href="#不使用外键" class="headerlink" title="不使用外键"></a>不使用外键</h3><p>外键在MySQL维护与使用中始终是一个坑，大家尽量在建表的时候避免使用外键。</p>
+<h3 id="合理建立索引"><a href="#合理建立索引" class="headerlink" title="合理建立索引"></a>合理建立索引</h3><p>索引要根据查询而建， 并不是越多越好，索引多有可能会引起MySQL不能正确使用索引，MySQL维护索引的空间变大等等</p>
+<h3 id="写好表注释"><a href="#写好表注释" class="headerlink" title="写好表注释"></a>写好表注释</h3><p>与写代码一样一个良好的习惯就是所有MySQL的字段，及索引，表等都要有详尽的注释，注释不会占用多余空间，最好的注释是大家都能看懂的注释。</p>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2016-02-13T07:14:11.000Z" title="2016-02-13T07:14:11.000Z">2016-02-13</time><span class="level-item"><a class="link-muted" href="/categories/storage/">storage</a><span> / </span><a class="link-muted" href="/categories/storage/database/">database</a></span><span class="level-item">6 分钟 读完 (大约 917 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2016/02/13/storage/mysql/standards/">MySQL 使用规范</a></h1><div class="content"><h1 id="MySQL-使用规范"><a href="#MySQL-使用规范" class="headerlink" title="MySQL 使用规范"></a>MySQL 使用规范</h1><p>目前我们数据库使用缺乏一个统一的使用规范，这篇规范是我参考阿里的部分的BP以及赶集网的SQL 军规结合酷家乐自身的情况制定的。</p>
+<h2 id="约定"><a href="#约定" class="headerlink" title="约定"></a>约定</h2><ol>
+<li>数据库操作与使用一定要按照规范进行</li>
+<li>所有的变更必须提前4小时提交申请，进过审批后才能执行操作</li>
+<li>全网变更必须经过线下测试，线上小规模验证后，才能全网推送</li>
+<li>数据订正和数据提取必须经过团队leader审核通过后才能进行操作；</li>
+<li>禁止未经正式审批进行查阅，变更，传播，移动线上数据；</li>
+<li>禁止对无关人员提供系统登录和发布权限；</li>
+<li>重大变更（数据库停机，扩容，迁移）必须团队review</li>
+<li>新发布的任何sql都必须进过严格的审核，添加上必要的索引</li>
+<li>线上的操作务必谨慎，必须在测试环境中完全验证后才能到线上执行，同时需要必要的数据备份</li>
+<li>禁止在非变更窗口执行变更， 添加索引或者添加字段的操作， 都需要在业务的低峰期进行</li>
+<li>禁止在程序端显式加锁 </li>
+<li>统一字符集为UTF8, 排序规则为 UTF-generic-ci</li>
+<li>统一命名规范 表名一律用大小写，schema设计避免关键字（MYSQL 关键字列表），索引使用同一前缀 index_ + colname 用下划线分割<h2 id="核心"><a href="#核心" class="headerlink" title="核心"></a>核心</h2></li>
+<li>尽量不在数据库做运算， 把MySQL作为一个存储组件</li>
+<li>在设计表之前就把表将来的使用场景考虑清楚，做好相应准备</li>
+<li>控制单表数据量 </li>
+<li>保持表身段苗条 </li>
+<li>平衡范式使用，不冗余非必要字段</li>
+<li>拒绝3B： BIG SQL)   大事务 (BIG Transaction)  大批量 (BIG Batch)<h2 id="Schema设计"><a href="#Schema设计" class="headerlink" title="Schema设计"></a>Schema设计</h2></li>
+<li>INNODB 引擎是你的最佳选择</li>
+<li>用好数值字段类型 </li>
+<li>将字符转化为数字， 如时间采用bigint, IP 采用 Unsigned Int， Enum 转为tinyint</li>
+<li>比较小的表，通常情况下数据量小于5000的表，在未来的预期内也不会增加到比较大的，不用建立索引。</li>
+<li>避免使用NULL字段 </li>
+<li>不在在数据库里存图片</li>
+<li>谨慎合理添加索引， 不要每个查询的字段都建立索引</li>
+<li>字符字段必须建前缀索引 </li>
+<li>不在索引列做运算 </li>
+<li>自增列或全局ID做INNODB主键 </li>
+<li>尽量不用外键</li>
+<li>自增主键是你的最佳选择</li>
+<li>新建表时总是设计添加冗余字段<h2 id="SQL-语句类"><a href="#SQL-语句类" class="headerlink" title="SQL 语句类"></a>SQL 语句类</h2></li>
+<li>SQL语句尽可能简单</li>
+<li>保持事务(连接)短小 </li>
+<li>尽可能避免使用SP/TRIG/FUNC </li>
+<li>尽量不用 SELECT *  改写OR语句 </li>
+<li>避免负向查询和% 前缀模糊查询 </li>
+<li>减少COUNT(*) </li>
+<li>LIMIT的高效分页 可以用where pk &gt; 之后limit num</li>
+<li>避免单次数据库操作涉及行数过多的查询，此类查询没有加limit的都应该warning</li>
+<li>尽量不使用UNION， 在代码里面实现Union</li>
+<li>分解联接保证高幵发 </li>
+<li>GROUP BY 去除排序 </li>
+<li>order by,确认排序字段是否用到索引，避免filesort</li>
+<li>在Update 操作的时候尽量不用 SELECT， 避免造成在此类操作的时候锁表</li>
+<li>同数据类型的列值比较 </li>
+<li>Load data导数据 </li>
+<li>打散大批量更新尽量不用 INSERT … SELEC</li>
+<li>SQL 中 JOIN不超过两张表</li>
+<li>Know Your SQL!</li>
+</ol>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2015-09-13T07:14:11.000Z" title="2015-09-13T07:14:11.000Z">2015-09-13</time><span class="level-item"><a class="link-muted" href="/categories/storage/">storage</a><span> / </span><a class="link-muted" href="/categories/storage/bigtable/">bigtable</a></span><span class="level-item">1 分钟 读完 (大约 144 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2015/09/13/storage/big_table/">Big table 笔记</a></h1><div class="content"><p>Big Table 是一种稀疏的多维分布式的有序Map</p>
+<p>Big Table 的基本数据结构<br><img src="https://user-images.githubusercontent.com/7270177/59737028-a56e6e80-928e-11e9-8509-18415344cfcc.png" alt="image"></p>
+<p>Tablet Server 的服务方式<br><img src="https://user-images.githubusercontent.com/7270177/59737043-b4552100-928e-11e9-9da6-85a4d186ebc6.png" alt="image"><br>Compaction 往往发生是为了合并一些数据，节省内存空间(memtable)， 与Log文件的空间需要进行Compation</p>
+<p>其他一些基础组件<br><img src="https://user-images.githubusercontent.com/7270177/59737081-d0f15900-928e-11e9-9e8f-8715a5742311.png" alt="image"></p>
+<p>当一些基础的SSTable分开或者合并的时候， 读写仍然可以同步进行</p>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2015-09-13T07:14:11.000Z" title="2015-09-13T07:14:11.000Z">2015-09-13</time><span class="level-item"><a class="link-muted" href="/categories/storage/">storage</a><span> / </span><a class="link-muted" href="/categories/storage/database/">database</a></span><span class="level-item">1 分钟 读完 (大约 137 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2015/09/13/storage/mysql/">MySQL笔记</a></h1><div class="content"><h1 id="Mysql-笔记"><a href="#Mysql-笔记" class="headerlink" title="Mysql 笔记"></a>Mysql 笔记</h1><p>此文档下将会放mysql 运维， 使用，应用等相关的文档， 也包括一些高级应用的知识</p>
+<h2 id="mysql-使用"><a href="#mysql-使用" class="headerlink" title="mysql 使用"></a>mysql 使用</h2><p><a href="./mysql/catlog.md">MySQL 应用速成入门</a></p>
+<h2 id="mysql-运维"><a href="#mysql-运维" class="headerlink" title="mysql 运维"></a>mysql 运维</h2><h3 id="Centos7-安装Mysql"><a href="#Centos7-安装Mysql" class="headerlink" title="Centos7 安装Mysql"></a>Centos7 安装Mysql</h3><p><a href="./mysql/install.md">Centos7 安装配置 mysql5.6</a></p>
+<h3 id="Mysql-忘记Root密码"><a href="#Mysql-忘记Root密码" class="headerlink" title="Mysql 忘记Root密码"></a>Mysql 忘记Root密码</h3><p><a href="./mysql/passwd.md">MySQL密码找回</a></p>
+<h2 id="mysql-规范"><a href="#mysql-规范" class="headerlink" title="mysql 规范"></a>mysql 规范</h2><p><a href="./mysql/standards.md">MySQL使用规范</a></p>
+<h2 id="mysql-优化"><a href="#mysql-优化" class="headerlink" title="mysql 优化"></a>mysql 优化</h2><h2 id="mysql-应用"><a href="#mysql-应用" class="headerlink" title="mysql 应用"></a>mysql 应用</h2><h3 id="如何做数据库分库分表"><a href="#如何做数据库分库分表" class="headerlink" title="如何做数据库分库分表"></a>如何做数据库分库分表</h3><h4 id="1-基于客户端路由"><a href="#1-基于客户端路由" class="headerlink" title="1. 基于客户端路由"></a>1. 基于客户端路由</h4><h4 id="2-基于代理和HA的服务的路由"><a href="#2-基于代理和HA的服务的路由" class="headerlink" title="2. 基于代理和HA的服务的路由"></a>2. 基于代理和HA的服务的路由</h4><h3 id="常见的分库分表的场景"><a href="#常见的分库分表的场景" class="headerlink" title="常见的分库分表的场景"></a>常见的分库分表的场景</h3></div></article></div><nav class="pagination is-centered mt-4" role="navigation" aria-label="pagination"><div class="pagination-previous"><a href="/categories/storage/page/2/">上一页</a></div><div class="pagination-next is-invisible is-hidden-mobile"><a href="/categories/storage/page/4/">下一页</a></div><ul class="pagination-list is-hidden-mobile"><li><a class="pagination-link" href="/categories/storage/">1</a></li><li><a class="pagination-link" href="/categories/storage/page/2/">2</a></li><li><a class="pagination-link is-current" href="/categories/storage/page/3/">3</a></li></ul></nav></div><div class="column column-left is-4-tablet is-4-desktop is-3-widescreen  order-1"><div class="card widget"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="/img/avatar.png" alt="节哥(winjeg)"></figure><p class="title is-size-4 is-block line-height-inherit">节哥(winjeg)</p><p class="is-size-6 is-block">软件工程师</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>中国·杭州</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">71</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">21</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">43</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/winjeg" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/winjeg"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/winjeg"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/winjeg"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="mailto://winjeg@qq.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="/"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/categories/application/"><span class="level-start"><span class="level-item">application</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/base/"><span class="level-start"><span class="level-item">base</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/biz/"><span class="level-start"><span class="level-item">biz</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/container/"><span class="level-start"><span class="level-item">container</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul class="mr-0"><li><a class="level is-mobile is-marginless" href="/categories/container/docker/"><span class="level-start"><span class="level-item">docker</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/container/k8s/"><span class="level-start"><span class="level-item">k8s</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile is-marginless" href="/categories/devops/"><span class="level-start"><span class="level-item">devops</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/gramma/"><span class="level-start"><span class="level-item">gramma</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/lang/"><span class="level-start"><span class="level-item">lang</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/os/"><span class="level-start"><span class="level-item">os</span></span><span class="level-end"><span class="level-item tag">16</span></span></a><ul class="mr-0"><li><a class="level is-mobile is-marginless" href="/categories/os/linux/"><span class="level-start"><span class="level-item">linux</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li></ul></li><li><a class="level is-mobile is-marginless" href="/categories/other/"><span class="level-start"><span class="level-item">other</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/storage/"><span class="level-start"><span class="level-item">storage</span></span><span class="level-end"><span class="level-item tag">26</span></span></a><ul class="mr-0"><li><a class="level is-mobile is-marginless" href="/categories/storage/bigtable/"><span class="level-start"><span class="level-item">bigtable</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/storage/database/"><span class="level-start"><span class="level-item">database</span></span><span class="level-end"><span class="level-item tag">19</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/storage/etcd/"><span class="level-start"><span class="level-item">etcd</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/storage/middleware/"><span class="level-start"><span class="level-item">middleware</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/storage/mongodb/"><span class="level-start"><span class="level-item">mongodb</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/storage/redis/"><span class="level-start"><span class="level-item">redis</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/storage/rocksdb/"><span class="level-start"><span class="level-item">rocksdb</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile is-marginless" href="/categories/tools/"><span class="level-start"><span class="level-item">tools</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></div></div></div><div class="column-right-shadow is-hidden-widescreen"></div></div><div class="column column-right is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only order-3"><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">订阅更新</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button is-primary" type="submit" value="订阅"></div></div></form></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile is-mobile" href="https://www.zhihu.com/people/winjeg-84/posts" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile is-mobile" href="https://juejin.cn/user/2277843824033486" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">掘金</span></span><span class="level-right"><span class="level-item tag">juejin.cn</span></span></a></li><li><a class="level is-mobile is-mobile" href="https://my.oschina.net/u/3673481" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">开源中国</span></span><span class="level-right"><span class="level-item tag">my.oschina.net</span></span></a></li><li><a class="level is-mobile is-mobile" href="https://blog.csdn.net/winjeg" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">CSDN</span></span><span class="level-right"><span class="level-item tag">blog.csdn.net</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content size-small"><p><time dateTime="2021-11-10T06:33:18.837Z">2021-11-10</time></p><p class="title is-6"><a class="link-muted" href="/2021/11/10/others/wifi_display/">others/wifi_display</a></p><p class="is-uppercase"></p></div></article><article class="media"><a class="media-left" href="/2020/10/23/base/jwt/"><p class="image is-64x64"><img class="thumbnail" src="https://user-images.githubusercontent.com/7270177/96998573-3f6eb700-1566-11eb-8c16-ca031f895b69.png" alt="JWT 基本原理笔记"></p></a><div class="media-content size-small"><p><time dateTime="2020-10-23T11:14:11.000Z">2020-10-23</time></p><p class="title is-6"><a class="link-muted" href="/2020/10/23/base/jwt/">JWT 基本原理笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/base/">base</a></p></div></article><article class="media"><a class="media-left" href="/2020/09/14/apps/git_recommend/"><p class="image is-64x64"><img class="thumbnail" src="https://user-images.githubusercontent.com/7270177/59480122-fb5ba480-8e91-11e9-9c26-7f8d6d97868a.png" alt="Git提交规范"></p></a><div class="media-content size-small"><p><time dateTime="2020-09-14T14:14:11.000Z">2020-09-14</time></p><p class="title is-6"><a class="link-muted" href="/2020/09/14/apps/git_recommend/">Git提交规范</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/tools/">tools</a></p></div></article><article class="media"><a class="media-left" href="/2020/07/04/others/shuangpin/"><p class="image is-64x64"><img class="thumbnail" src="https://user-images.githubusercontent.com/7270177/86505485-da952280-bdf7-11ea-84b7-26e732485417.png" alt="输入法之双拼"></p></a><div class="media-content size-small"><p><time dateTime="2020-07-04T02:14:11.000Z">2020-07-04</time></p><p class="title is-6"><a class="link-muted" href="/2020/07/04/others/shuangpin/">输入法之双拼</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/tools/">tools</a></p></div></article><article class="media"><a class="media-left" href="/2020/05/30/langs/golang/code_style/"><p class="image is-64x64"><img class="thumbnail" src="https://user-images.githubusercontent.com/7270177/59482717-9f4a4d80-8e9c-11e9-82b0-58254e0f4c4b.png" alt="Golang的代码风格"></p></a><div class="media-content size-small"><p><time dateTime="2020-05-30T07:14:11.000Z">2020-05-30</time></p><p class="title is-6"><a class="link-muted" href="/2020/05/30/langs/golang/code_style/">Golang的代码风格</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/lang/">lang</a></p></div></article></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/MySQL/"><span class="tag">MySQL</span><span class="tag is-grey-lightest">16</span></a></div><div class="control"><a class="tags has-addons" href="/tags/antd/"><span class="tag">antd</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/base/"><span class="tag">base</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/bigtable/"><span class="tag">bigtable</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/biz/"><span class="tag">biz</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/blog/"><span class="tag">blog</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/cicd/"><span class="tag">cicd</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/container/"><span class="tag">container</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/database/"><span class="tag">database</span><span class="tag is-grey-lightest">24</span></a></div><div class="control"><a class="tags has-addons" href="/tags/devops/"><span class="tag">devops</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/docker/"><span class="tag">docker</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/etcd/"><span class="tag">etcd</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/ftp/"><span class="tag">ftp</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/git/"><span class="tag">git</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/golang/"><span class="tag">golang</span><span class="tag is-grey-lightest">8</span></a></div><div class="control"><a class="tags has-addons" href="/tags/gramma/"><span class="tag">gramma</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/input/"><span class="tag">input</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/java/"><span class="tag">java</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/json/"><span class="tag">json</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jwt/"><span class="tag">jwt</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/k8s/"><span class="tag">k8s</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lang/"><span class="tag">lang</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/ldap/"><span class="tag">ldap</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/linux/"><span class="tag">linux</span><span class="tag is-grey-lightest">17</span></a></div><div class="control"><a class="tags has-addons" href="/tags/markdown/"><span class="tag">markdown</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/middleware/"><span class="tag">middleware</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/mongodb/"><span class="tag">mongodb</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/multi-media/"><span class="tag">multi-media</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/notes/"><span class="tag">notes</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/npm/"><span class="tag">npm</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/openapi/"><span class="tag">openapi</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/project/"><span class="tag">project</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react/"><span class="tag">react</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/rocksdb/"><span class="tag">rocksdb</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sql/"><span class="tag">sql</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/ssh/"><span class="tag">ssh</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/standards/"><span class="tag">standards</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/tidb/"><span class="tag">tidb</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/tidis/"><span class="tag">tidis</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/tutorial/"><span class="tag">tutorial</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/yaml/"><span class="tag">yaml</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%B4%A2%E5%BC%95/"><span class="tag">索引</span><span class="tag is-grey-lightest">1</span></a></div></div></div></div></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="节哥的博客" height="28"></a><p class="size-small"><span>&copy; 2021 winjeg</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a><br><span id="busuanzi_container_site_uv">共<span id="busuanzi_value_site_uv">0</span>个访客</span></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Follow me on github" href="https://github.com/winjeg"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'https://winjeg.github.io',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
