@@ -3,12 +3,12 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: winjeg's blog
-subtitle: 'like water, like sun'
-description: 'none'
+title: 节哥的博客
+subtitle: '海纳百川，有容乃大'
+description: '技术博客，主要用于记录自己平时所学的一些笔记'
 keywords: golang, java, mysql, devops, linux
 author: winjeg
-language: zh-Hans
+language: zh-CN
 timezone: 'Asia/Shanghai'
 
 
