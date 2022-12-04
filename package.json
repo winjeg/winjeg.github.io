@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "hexo generate",
+    "theme": "cat ./_config.theme.yml > ./themes/purer/_config.yml ",
+    "build": "npm run theme && hexo generate",
     "clean": "hexo clean",
-    "deploy": "hexo deploy",
-    "server": "hexo server"
+    "deploy": "npm run theme && hexo deploy",
+    "server": "npm run theme && hexo server"
   },
   "hexo": {
     "version": "6.3.0"

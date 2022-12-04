@@ -10,7 +10,6 @@ keywords: tech, java, go, it
 author: winjeg
 language: zh
 timezone: ''
-dasdsad
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
 url: https://winjeg.github.io
@@ -97,7 +96,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: purer
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
