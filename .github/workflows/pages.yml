@@ -21,8 +21,6 @@ jobs:
           key: ${{ runner.OS }}-npm-cache
           restore-keys: |
             ${{ runner.OS }}-npm-cache
-      - name: theme config
-        run: git submodule add https://github.com/fengkx/hexo-theme-purer themes/purer && cp themes/purer/_config.example.yml _config.theme.yml
       - name: Install Dependencies
         run: npm install && cd themes/purer && npm install & cd ../../
       - name: Build
