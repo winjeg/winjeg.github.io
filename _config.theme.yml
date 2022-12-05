@@ -25,6 +25,7 @@ site:
   favicon: /images/favicon.ico
   #manifest:
   site_verification:
+    baidu: 5fNkcnppPy
 #    google:
 #    baidu:
 #  google_analytics:
@@ -61,7 +62,7 @@ comment:
 
 
 github:
-  username: fengkx
+  username: winjeg
 
 # wordcount
 postCount:
@@ -72,25 +73,25 @@ postCount:
 search: true # enable local search
 toc: true
 fancybox: true
-license: 'This article is available under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)</a> License'
+license: 'All rights reserved to winjeg'
 footer:
 #  custom:
 
 profile:
   enabled: true # Whether to show profile bar
 #  avatar: images/avatar.jpg
-  gravatar: MyEmailAddress@example.com # Gravatar email address, if you enable Gravatar, your avatar config will be overriden
-  author: fengkx
-  author_title: Student & Coder
-  author_description: Having fun
-  location: Guangzhou, China
-  follow: https://github.com/fengkx
+  gravatar: winjeg@qq.com # Gravatar email address, if you enable Gravatar, your avatar config will be overriden
+  author: winjeg
+  author_title: Architect & Coder
+  author_description: Inner Peace
+  location: Hangzhou, China
+  follow: https://github.com/winjeg
   # Social Links
   social:
     links:
-      github: https://github.com/fengkx
-      telegram: https://t.me/fengkx
-      twitter: https://twitter.com/example
+      github: https://github.com/winjeg
+      telegram: https://t.me/winjeg
+      twitter: https://twitter.com/winjeg
       # facebook: /
       # dribbble: /
 #      behance: https://www.behance.net/cofess
@@ -99,32 +100,31 @@ profile:
 
   # My Personal Links
   links:
-    Github: https://github.com/fengkx
-    Blog: http://www.fengkx.top
-    Email: i#fengkx.top(请将#替换成@)
-    Wechat: liang222liang
+    Github: https://github.com/winjeg
+    Blog: http://winjeg.github.io
+    Email: winjeg@qq.com
+    Wechat: winjeg
   # My Personal Labels
   labels:
-    - 前端
-    - Node.js
+    - 后端
     - Golang
+    - Java
+    - 数据库
     - Linux日常使用
   skills:
     Git: ★★★☆☆
-    Gulp: ★★★☆☆
+    Golang: ★★★☆☆
+    Java: ★★★☆☆
     Javascript: ★★★☆☆
     HTML+CSS: ★★★☆☆
-    Bootstrap: ★★★☆☆
    # My Personal Works
   works:
    name:
      link: http://www.example.com
-     date: 2016
+     date: 2020
   # My Personal Projects
   projects:
-    fengkx/NodeRSSBot: https://github.com/fengkx/NodeRSSBot
-    fengkx/translator: https://github.com/fengkx/translator
-    fengkx/cacheman-level: https://github.com/fengkx/cacheman-level
+    winjeg/gobot: https://github.com/winjeg/go-commons
 
 
 widgets:
