@@ -6,7 +6,6 @@ menu:
   Tags: tags  # 标签
   Repository: repository  # github repositories
 #  Books: books  # 豆瓣书单
-  Links: links  # 友链
   About: about  # 关于
 
 # Enable/Disable menu icons
@@ -18,7 +17,6 @@ menu_icons:
   tags: icon-tag
   repository: icon-project
   books: icon-book
-  links: icon-friend
   about: icon-cup
 
 site:
@@ -26,10 +24,6 @@ site:
   #manifest:
   site_verification:
     baidu: 5fNkcnppPy
-#    google:
-#    baidu:
-#  google_analytics:
-#  service_worker:
 
 pagination:
   prev:
@@ -79,7 +73,7 @@ footer:
 
 profile:
   enabled: true # Whether to show profile bar
-#  avatar: images/avatar.jpg
+  avatar: images/avatar.jpg
   gravatar: winjeg@qq.com # Gravatar email address, if you enable Gravatar, your avatar config will be overriden
   author: winjeg
   author_title: Architect & Coder
