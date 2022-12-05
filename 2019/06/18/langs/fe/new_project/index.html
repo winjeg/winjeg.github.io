@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html  lang="zh" >
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <title>react+ts+webpack+antd 实战 | winjeg's blog</title>
+    <meta name="description" content="1. 安装react项目创建程序1npm install -g create-react-app yarn 2. 创建react + ts项目1create-react-app my-app --scripts-version&#x3D;react-scripts-ts  react-scripts-ts是一些调整的组合，使得你可以使用标准create-react-app项目流程并且加入TypeScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="react+ts+webpack+antd 实战">
+<meta property="og:url" content="https://winjeg.github.io/2019/06/18/langs/fe/new_project/index.html">
+<meta property="og:site_name" content="winjeg&#39;s blog">
+<meta property="og:description" content="1. 安装react项目创建程序1npm install -g create-react-app yarn 2. 创建react + ts项目1create-react-app my-app --scripts-version&#x3D;react-scripts-ts  react-scripts-ts是一些调整的组合，使得你可以使用标准create-react-app项目流程并且加入TypeScript">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-06-18T15:14:11.000Z">
+<meta property="article:modified_time" content="2022-12-05T15:06:01.873Z">
+<meta property="article:author" content="winjeg">
+<meta property="article:tag" content="npm">
+<meta property="article:tag" content="react">
+<meta property="article:tag" content="antd">
+<meta property="article:tag" content="project">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon"><meta name="baidu-site-verification" content="5fNkcnppPy">
+
+    
+<link rel="stylesheet" href="/css/common.min.css">
+
+
+
+    
+    
+    
+    
+        <link href="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/css/lightgallery.min.css" rel="stylesheet">
+    
+    
+    
+<link rel="stylesheet" href="/css/iconfont.min.css">
+
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+    <body>
+        <header class="header header-fixture">
+    <div class="profile-search-wrap flex sm:block">
+        
+        
+        <div class="profile sm:text-center md:px-1 lg:px-3 sm:pb-4 sm:pt-6">
+            <a id="avatar" role="link" href="https://github.com/winjeg" class="inline-block lg:w-16 lg:h-16 w-8 h-8 m-2" target="_blank" rel="noopener" rel="noreferrer" >
+                <img src="https://www.gravatar.com/avatar/430f1fc50c046af01cd65a76639a2218?s=128" class="rounded-full" alt="avatar">
+            </a>
+            <h2 id="name" class="hidden lg:block">winjeg</h2>
+            <h3 id="title" class="hidden lg:block">Architect &amp; Coder</h3>
+            
+            <small id="location" class="hidden lg:block">
+                <i class="iconfont icon-map-icon"></i>
+                Hangzhou, China
+            </small>
+            
+        </div>
+        
+        
+<div class="search flex-1 flex lg:inline-block sm:hidden lg:px-4 lg:mt-2 lg:mb-4 lg:w-full">
+    <form id="search-form" class="my-auto flex-1 lg:border lg:border-solid lg:border-gray-200">
+        <div class="input-group table bg-gray-100 lg:bg-white w-full">
+            <input id="search-input" type="text" placeholder="Search" class="inline-block w-full bg-gray-100 lg:bg-white p-1">
+            <span class="table-cell">
+                <button name="search tigger button" disabled>
+                    <i class="iconfont icon-search m-2"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+        
+<div id="content-json" data-placeholder="Search" class="invisible hidden">/content.json</div>
+<script id="search-teamplate" type="text/html" data-path="/content.json">
+    <div>
+        <div class="search-header bg-gray-400">
+            <input id="actual-search-input" model="keyword" ref="input" class="inline-block w-full h-10 px-2 py-1" placeholder="Search" type="text">
+        </div>
+        <div class="search-result bg-gray-200">
+            {{#each searchPosts}}
+            <a href="/{{ path }}" class="result-item block px-2 pb-3 mb-1 pt-1 hover:bg-indigo-100">
+                <i class="iconfont icon-file"></i>
+                <h1 class="result-title inline font-medium text-lg">{{ title }}</h1>
+                <p class="result-content text-gray-600 text-sm">{{{ text }}}</p>
+            </a>
+            {{/each}}
+        </div>
+    </div>
+</script>
+
+</div>
+
+
+        <button name="menu toogle button" id="menu-toggle-btn" class="block sm:hidden p-3" role="button" aria-expanded="false">
+            <i class="iconfont icon-hamburger"></i>
+        </button>
+    </div>
+    <nav id="menu-nav" class="hidden sm:flex flex-col">
+        
+        
+            <div class="menu-item menu-home" role="menuitem">
+                <a href="/.">
+                    <i class="iconfont icon-home" aria-hidden="true"></i>
+                    <span class="menu-title">Home</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-archives" role="menuitem">
+                <a href="/archives">
+                    <i class="iconfont icon-archive" aria-hidden="true"></i>
+                    <span class="menu-title">Archives</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-categories" role="menuitem">
+                <a href="/categories">
+                    <i class="iconfont icon-folder" aria-hidden="true"></i>
+                    <span class="menu-title">Categories</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-tags" role="menuitem">
+                <a href="/tags">
+                    <i class="iconfont icon-tag" aria-hidden="true"></i>
+                    <span class="menu-title">Tags</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-repository" role="menuitem">
+                <a href="/repository">
+                    <i class="iconfont icon-project" aria-hidden="true"></i>
+                    <span class="menu-title">Repository</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-links" role="menuitem">
+                <a href="/links">
+                    <i class="iconfont icon-friend" aria-hidden="true"></i>
+                    <span class="menu-title">Links</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-about" role="menuitem">
+                <a href="/about">
+                    <i class="iconfont icon-cup" aria-hidden="true"></i>
+                    <span class="menu-title">About</span>
+                </a>
+            </div>
+        
+        
+<div class="social-links flex sm:flex-col lg:hidden mt-5">
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://github.com/winjeg">
+                <i class="iconfont social-icon icon-github"></i>
+                <span class="menu-title hidden lg:inline">menu.github</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://t.me/winjeg">
+                <i class="iconfont social-icon icon-telegram"></i>
+                <span class="menu-title hidden lg:inline">menu.telegram</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://twitter.com/winjeg">
+                <i class="iconfont social-icon icon-twitter"></i>
+                <span class="menu-title hidden lg:inline">menu.twitter</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a href="/atom.xml">
+                <i class="iconfont social-icon icon-rss"></i>
+                <span class="menu-title hidden lg:inline">menu.rss</span>
+            </a>
+        </span>
+    
+</div>
+
+
+    </nav>
+</header>
+
+        <section class="main-section">
+            
+    <main class="flex-1 px-4 py-14 md:px-5 lg:px-8 lg:py-4 relative min-h-screen">
+    
+
+    <article class="content article article-archives article-type-list" itemscope="">
+        <header class="article-header">
+            
+    
+        <h1 class="article-title text-lg" itemprop="name">
+            react+ts+webpack+antd 实战
+        </h1>
+    
+
+
+
+            <p class="article-meta mb-3 text-xs">
+                <span class="article-date">
+    <i class="iconfont icon-calendar-check"></i>
+	<a href="/2019/06/18/langs/fe/new_project/" class="article-date">
+	  <time datetime="2019-06-18T15:14:11.000Z" itemprop="datePublished">Jun 18</time>
+	</a>
+</span>
+
+                
+    <span class="article-category">
+    <i class="iconfont icon-folder"></i>
+    <a class="article-category-link" href="/categories/lang/">lang</a>
+  </span>
+
+
+                
+    <span class="article-tags">
+    <i class="iconfont icon-tag"></i>
+    <a class="article-tag-none-link" href="/tags/antd/" rel="tag">antd</a>, <a class="article-tag-none-link" href="/tags/npm/" rel="tag">npm</a>, <a class="article-tag-none-link" href="/tags/project/" rel="tag">project</a>, <a class="article-tag-none-link" href="/tags/react/" rel="tag">react</a>
+  </span>
+
+
+                <span class="_partial/post-comment"><i class="icon icon-comment"></i>
+                    <a href="/2019/06/18/langs/fe/new_project/#comments" class="article-comment-link">
+                        Comments
+                    </a>
+                </span>
+                
+
+            </p>
+        </header>
+        <div class="marked-body article-body">
+            <h2 id="1-安装react项目创建程序"><a href="#1-安装react项目创建程序" class="headerlink" title="1. 安装react项目创建程序"></a>1. 安装react项目创建程序</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g create-react-app yarn</span><br></pre></td></tr></table></figure>
+<h2 id="2-创建react-ts项目"><a href="#2-创建react-ts项目" class="headerlink" title="2. 创建react + ts项目"></a>2. 创建react + ts项目</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create-react-app my-app --scripts-version=react-scripts-ts</span><br></pre></td></tr></table></figure>
+
+<p>react-scripts-ts是一些调整的组合，使得你可以使用标准create-react-app项目流程并且加入TypeScript。<br>现在你的项目应该是下面这个样子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">my-app/</span><br><span class="line">├─ .gitignore</span><br><span class="line">├─ node_modules/</span><br><span class="line">├─ public/</span><br><span class="line">├─ src/</span><br><span class="line">│  └─ ...</span><br><span class="line">├─ package.json</span><br><span class="line">├─ tsconfig.json</span><br><span class="line">└─ tslint.json</span><br></pre></td></tr></table></figure>
+<p>其中：</p>
+<p><code>tsconfig.json</code>包含我们项目中的TypeScript的配置信息</p>
+<p><code>tslint.json</code>是我们的代码规范工具TSLint相关的配置</p>
+<p><code>package.json</code>包含我们的依赖项，以及一些用于测试、预览、部署等的快捷命令。</p>
+<p><code>public</code>包含静态资源，比如我们要部署的HTML页面和图片。你们可以删除除了index.html以外的任何文件。</p>
+<p><code>src</code> 包含了我们TypeScript和CSS的代码。index.tsx是我们的文件的入口。</p>
+<p>在<code>package.json</code> 中<code>scripts</code>中 分别有</p>
+<p>start 开发命令 执行 npm run start<br>build 部署命令 执行 npm run build<br>test 测试命令允许Jest</p>
+<h2 id="3-集成antd（不需要UI库可以跳过这里）"><a href="#3-集成antd（不需要UI库可以跳过这里）" class="headerlink" title="3. 集成antd（不需要UI库可以跳过这里）"></a>3. 集成antd（不需要UI库可以跳过这里）</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add antd  ts-import-plugin --dev</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-配置-config-overrides-js"><a href="#4-配置-config-overrides-js" class="headerlink" title="4.配置 config-overrides.js"></a>4.配置 <code>config-overrides.js</code></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">/*jshint esversion: 6 */</span><br><span class="line">const tsImportPluginFactory = require(&#x27;ts-import-plugin&#x27;);</span><br><span class="line">const &#123;</span><br><span class="line">    getLoader</span><br><span class="line">&#125; = require(&quot;react-app-rewired&quot;);</span><br><span class="line">const rewireLess = require(&#x27;react-app-rewire-less&#x27;);</span><br><span class="line"></span><br><span class="line">module.exports = function override(config) &#123;</span><br><span class="line">    const tsLoader = getLoader(</span><br><span class="line">        config.module.rules,</span><br><span class="line">        rule =&gt;</span><br><span class="line">        rule.loader &amp;&amp;</span><br><span class="line">        typeof rule.loader === &#x27;string&#x27; &amp;&amp;</span><br><span class="line">        rule.loader.includes(&#x27;ts-loader&#x27;)</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    tsLoader.options = &#123;</span><br><span class="line">        getCustomTransformers: () =&gt; (&#123;</span><br><span class="line">            before: [tsImportPluginFactory(&#123;</span><br><span class="line">                libraryDirectory: &#x27;es&#x27;,</span><br><span class="line">                libraryName: &#x27;antd&#x27;,</span><br><span class="line">                style: &#x27;css&#x27;,</span><br><span class="line">            &#125;)]</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    config = rewireLess.withLoaderOptions(&#123;</span><br><span class="line">        modifyVars: &#123;</span><br><span class="line">            &quot;@primary-color&quot;: &quot;#1DA57A&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;)(config, env);</span><br><span class="line"></span><br><span class="line">    config.resolve = &#123;</span><br><span class="line">        alias: &#123;</span><br><span class="line">            &#x27;@&#x27;: path.resolve(&quot;./&quot;, &#x27;src&#x27;)</span><br><span class="line">        &#125;,</span><br><span class="line">        extensions: [&#x27;.tsx&#x27;, &#x27;.ts&#x27;, &#x27;.js&#x27;, &#x27;.jsx&#x27;, &#x27;css&#x27;]</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    return config;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-配置-tsconfig-json"><a href="#5-配置-tsconfig-json" class="headerlink" title="5.配置 tsconfig.json"></a>5.配置 <code>tsconfig.json</code></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">complierOptionsu加入</span><br><span class="line">    &quot;paths&quot;: &#123;</span><br><span class="line">      &quot;@/*&quot;: [&quot;src/*&quot;]</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u010377383/article/details/79014405">https://blog.csdn.net/u010377383/article/details/79014405</a></p>
+
+        </div>
+        
+<blockquote class="copyright">
+    <p><strong>Link to this article : </strong><a class="permalink" href="https://winjeg.github.io/2019/06/18/langs/fe/new_project/">https://winjeg.github.io/2019/06/18/langs/fe/new_project/</a></p>
+    <p><strong>All rights reserved to winjeg</strong></p>
+</blockquote>
+
+
+    </article>
+    
+    <section id="comments">
+        
+    </section>
+
+
+    
+
+</main>
+
+
+<aside style="" id="sidebar" class="aside aside-fixture">
+    <div class="toc-sidebar">
+        <nav id="toc" class="article-toc">
+            <h3 class="toc-title">Catalogue</h3>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85react%E9%A1%B9%E7%9B%AE%E5%88%9B%E5%BB%BA%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.</span> <span class="toc-text">1. 安装react项目创建程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%88%9B%E5%BB%BAreact-ts%E9%A1%B9%E7%9B%AE"><span class="toc-number">2.</span> <span class="toc-text">2. 创建react + ts项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%9B%86%E6%88%90antd%EF%BC%88%E4%B8%8D%E9%9C%80%E8%A6%81UI%E5%BA%93%E5%8F%AF%E4%BB%A5%E8%B7%B3%E8%BF%87%E8%BF%99%E9%87%8C%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">3. 集成antd（不需要UI库可以跳过这里）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E9%85%8D%E7%BD%AE-config-overrides-js"><span class="toc-number">4.</span> <span class="toc-text">4.配置 config-overrides.js</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E9%85%8D%E7%BD%AE-tsconfig-json"><span class="toc-number">5.</span> <span class="toc-text">5.配置 tsconfig.json</span></a></li></ol>
+        </nav>
+    </div>
+</aside>
+
+
+
+
+
+        </section>
+        <footer class="hidden lg:block fixed bottom-0 left-0 sm:w-1/12 lg:w-1/6 bg-gray-100 z-40">
+    
+    <div class="footer-social-links">
+        
+            <a target="_blank" rel="noopener" href="https://github.com/winjeg">
+                <i class="iconfont icon-github"></i>
+            </a>
+        
+            <a target="_blank" rel="noopener" href="https://t.me/winjeg">
+                <i class="iconfont icon-telegram"></i>
+            </a>
+        
+            <a target="_blank" rel="noopener" href="https://twitter.com/winjeg">
+                <i class="iconfont icon-twitter"></i>
+            </a>
+        
+            <a href="/atom.xml">
+                <i class="iconfont icon-rss"></i>
+            </a>
+        
+    </div>
+    
+    
+</footer>
+
+        <div id="mask" class="hidden mask fixed inset-0 bg-gray-900 opacity-75 z-40"></div>
+        <div id="search-view-container" class="hidden shadow-xl"></div>
+        
+<script src="/js/dom-event.min.js"></script>
+
+
+
+<script src="/js/local-search.min.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/js/lightgallery.min.js"></script>
+    
+<script src="/js/light-gallery.min.js"></script>
+
+
+
+
+
+
+    </body>
+</html>

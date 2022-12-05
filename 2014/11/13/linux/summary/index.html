@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html  lang="zh" >
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <title>关于Linux的一些思考 | winjeg's blog</title>
+    <meta name="description" content="总结如果你能看到这里， 我想再次表达自己的感激与感动。山不在高，有仙则灵，此系列的文章也不再多，说清就行。看完本系列的文章，我相信大家都能够独立的安装自己喜欢的Linux操作系统，能够没有太大障碍的使用Linux系统，能够自行利用搜索引擎切切实实的去解决自己遇到的问题，接触到很多开源社区。如果是这样，恭喜你，你已经成功入门。 如果你对我的任何一个章节比较感兴趣，仍然， 搜索引擎是你最大的帮助，当然">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于Linux的一些思考">
+<meta property="og:url" content="https://winjeg.github.io/2014/11/13/linux/summary/index.html">
+<meta property="og:site_name" content="winjeg&#39;s blog">
+<meta property="og:description" content="总结如果你能看到这里， 我想再次表达自己的感激与感动。山不在高，有仙则灵，此系列的文章也不再多，说清就行。看完本系列的文章，我相信大家都能够独立的安装自己喜欢的Linux操作系统，能够没有太大障碍的使用Linux系统，能够自行利用搜索引擎切切实实的去解决自己遇到的问题，接触到很多开源社区。如果是这样，恭喜你，你已经成功入门。 如果你对我的任何一个章节比较感兴趣，仍然， 搜索引擎是你最大的帮助，当然">
+<meta property="og:locale">
+<meta property="article:published_time" content="2014-11-13T15:14:11.000Z">
+<meta property="article:modified_time" content="2022-12-05T15:06:01.889Z">
+<meta property="article:author" content="winjeg">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon"><meta name="baidu-site-verification" content="5fNkcnppPy">
+
+    
+<link rel="stylesheet" href="/css/common.min.css">
+
+
+
+    
+    
+    
+    
+        <link href="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/css/lightgallery.min.css" rel="stylesheet">
+    
+    
+    
+<link rel="stylesheet" href="/css/iconfont.min.css">
+
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+    <body>
+        <header class="header header-fixture">
+    <div class="profile-search-wrap flex sm:block">
+        
+        
+        <div class="profile sm:text-center md:px-1 lg:px-3 sm:pb-4 sm:pt-6">
+            <a id="avatar" role="link" href="https://github.com/winjeg" class="inline-block lg:w-16 lg:h-16 w-8 h-8 m-2" target="_blank" rel="noopener" rel="noreferrer" >
+                <img src="https://www.gravatar.com/avatar/430f1fc50c046af01cd65a76639a2218?s=128" class="rounded-full" alt="avatar">
+            </a>
+            <h2 id="name" class="hidden lg:block">winjeg</h2>
+            <h3 id="title" class="hidden lg:block">Architect &amp; Coder</h3>
+            
+            <small id="location" class="hidden lg:block">
+                <i class="iconfont icon-map-icon"></i>
+                Hangzhou, China
+            </small>
+            
+        </div>
+        
+        
+<div class="search flex-1 flex lg:inline-block sm:hidden lg:px-4 lg:mt-2 lg:mb-4 lg:w-full">
+    <form id="search-form" class="my-auto flex-1 lg:border lg:border-solid lg:border-gray-200">
+        <div class="input-group table bg-gray-100 lg:bg-white w-full">
+            <input id="search-input" type="text" placeholder="Search" class="inline-block w-full bg-gray-100 lg:bg-white p-1">
+            <span class="table-cell">
+                <button name="search tigger button" disabled>
+                    <i class="iconfont icon-search m-2"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+        
+<div id="content-json" data-placeholder="Search" class="invisible hidden">/content.json</div>
+<script id="search-teamplate" type="text/html" data-path="/content.json">
+    <div>
+        <div class="search-header bg-gray-400">
+            <input id="actual-search-input" model="keyword" ref="input" class="inline-block w-full h-10 px-2 py-1" placeholder="Search" type="text">
+        </div>
+        <div class="search-result bg-gray-200">
+            {{#each searchPosts}}
+            <a href="/{{ path }}" class="result-item block px-2 pb-3 mb-1 pt-1 hover:bg-indigo-100">
+                <i class="iconfont icon-file"></i>
+                <h1 class="result-title inline font-medium text-lg">{{ title }}</h1>
+                <p class="result-content text-gray-600 text-sm">{{{ text }}}</p>
+            </a>
+            {{/each}}
+        </div>
+    </div>
+</script>
+
+</div>
+
+
+        <button name="menu toogle button" id="menu-toggle-btn" class="block sm:hidden p-3" role="button" aria-expanded="false">
+            <i class="iconfont icon-hamburger"></i>
+        </button>
+    </div>
+    <nav id="menu-nav" class="hidden sm:flex flex-col">
+        
+        
+            <div class="menu-item menu-home" role="menuitem">
+                <a href="/.">
+                    <i class="iconfont icon-home" aria-hidden="true"></i>
+                    <span class="menu-title">Home</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-archives" role="menuitem">
+                <a href="/archives">
+                    <i class="iconfont icon-archive" aria-hidden="true"></i>
+                    <span class="menu-title">Archives</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-categories" role="menuitem">
+                <a href="/categories">
+                    <i class="iconfont icon-folder" aria-hidden="true"></i>
+                    <span class="menu-title">Categories</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-tags" role="menuitem">
+                <a href="/tags">
+                    <i class="iconfont icon-tag" aria-hidden="true"></i>
+                    <span class="menu-title">Tags</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-repository" role="menuitem">
+                <a href="/repository">
+                    <i class="iconfont icon-project" aria-hidden="true"></i>
+                    <span class="menu-title">Repository</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-links" role="menuitem">
+                <a href="/links">
+                    <i class="iconfont icon-friend" aria-hidden="true"></i>
+                    <span class="menu-title">Links</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-about" role="menuitem">
+                <a href="/about">
+                    <i class="iconfont icon-cup" aria-hidden="true"></i>
+                    <span class="menu-title">About</span>
+                </a>
+            </div>
+        
+        
+<div class="social-links flex sm:flex-col lg:hidden mt-5">
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://github.com/winjeg">
+                <i class="iconfont social-icon icon-github"></i>
+                <span class="menu-title hidden lg:inline">menu.github</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://t.me/winjeg">
+                <i class="iconfont social-icon icon-telegram"></i>
+                <span class="menu-title hidden lg:inline">menu.telegram</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://twitter.com/winjeg">
+                <i class="iconfont social-icon icon-twitter"></i>
+                <span class="menu-title hidden lg:inline">menu.twitter</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a href="/atom.xml">
+                <i class="iconfont social-icon icon-rss"></i>
+                <span class="menu-title hidden lg:inline">menu.rss</span>
+            </a>
+        </span>
+    
+</div>
+
+
+    </nav>
+</header>
+
+        <section class="main-section">
+            
+    <main class="flex-1 px-4 py-14 md:px-5 lg:px-8 lg:py-4 relative min-h-screen">
+    
+
+    <article class="content article article-archives article-type-list" itemscope="">
+        <header class="article-header">
+            
+    
+        <h1 class="article-title text-lg" itemprop="name">
+            关于Linux的一些思考
+        </h1>
+    
+
+
+
+            <p class="article-meta mb-3 text-xs">
+                <span class="article-date">
+    <i class="iconfont icon-calendar-check"></i>
+	<a href="/2014/11/13/linux/summary/" class="article-date">
+	  <time datetime="2014-11-13T15:14:11.000Z" itemprop="datePublished">Nov 13</time>
+	</a>
+</span>
+
+                
+    <span class="article-category">
+    <i class="iconfont icon-folder"></i>
+    <a class="article-category-link" href="/categories/os/">os</a> , <a class="article-category-link" href="/categories/os/linux/">linux</a>
+  </span>
+
+
+                
+    <span class="article-tags">
+    <i class="iconfont icon-tag"></i>
+    <a class="article-tag-none-link" href="/tags/linux/" rel="tag">linux</a>
+  </span>
+
+
+                <span class="_partial/post-comment"><i class="icon icon-comment"></i>
+                    <a href="/2014/11/13/linux/summary/#comments" class="article-comment-link">
+                        Comments
+                    </a>
+                </span>
+                
+
+            </p>
+        </header>
+        <div class="marked-body article-body">
+            <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>如果你能看到这里， 我想再次表达自己的感激与感动。山不在高，有仙则灵，此系列的文章也不再多，说清就行。看完本系列的文章，我相信大家都能够独立的安装自己喜欢的Linux操作系统，能够没有太大障碍的使用Linux系统，能够自行利用搜索引擎切切实实的去解决自己遇到的问题，接触到很多开源社区。如果是这样，恭喜你，你已经成功入门。 如果你对我的任何一个章节比较感兴趣，仍然， 搜索引擎是你最大的帮助，当然如果你的理解力比较好，或者我的表述足够通俗易懂的话， 你也不需要去专门去挨个查。有很多东西不一定需要当场学会，而是在以后的日积月累中慢慢学会， 知识是一种累计的过程，而非一蹴而就的。</p>
+<p>另外笔者相信大家有耐心，也有信心去逐渐更加深入的学习和了解Linux系统。开源世界的用户体验有时候是不比闭源世界的操作系统做的好， 但<code>开源世界给你提供了做的更好的可能性</code>。</p>
+<h2 id="路向何方"><a href="#路向何方" class="headerlink" title="路向何方"></a>路向何方</h2><p>如果你看完本文还是觉得自己对Linux的兴趣有增无减， 那么恭喜你，你是一名Linux爱好者，也是一个爱好自由的人。看完这些， 最多只能够你安装并使用Linux，但不能带你精通Linux，因为笔者水平也是有限，因此更长的路还是需要读者自己去走完。</p>
+<h3 id="这里笔者推荐几个精通Linux必备的技能"><a href="#这里笔者推荐几个精通Linux必备的技能" class="headerlink" title="这里笔者推荐几个精通Linux必备的技能."></a>这里笔者推荐几个精通Linux必备的技能.</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">1. shell 编程</span><br><span class="line"></span><br><span class="line">2. python 编程</span><br><span class="line"></span><br><span class="line">3. 常用Linux命令学习 find, sed, grep, awk, ssh, vim/emacs, ls, cat等的学习</span><br><span class="line"></span><br><span class="line">4. linux 管道</span><br><span class="line"></span><br><span class="line">5. linux的用户、组与权限设计</span><br><span class="line"></span><br><span class="line">6. linux的初始化工具了解 systemd/sysinit</span><br><span class="line"></span><br><span class="line">7. linux 网络</span><br><span class="line"></span><br><span class="line">8. linux 内核*</span><br></pre></td></tr></table></figure>
+<p>有人会问笔者为什么笔者不去自己去写完精通相关的文章，其原因有二:</p>
+<ol>
+<li>第一笔者自认为水平有限， 不是那种精通的类型， 笔者最多敢说自己是熟悉Linux, 因为Linux是一篇森林， 我所知道的只是深林里的一颗小草。</li>
+<li>以上推荐的每一块，有很多人会专门出书或者质量更高的文章来教学，希望此文更多的目的在于指明一些方向，让大家少走弯路， 而非如何交大家如何去走路。</li>
+</ol>
+
+        </div>
+        
+<blockquote class="copyright">
+    <p><strong>Link to this article : </strong><a class="permalink" href="https://winjeg.github.io/2014/11/13/linux/summary/">https://winjeg.github.io/2014/11/13/linux/summary/</a></p>
+    <p><strong>All rights reserved to winjeg</strong></p>
+</blockquote>
+
+
+    </article>
+    
+    <section id="comments">
+        
+    </section>
+
+
+    
+
+</main>
+
+
+<aside style="" id="sidebar" class="aside aside-fixture">
+    <div class="toc-sidebar">
+        <nav id="toc" class="article-toc">
+            <h3 class="toc-title">Catalogue</h3>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E5%90%91%E4%BD%95%E6%96%B9"><span class="toc-number">1.1.</span> <span class="toc-text">路向何方</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%99%E9%87%8C%E7%AC%94%E8%80%85%E6%8E%A8%E8%8D%90%E5%87%A0%E4%B8%AA%E7%B2%BE%E9%80%9ALinux%E5%BF%85%E5%A4%87%E7%9A%84%E6%8A%80%E8%83%BD"><span class="toc-number">1.1.1.</span> <span class="toc-text">这里笔者推荐几个精通Linux必备的技能.</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </div>
+</aside>
+
+
+
+
+
+        </section>
+        <footer class="hidden lg:block fixed bottom-0 left-0 sm:w-1/12 lg:w-1/6 bg-gray-100 z-40">
+    
+    <div class="footer-social-links">
+        
+            <a target="_blank" rel="noopener" href="https://github.com/winjeg">
+                <i class="iconfont icon-github"></i>
+            </a>
+        
+            <a target="_blank" rel="noopener" href="https://t.me/winjeg">
+                <i class="iconfont icon-telegram"></i>
+            </a>
+        
+            <a target="_blank" rel="noopener" href="https://twitter.com/winjeg">
+                <i class="iconfont icon-twitter"></i>
+            </a>
+        
+            <a href="/atom.xml">
+                <i class="iconfont icon-rss"></i>
+            </a>
+        
+    </div>
+    
+    
+</footer>
+
+        <div id="mask" class="hidden mask fixed inset-0 bg-gray-900 opacity-75 z-40"></div>
+        <div id="search-view-container" class="hidden shadow-xl"></div>
+        
+<script src="/js/dom-event.min.js"></script>
+
+
+
+<script src="/js/local-search.min.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/js/lightgallery.min.js"></script>
+    
+<script src="/js/light-gallery.min.js"></script>
+
+
+
+
+
+
+    </body>
+</html>

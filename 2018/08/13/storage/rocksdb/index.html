@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html  lang="zh" >
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <title>gorocksdb 的安装与使用 | winjeg's blog</title>
+    <meta name="description" content="安装rocksdb官方参考安装方法 去下载 rocksdb 最新的发行版如下代码: 1234wget https:&#x2F;&#x2F;github.com&#x2F;facebook&#x2F;rocksdb&#x2F;archive&#x2F;v5.14.2.tar.gztar xpf  v5.14.2.tar.gzcd rocksdb-5.14.2&#x2F;make shared_lib -j9 如果编译过程中出错如下 123456789util&#x2F;stat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="gorocksdb 的安装与使用">
+<meta property="og:url" content="https://winjeg.github.io/2018/08/13/storage/rocksdb/index.html">
+<meta property="og:site_name" content="winjeg&#39;s blog">
+<meta property="og:description" content="安装rocksdb官方参考安装方法 去下载 rocksdb 最新的发行版如下代码: 1234wget https:&#x2F;&#x2F;github.com&#x2F;facebook&#x2F;rocksdb&#x2F;archive&#x2F;v5.14.2.tar.gztar xpf  v5.14.2.tar.gzcd rocksdb-5.14.2&#x2F;make shared_lib -j9 如果编译过程中出错如下 123456789util&#x2F;stat">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-08-13T15:14:11.000Z">
+<meta property="article:modified_time" content="2022-12-05T15:06:01.889Z">
+<meta property="article:author" content="winjeg">
+<meta property="article:tag" content="database">
+<meta property="article:tag" content="rocksdb">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon"><meta name="baidu-site-verification" content="5fNkcnppPy">
+
+    
+<link rel="stylesheet" href="/css/common.min.css">
+
+
+
+    
+    
+    
+    
+        <link href="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/css/lightgallery.min.css" rel="stylesheet">
+    
+    
+    
+<link rel="stylesheet" href="/css/iconfont.min.css">
+
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+    <body>
+        <header class="header header-fixture">
+    <div class="profile-search-wrap flex sm:block">
+        
+        
+        <div class="profile sm:text-center md:px-1 lg:px-3 sm:pb-4 sm:pt-6">
+            <a id="avatar" role="link" href="https://github.com/winjeg" class="inline-block lg:w-16 lg:h-16 w-8 h-8 m-2" target="_blank" rel="noopener" rel="noreferrer" >
+                <img src="https://www.gravatar.com/avatar/430f1fc50c046af01cd65a76639a2218?s=128" class="rounded-full" alt="avatar">
+            </a>
+            <h2 id="name" class="hidden lg:block">winjeg</h2>
+            <h3 id="title" class="hidden lg:block">Architect &amp; Coder</h3>
+            
+            <small id="location" class="hidden lg:block">
+                <i class="iconfont icon-map-icon"></i>
+                Hangzhou, China
+            </small>
+            
+        </div>
+        
+        
+<div class="search flex-1 flex lg:inline-block sm:hidden lg:px-4 lg:mt-2 lg:mb-4 lg:w-full">
+    <form id="search-form" class="my-auto flex-1 lg:border lg:border-solid lg:border-gray-200">
+        <div class="input-group table bg-gray-100 lg:bg-white w-full">
+            <input id="search-input" type="text" placeholder="Search" class="inline-block w-full bg-gray-100 lg:bg-white p-1">
+            <span class="table-cell">
+                <button name="search tigger button" disabled>
+                    <i class="iconfont icon-search m-2"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+        
+<div id="content-json" data-placeholder="Search" class="invisible hidden">/content.json</div>
+<script id="search-teamplate" type="text/html" data-path="/content.json">
+    <div>
+        <div class="search-header bg-gray-400">
+            <input id="actual-search-input" model="keyword" ref="input" class="inline-block w-full h-10 px-2 py-1" placeholder="Search" type="text">
+        </div>
+        <div class="search-result bg-gray-200">
+            {{#each searchPosts}}
+            <a href="/{{ path }}" class="result-item block px-2 pb-3 mb-1 pt-1 hover:bg-indigo-100">
+                <i class="iconfont icon-file"></i>
+                <h1 class="result-title inline font-medium text-lg">{{ title }}</h1>
+                <p class="result-content text-gray-600 text-sm">{{{ text }}}</p>
+            </a>
+            {{/each}}
+        </div>
+    </div>
+</script>
+
+</div>
+
+
+        <button name="menu toogle button" id="menu-toggle-btn" class="block sm:hidden p-3" role="button" aria-expanded="false">
+            <i class="iconfont icon-hamburger"></i>
+        </button>
+    </div>
+    <nav id="menu-nav" class="hidden sm:flex flex-col">
+        
+        
+            <div class="menu-item menu-home" role="menuitem">
+                <a href="/.">
+                    <i class="iconfont icon-home" aria-hidden="true"></i>
+                    <span class="menu-title">Home</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-archives" role="menuitem">
+                <a href="/archives">
+                    <i class="iconfont icon-archive" aria-hidden="true"></i>
+                    <span class="menu-title">Archives</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-categories" role="menuitem">
+                <a href="/categories">
+                    <i class="iconfont icon-folder" aria-hidden="true"></i>
+                    <span class="menu-title">Categories</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-tags" role="menuitem">
+                <a href="/tags">
+                    <i class="iconfont icon-tag" aria-hidden="true"></i>
+                    <span class="menu-title">Tags</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-repository" role="menuitem">
+                <a href="/repository">
+                    <i class="iconfont icon-project" aria-hidden="true"></i>
+                    <span class="menu-title">Repository</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-links" role="menuitem">
+                <a href="/links">
+                    <i class="iconfont icon-friend" aria-hidden="true"></i>
+                    <span class="menu-title">Links</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-about" role="menuitem">
+                <a href="/about">
+                    <i class="iconfont icon-cup" aria-hidden="true"></i>
+                    <span class="menu-title">About</span>
+                </a>
+            </div>
+        
+        
+<div class="social-links flex sm:flex-col lg:hidden mt-5">
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://github.com/winjeg">
+                <i class="iconfont social-icon icon-github"></i>
+                <span class="menu-title hidden lg:inline">menu.github</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://t.me/winjeg">
+                <i class="iconfont social-icon icon-telegram"></i>
+                <span class="menu-title hidden lg:inline">menu.telegram</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://twitter.com/winjeg">
+                <i class="iconfont social-icon icon-twitter"></i>
+                <span class="menu-title hidden lg:inline">menu.twitter</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a href="/atom.xml">
+                <i class="iconfont social-icon icon-rss"></i>
+                <span class="menu-title hidden lg:inline">menu.rss</span>
+            </a>
+        </span>
+    
+</div>
+
+
+    </nav>
+</header>
+
+        <section class="main-section">
+            
+    <main class="flex-1 px-4 py-14 md:px-5 lg:px-8 lg:py-4 relative min-h-screen">
+    
+
+    <article class="content article article-archives article-type-list" itemscope="">
+        <header class="article-header">
+            
+    
+        <h1 class="article-title text-lg" itemprop="name">
+            gorocksdb 的安装与使用
+        </h1>
+    
+
+
+
+            <p class="article-meta mb-3 text-xs">
+                <span class="article-date">
+    <i class="iconfont icon-calendar-check"></i>
+	<a href="/2018/08/13/storage/rocksdb/" class="article-date">
+	  <time datetime="2018-08-13T15:14:11.000Z" itemprop="datePublished">Aug 13</time>
+	</a>
+</span>
+
+                
+    <span class="article-category">
+    <i class="iconfont icon-folder"></i>
+    <a class="article-category-link" href="/categories/storage/">storage</a> , <a class="article-category-link" href="/categories/storage/rocksdb/">rocksdb</a>
+  </span>
+
+
+                
+    <span class="article-tags">
+    <i class="iconfont icon-tag"></i>
+    <a class="article-tag-none-link" href="/tags/database/" rel="tag">database</a>, <a class="article-tag-none-link" href="/tags/rocksdb/" rel="tag">rocksdb</a>
+  </span>
+
+
+                <span class="_partial/post-comment"><i class="icon icon-comment"></i>
+                    <a href="/2018/08/13/storage/rocksdb/#comments" class="article-comment-link">
+                        Comments
+                    </a>
+                </span>
+                
+
+            </p>
+        </header>
+        <div class="marked-body article-body">
+            <h2 id="安装rocksdb"><a href="#安装rocksdb" class="headerlink" title="安装rocksdb"></a>安装rocksdb</h2><p><a target="_blank" rel="noopener" href="https://github.com/facebook/rocksdb">官方参考安装方法</a></p>
+<p>去下载 rocksdb <a target="_blank" rel="noopener" href="https://github.com/facebook/rocksdb/releases">最新的发行版</a><br>如下代码:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/facebook/rocksdb/archive/v5.14.2.tar.gz</span><br><span class="line">tar xpf  v5.14.2.tar.gz</span><br><span class="line"><span class="built_in">cd</span> rocksdb-5.14.2/</span><br><span class="line">make shared_lib -j9</span><br></pre></td></tr></table></figure>
+<p>如果编译过程中出错如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">util/status.cc: In static member function ‘static const char* rocksdb::Status::CopyState(const char*)’:</span><br><span class="line">util/status.cc:28:15: error: ‘char* strncpy(char*, const char*, size_t)’ output truncated before terminating nul copying as many bytes from a string as its length [-Werror=stringop-truncation]</span><br><span class="line">   std::strncpy(result, state, cch - 1);</span><br><span class="line">   ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~</span><br><span class="line">util/status.cc:19:18: note: length computed here</span><br><span class="line">       std::strlen(state) + 1; // +1 for the null terminator</span><br><span class="line">       ~~~~~~~~~~~^~~~~~~</span><br><span class="line">cc1plus: all warnings being treated as errors</span><br><span class="line">make: *** [Makefile:650: shared-objects/util/status.o] Error 1</span><br></pre></td></tr></table></figure>
+<p>需要打开<code>util/status.cc</code>修改第 28行改为</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">std::<span class="built_in">strncpy</span>(result, state, cch);</span><br></pre></td></tr></table></figure>
+<p>然后继续编译完成<br>然后执行如下命令进行安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> includes</span><br><span class="line"><span class="comment"># 拷贝头文件到 include目录</span></span><br><span class="line"><span class="built_in">cp</span> -r rocksdb /usr/lib/</span><br><span class="line">sudo su</span><br><span class="line"><span class="built_in">cp</span> librocksdb.so.5.14.2 /usr/lib/</span><br><span class="line"><span class="built_in">cd</span> /usr/lib</span><br><span class="line"><span class="built_in">ln</span> -sf librocksdb.so.5.14.2 librocksdb.so</span><br><span class="line"><span class="built_in">ln</span> -sf librocksdb.so.5.14.2 librocksdb.so.5</span><br><span class="line"><span class="built_in">ln</span> -sf librocksdb.so.5.14.2 librocksdb.so.5.14</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装其他依赖"><a href="#安装其他依赖" class="headerlink" title="安装其他依赖"></a>安装其他依赖</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">zlib - a library for data compression.</span><br><span class="line">bzip2 - a library for data compression.</span><br><span class="line">lz4 - a library for extremely fast data compression.</span><br><span class="line">snappy - a library for fast data compression.</span><br><span class="line">zstandard - Fast real-time compression algorithm.</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装-gorocksdb"><a href="#安装-gorocksdb" class="headerlink" title="安装 gorocksdb"></a>安装 gorocksdb</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CGO_CFLAGS=&quot;-I/path/to/rocksdb/include&quot; \</span><br><span class="line">CGO_LDFLAGS=&quot;-L/path/to/rocksdb -lrocksdb -lstdc++ -lm -lz -lbz2 -lsnappy -llz4 -lzstd&quot; \</span><br><span class="line">  go get github.com/tecbot/gorocksdb</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试代码"><a href="#测试代码" class="headerlink" title="测试代码"></a>测试代码</h2><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;github.com/tecbot/gorocksdb&quot;</span></span><br><span class="line">    <span class="string">&quot;log&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Test</span><span class="params">()</span></span> &#123;</span><br><span class="line">    opts := gorocksdb.NewDefaultOptions()</span><br><span class="line">    opts.SetCreateIfMissing(<span class="literal">true</span>)</span><br><span class="line">    opts.SetCompression(gorocksdb.NoCompression)</span><br><span class="line">    opts.SetWriteBufferSize(<span class="number">671088640</span>)</span><br><span class="line">    db, err := gorocksdb.OpenDb(opts, <span class="string">&quot;test&quot;</span>)</span><br><span class="line">    wopt := gorocksdb.NewDefaultWriteOptions()</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        log.Printf(<span class="string">&quot;%v\n&quot;</span>, err)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">defer</span> db.Close()</span><br><span class="line">    db.Put(wopt, []<span class="type">byte</span>(<span class="string">&quot;data&quot;</span>), []<span class="type">byte</span>(<span class="string">&quot;value&quot;</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        </div>
+        
+<blockquote class="copyright">
+    <p><strong>Link to this article : </strong><a class="permalink" href="https://winjeg.github.io/2018/08/13/storage/rocksdb/">https://winjeg.github.io/2018/08/13/storage/rocksdb/</a></p>
+    <p><strong>All rights reserved to winjeg</strong></p>
+</blockquote>
+
+
+    </article>
+    
+    <section id="comments">
+        
+    </section>
+
+
+    
+
+</main>
+
+
+<aside style="" id="sidebar" class="aside aside-fixture">
+    <div class="toc-sidebar">
+        <nav id="toc" class="article-toc">
+            <h3 class="toc-title">Catalogue</h3>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85rocksdb"><span class="toc-number">1.</span> <span class="toc-text">安装rocksdb</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%85%B6%E4%BB%96%E4%BE%9D%E8%B5%96"><span class="toc-number">2.</span> <span class="toc-text">安装其他依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-gorocksdb"><span class="toc-number">3.</span> <span class="toc-text">安装 gorocksdb</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E4%BB%A3%E7%A0%81"><span class="toc-number">4.</span> <span class="toc-text">测试代码</span></a></li></ol>
+        </nav>
+    </div>
+</aside>
+
+
+
+
+
+        </section>
+        <footer class="hidden lg:block fixed bottom-0 left-0 sm:w-1/12 lg:w-1/6 bg-gray-100 z-40">
+    
+    <div class="footer-social-links">
+        
+            <a target="_blank" rel="noopener" href="https://github.com/winjeg">
+                <i class="iconfont icon-github"></i>
+            </a>
+        
+            <a target="_blank" rel="noopener" href="https://t.me/winjeg">
+                <i class="iconfont icon-telegram"></i>
+            </a>
+        
+            <a target="_blank" rel="noopener" href="https://twitter.com/winjeg">
+                <i class="iconfont icon-twitter"></i>
+            </a>
+        
+            <a href="/atom.xml">
+                <i class="iconfont icon-rss"></i>
+            </a>
+        
+    </div>
+    
+    
+</footer>
+
+        <div id="mask" class="hidden mask fixed inset-0 bg-gray-900 opacity-75 z-40"></div>
+        <div id="search-view-container" class="hidden shadow-xl"></div>
+        
+<script src="/js/dom-event.min.js"></script>
+
+
+
+<script src="/js/local-search.min.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/js/lightgallery.min.js"></script>
+    
+<script src="/js/light-gallery.min.js"></script>
+
+
+
+
+
+
+    </body>
+</html>

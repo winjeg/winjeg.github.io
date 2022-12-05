@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html  lang="zh" >
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <title>Mysql 闪回方案设计 | winjeg's blog</title>
+    <meta name="description" content="mysql 数据闪回背景数据闪回属于数据恢复的一个范畴, 常见的数据恢复的方法有很多， 但都大同小异。主要有以下两种方案：  进行变更之前把变更前的数据存储下来用于恢复 基于全量备份+ binlog增量备份的方式  这两种方案，私下里操作最多的往往是第一种， 因为第一种比较小作坊， 容易操作， 但操作也相对零碎， 人工化， 容易产生失误。第二种是业界许多解决方案的标准， 例如RDS的备份恢复克隆等">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mysql 闪回方案设计">
+<meta property="og:url" content="https://winjeg.github.io/2017/03/18/storage/mysql/roll_back/index.html">
+<meta property="og:site_name" content="winjeg&#39;s blog">
+<meta property="og:description" content="mysql 数据闪回背景数据闪回属于数据恢复的一个范畴, 常见的数据恢复的方法有很多， 但都大同小异。主要有以下两种方案：  进行变更之前把变更前的数据存储下来用于恢复 基于全量备份+ binlog增量备份的方式  这两种方案，私下里操作最多的往往是第一种， 因为第一种比较小作坊， 容易操作， 但操作也相对零碎， 人工化， 容易产生失误。第二种是业界许多解决方案的标准， 例如RDS的备份恢复克隆等">
+<meta property="og:locale">
+<meta property="og:image" content="https://qhyxpicoss.kujiale.com/2019/04/24/LS75DLYKAQBZMRS4AAAAABQ8_768x189.png">
+<meta property="og:image" content="https://qhyxpicoss.kujiale.com/2019/04/24/LS75X3QKAQBZOUT4AAAAAAQ8_1125x181.png">
+<meta property="og:image" content="https://qhyxpicoss.kujiale.com/2019/04/24/LS74QSYKAQBZOUT4AAAAADQ8_749x192.png">
+<meta property="article:published_time" content="2017-03-18T15:14:11.000Z">
+<meta property="article:modified_time" content="2022-12-05T15:06:01.889Z">
+<meta property="article:author" content="winjeg">
+<meta property="article:tag" content="database">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://qhyxpicoss.kujiale.com/2019/04/24/LS75DLYKAQBZMRS4AAAAABQ8_768x189.png">
+
+    
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon"><meta name="baidu-site-verification" content="5fNkcnppPy">
+
+    
+<link rel="stylesheet" href="/css/common.min.css">
+
+
+
+    
+    
+    
+    
+        <link href="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/css/lightgallery.min.css" rel="stylesheet">
+    
+    
+    
+<link rel="stylesheet" href="/css/iconfont.min.css">
+
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+    <body>
+        <header class="header header-fixture">
+    <div class="profile-search-wrap flex sm:block">
+        
+        
+        <div class="profile sm:text-center md:px-1 lg:px-3 sm:pb-4 sm:pt-6">
+            <a id="avatar" role="link" href="https://github.com/winjeg" class="inline-block lg:w-16 lg:h-16 w-8 h-8 m-2" target="_blank" rel="noopener" rel="noreferrer" >
+                <img src="https://www.gravatar.com/avatar/430f1fc50c046af01cd65a76639a2218?s=128" class="rounded-full" alt="avatar">
+            </a>
+            <h2 id="name" class="hidden lg:block">winjeg</h2>
+            <h3 id="title" class="hidden lg:block">Architect &amp; Coder</h3>
+            
+            <small id="location" class="hidden lg:block">
+                <i class="iconfont icon-map-icon"></i>
+                Hangzhou, China
+            </small>
+            
+        </div>
+        
+        
+<div class="search flex-1 flex lg:inline-block sm:hidden lg:px-4 lg:mt-2 lg:mb-4 lg:w-full">
+    <form id="search-form" class="my-auto flex-1 lg:border lg:border-solid lg:border-gray-200">
+        <div class="input-group table bg-gray-100 lg:bg-white w-full">
+            <input id="search-input" type="text" placeholder="Search" class="inline-block w-full bg-gray-100 lg:bg-white p-1">
+            <span class="table-cell">
+                <button name="search tigger button" disabled>
+                    <i class="iconfont icon-search m-2"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+        
+<div id="content-json" data-placeholder="Search" class="invisible hidden">/content.json</div>
+<script id="search-teamplate" type="text/html" data-path="/content.json">
+    <div>
+        <div class="search-header bg-gray-400">
+            <input id="actual-search-input" model="keyword" ref="input" class="inline-block w-full h-10 px-2 py-1" placeholder="Search" type="text">
+        </div>
+        <div class="search-result bg-gray-200">
+            {{#each searchPosts}}
+            <a href="/{{ path }}" class="result-item block px-2 pb-3 mb-1 pt-1 hover:bg-indigo-100">
+                <i class="iconfont icon-file"></i>
+                <h1 class="result-title inline font-medium text-lg">{{ title }}</h1>
+                <p class="result-content text-gray-600 text-sm">{{{ text }}}</p>
+            </a>
+            {{/each}}
+        </div>
+    </div>
+</script>
+
+</div>
+
+
+        <button name="menu toogle button" id="menu-toggle-btn" class="block sm:hidden p-3" role="button" aria-expanded="false">
+            <i class="iconfont icon-hamburger"></i>
+        </button>
+    </div>
+    <nav id="menu-nav" class="hidden sm:flex flex-col">
+        
+        
+            <div class="menu-item menu-home" role="menuitem">
+                <a href="/.">
+                    <i class="iconfont icon-home" aria-hidden="true"></i>
+                    <span class="menu-title">Home</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-archives" role="menuitem">
+                <a href="/archives">
+                    <i class="iconfont icon-archive" aria-hidden="true"></i>
+                    <span class="menu-title">Archives</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-categories" role="menuitem">
+                <a href="/categories">
+                    <i class="iconfont icon-folder" aria-hidden="true"></i>
+                    <span class="menu-title">Categories</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-tags" role="menuitem">
+                <a href="/tags">
+                    <i class="iconfont icon-tag" aria-hidden="true"></i>
+                    <span class="menu-title">Tags</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-repository" role="menuitem">
+                <a href="/repository">
+                    <i class="iconfont icon-project" aria-hidden="true"></i>
+                    <span class="menu-title">Repository</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-links" role="menuitem">
+                <a href="/links">
+                    <i class="iconfont icon-friend" aria-hidden="true"></i>
+                    <span class="menu-title">Links</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-about" role="menuitem">
+                <a href="/about">
+                    <i class="iconfont icon-cup" aria-hidden="true"></i>
+                    <span class="menu-title">About</span>
+                </a>
+            </div>
+        
+        
+<div class="social-links flex sm:flex-col lg:hidden mt-5">
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://github.com/winjeg">
+                <i class="iconfont social-icon icon-github"></i>
+                <span class="menu-title hidden lg:inline">menu.github</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://t.me/winjeg">
+                <i class="iconfont social-icon icon-telegram"></i>
+                <span class="menu-title hidden lg:inline">menu.telegram</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://twitter.com/winjeg">
+                <i class="iconfont social-icon icon-twitter"></i>
+                <span class="menu-title hidden lg:inline">menu.twitter</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a href="/atom.xml">
+                <i class="iconfont social-icon icon-rss"></i>
+                <span class="menu-title hidden lg:inline">menu.rss</span>
+            </a>
+        </span>
+    
+</div>
+
+
+    </nav>
+</header>
+
+        <section class="main-section">
+            
+    <main class="flex-1 px-4 py-14 md:px-5 lg:px-8 lg:py-4 relative min-h-screen">
+    
+
+    <article class="content article article-archives article-type-list" itemscope="">
+        <header class="article-header">
+            
+    
+        <h1 class="article-title text-lg" itemprop="name">
+            Mysql 闪回方案设计
+        </h1>
+    
+
+
+
+            <p class="article-meta mb-3 text-xs">
+                <span class="article-date">
+    <i class="iconfont icon-calendar-check"></i>
+	<a href="/2017/03/18/storage/mysql/roll_back/" class="article-date">
+	  <time datetime="2017-03-18T15:14:11.000Z" itemprop="datePublished">Mar 18</time>
+	</a>
+</span>
+
+                
+    <span class="article-category">
+    <i class="iconfont icon-folder"></i>
+    <a class="article-category-link" href="/categories/storage/">storage</a> , <a class="article-category-link" href="/categories/storage/database/">database</a>
+  </span>
+
+
+                
+    <span class="article-tags">
+    <i class="iconfont icon-tag"></i>
+    <a class="article-tag-none-link" href="/tags/MySQL/" rel="tag">MySQL</a>, <a class="article-tag-none-link" href="/tags/database/" rel="tag">database</a>
+  </span>
+
+
+                <span class="_partial/post-comment"><i class="icon icon-comment"></i>
+                    <a href="/2017/03/18/storage/mysql/roll_back/#comments" class="article-comment-link">
+                        Comments
+                    </a>
+                </span>
+                
+
+            </p>
+        </header>
+        <div class="marked-body article-body">
+            <h1 id="mysql-数据闪回"><a href="#mysql-数据闪回" class="headerlink" title="mysql 数据闪回"></a>mysql 数据闪回</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>数据闪回属于数据恢复的一个范畴, 常见的数据恢复的方法有很多， 但都大同小异。<br>主要有以下两种方案：</p>
+<ol>
+<li>进行变更之前把变更前的数据存储下来用于恢复</li>
+<li>基于全量备份+ binlog增量备份的方式</li>
+</ol>
+<p>这两种方案，私下里操作最多的往往是第一种， 因为第一种比较小作坊， 容易操作， 但操作也相对零碎， 人工化， 容易产生失误。第二种是业界许多解决方案的标准， 例如RDS的备份恢复克隆等功能就是按照第二种方案去做的， 但第二种有三个问题， 第一，备份数据比较庞大， 比较多，恢复时间非常久， 第二， 需要有一整套的体系支持（包括不仅限于服务器、运维、等）第三，第二种需要比较大的开发量。需要对binlog 进行订阅解析以及合理的安排， 对备份策略进行合理的程序化定制。</p>
+<p>很多企业在发展到一定阶段之后必定会对线上数据变更进行相应的管控， 建立好相应的变更管控的流程。 但这个流程也非万能的， 数据被误操作的概率还是存在， 当数据被误操作后，如何快速恢复到操作前的一个状态， 成了本文主要关注的一个话题。</p>
+<h2 id="闪回工具现状"><a href="#闪回工具现状" class="headerlink" title="闪回工具现状"></a>闪回工具现状</h2><h3 id="mysqlbinlog工具配合sed、awk"><a href="#mysqlbinlog工具配合sed、awk" class="headerlink" title="mysqlbinlog工具配合sed、awk"></a>mysqlbinlog工具配合sed、awk</h3><p>该方式先将binlog解析成类SQL的文本，然后使用sed、awk把类SQL文本转换成真正的SQL。</p>
+<ul>
+<li>优点：当SQL中字段类型比较简单时，可以快速生成需要的SQL，且编程门槛也比较低。</li>
+<li>缺点：当SQL中字段类型比较复杂时，尤其是字段中的文本包含HTML代码，用awk、sed等工具时，就需要考虑极其复杂的转义等情况，出错概率很大。</li>
+</ul>
+<h3 id="给数据库源码打patch。该方式扩展了mysqlbinlog的功能，增加Flashback选项。"><a href="#给数据库源码打patch。该方式扩展了mysqlbinlog的功能，增加Flashback选项。" class="headerlink" title="给数据库源码打patch。该方式扩展了mysqlbinlog的功能，增加Flashback选项。"></a>给数据库源码打patch。该方式扩展了mysqlbinlog的功能，增加Flashback选项。</h3><ul>
+<li>优点：复用了MySQL Server层中binlog解析等代码，一旦稳定之后，无须关心复杂的字段类型，且效率较高。</li>
+<li>缺点：在修改前，需要对MySQL的复制代码结构和细节需要较深的了解。版本比较敏感，在MySQL 5.6上做的patch，基本不能用于MySQL 5.7的回滚操作。升级困难，因为patch的代码是分布在MySQL的各个文件和函数中，一旦MySQL代码改变，特别是复制层的重构，升级的难度不亚于完全重新写一个。</li>
+</ul>
+<h3 id="使用业界提供的解析binlog的库，然后进行SQL构造，其优秀代表是binlog2sql。"><a href="#使用业界提供的解析binlog的库，然后进行SQL构造，其优秀代表是binlog2sql。" class="headerlink" title="使用业界提供的解析binlog的库，然后进行SQL构造，其优秀代表是binlog2sql。"></a>使用业界提供的解析binlog的库，然后进行SQL构造，其优秀代表是binlog2sql。</h3><ul>
+<li>优点：使用业界成熟的库，因此稳定性较好，且上手难度较低。</li>
+<li>缺点：效率往往较低，且实现上受制于binlog库提供的功能。</li>
+</ul>
+<p>上述几种实现方式，主要是提供的过滤选项较少，比如不能提供基于SQL类型的过滤，需要回滚一个delete语句，导致在回滚时，需要结合awk、sed等工具进行筛选。</p>
+<h2 id="开源方案"><a href="#开源方案" class="headerlink" title="开源方案"></a>开源方案</h2><p>总体来讲如下的两种方案其实是一个原理，其中一个程序化了， 产品化了而已。</p>
+<h3 id="美团的-MyFlash"><a href="#美团的-MyFlash" class="headerlink" title="美团的 MyFlash"></a>美团的 MyFlash</h3><p>  <a target="_blank" rel="noopener" href="https://github.com/Meituan-Dianping/MyFlash">MyFlash</a>  是由美团点评公司技术工程部开发维护的一个回滚DML操作的工具。该工具通过解析v4版本的binlog，完成回滚操作。相对已有的回滚工具，其增加了更多的过滤选项，让回滚更加容易。</p>
+<ol>
+<li>无需把binlog解析成文本，再进行转换。</li>
+<li>提供原生的基于库、表、SQL类型、位置、时间等多种过滤方式。</li>
+<li>支持MySQL多个版本。</li>
+<li>对于数据库的代码重构不敏感，利于升级。</li>
+<li>自主掌控binlog解析，提供尽可能灵活的方式。</li>
+</ol>
+<h2 id="闪回工具分析"><a href="#闪回工具分析" class="headerlink" title="闪回工具分析"></a>闪回工具分析</h2><p> 以上业界的一些闪回方案，基本上都是基于Binlog 去倒腾的， 有一些明显的限制</p>
+<ol>
+<li>不能针对某条语句(tansaction)进行回滚操作</li>
+<li>需要维护binlog, 建立binlog 相关的逻辑体系</li>
+<li>人工变更与应用变更不能真正分开(闪回是针对某个表， 某个类型，在某一段时间内的全部数据)</li>
+<li>使用起来不方便， 对于普通研发来说成本还是蛮高的</li>
+<li>…</li>
+</ol>
+<h2 id="闪回工具的方案"><a href="#闪回工具的方案" class="headerlink" title="闪回工具的方案"></a>闪回工具的方案</h2><p>为了解决以上所有问题， 主要考虑以下两种方案（两种都是原创）</p>
+<h3 id="基于SQL重写与备份的方案"><a href="#基于SQL重写与备份的方案" class="headerlink" title="基于SQL重写与备份的方案"></a>基于SQL重写与备份的方案</h3><p>这种方案的整个大的流程如下：</p>
+<p><img src="https://qhyxpicoss.kujiale.com/2019/04/24/LS75DLYKAQBZMRS4AAAAABQ8_768x189.png" alt="AST"></p>
+<ol>
+<li>变更前备份： 在实际执行语句前，通过对SQL语句的重写，来达到保存变更前状态的一个目的。</li>
+<li>变更执行： 进行实际的变更操作</li>
+<li>备份恢复： 利用备份的数据进行恢复（一般是自动生成rollback的SQL语句进行执行）</li>
+</ol>
+<p>上述环节中， 最重的一部分工作就是变更前的备份，其中工作量最大的一部分就是进行SQL的重写，这有可能涉及到AST语法树的部分， 当然对于比较简单的SQL语句， 也用不着AST语法树。<br>这里面最大的工作量就是SQL语句的重写， 利用重写的SQL进行原数据查询， 再将变更前的数据备份下来。</p>
+<p>整体的一个流程如下：</p>
+<p><img src="https://qhyxpicoss.kujiale.com/2019/04/24/LS75X3QKAQBZOUT4AAAAAAQ8_1125x181.png" alt="ast"></p>
+<p>存在的问题： 备份与实际写入之间是存在时间间隔的， 如果这个时间间隔内存在其他变数，则也只能恢复到备份的时候的状态。</p>
+<h3 id="基于binlog-映射SQL语句的方案"><a href="#基于binlog-映射SQL语句的方案" class="headerlink" title="基于binlog 映射SQL语句的方案"></a>基于binlog 映射SQL语句的方案</h3><p>对于每一个DML操作， binlog 总是忠实的记录了DML操作的详情，我们可以利用这个详情用于事后恢复数据。<br>但binlog 并未将语句与binlog一一对应起来， 如果要做，可能需要花费的代价比较大，浪费很多的存储空间。<br>由于我们的需求是仅对我们的变更进行回滚，不对其他同类型同时间的变更进行回滚， 所以，我们需要有能力将binlog与我们的变更进行一一对应。<br>整体的操作流程如下：</p>
+<p><img src="https://qhyxpicoss.kujiale.com/2019/04/24/LS74QSYKAQBZOUT4AAAAADQ8_749x192.png" alt="binlog"></p>
+<p>从图中可以看到， 变更的执行跟数据的备份恢复其实是分开的， 变更执行只是变更执行，不用去卡很多时间点相关的概念， 也不同担心备份的跟实际变更的数据会不一致。<br>避免了上面方案的一个时间差的问题，而且不需要进行SQL语句的重写与反查数据库。</p>
+<p>为了能做变更与binlog 的唯一对应， 我们需要对变更执行这个步骤做一些手脚， 加入一个唯一对应的标志。<br>由于binlog 是会忠实记录变更的， 因此我们可以给每个变更生成一个唯一标志， 并把这个唯一标志体现在binlog 里面， 这样我们就实现了变更与binlog的对应。<br>有了这层对应关系我们就可以轻松的对这个变更进行数据的恢复， 从而不影响其他同时间同类型的变更。</p>
+<p>数据备份模块也是需要投入开发的一个模块他主要涉及到以下工作：<br>0. binlog 名称与位点的确定</p>
+<ol>
+<li>slave 伪装</li>
+<li>binlog 接收与解析</li>
+<li>定位变更的binlog</li>
+<li>由对应的binlog生成相应的备份</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>就开发量上来讲， 两种方案都是差不多的， 整个周期至少都需要2-3周左右的开发量，<br>我们显然应该采取第二种方案， 因为第二种方案与业界许多方案有比较多的共通之处， 也是比较通用靠谱的一种方案， 而且避免了查询间隔带来的数据不一致问题。<br>而且它与现有生态融合比较好。</p>
+
+        </div>
+        
+<blockquote class="copyright">
+    <p><strong>Link to this article : </strong><a class="permalink" href="https://winjeg.github.io/2017/03/18/storage/mysql/roll_back/">https://winjeg.github.io/2017/03/18/storage/mysql/roll_back/</a></p>
+    <p><strong>All rights reserved to winjeg</strong></p>
+</blockquote>
+
+
+    </article>
+    
+    <section id="comments">
+        
+    </section>
+
+
+    
+
+</main>
+
+
+<aside style="" id="sidebar" class="aside aside-fixture">
+    <div class="toc-sidebar">
+        <nav id="toc" class="article-toc">
+            <h3 class="toc-title">Catalogue</h3>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#mysql-%E6%95%B0%E6%8D%AE%E9%97%AA%E5%9B%9E"><span class="toc-number">1.</span> <span class="toc-text">mysql 数据闪回</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">1.1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AA%E5%9B%9E%E5%B7%A5%E5%85%B7%E7%8E%B0%E7%8A%B6"><span class="toc-number">1.2.</span> <span class="toc-text">闪回工具现状</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mysqlbinlog%E5%B7%A5%E5%85%B7%E9%85%8D%E5%90%88sed%E3%80%81awk"><span class="toc-number">1.2.1.</span> <span class="toc-text">mysqlbinlog工具配合sed、awk</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%99%E6%95%B0%E6%8D%AE%E5%BA%93%E6%BA%90%E7%A0%81%E6%89%93patch%E3%80%82%E8%AF%A5%E6%96%B9%E5%BC%8F%E6%89%A9%E5%B1%95%E4%BA%86mysqlbinlog%E7%9A%84%E5%8A%9F%E8%83%BD%EF%BC%8C%E5%A2%9E%E5%8A%A0Flashback%E9%80%89%E9%A1%B9%E3%80%82"><span class="toc-number">1.2.2.</span> <span class="toc-text">给数据库源码打patch。该方式扩展了mysqlbinlog的功能，增加Flashback选项。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E4%B8%9A%E7%95%8C%E6%8F%90%E4%BE%9B%E7%9A%84%E8%A7%A3%E6%9E%90binlog%E7%9A%84%E5%BA%93%EF%BC%8C%E7%84%B6%E5%90%8E%E8%BF%9B%E8%A1%8CSQL%E6%9E%84%E9%80%A0%EF%BC%8C%E5%85%B6%E4%BC%98%E7%A7%80%E4%BB%A3%E8%A1%A8%E6%98%AFbinlog2sql%E3%80%82"><span class="toc-number">1.2.3.</span> <span class="toc-text">使用业界提供的解析binlog的库，然后进行SQL构造，其优秀代表是binlog2sql。</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E6%BA%90%E6%96%B9%E6%A1%88"><span class="toc-number">1.3.</span> <span class="toc-text">开源方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BE%8E%E5%9B%A2%E7%9A%84-MyFlash"><span class="toc-number">1.3.1.</span> <span class="toc-text">美团的 MyFlash</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AA%E5%9B%9E%E5%B7%A5%E5%85%B7%E5%88%86%E6%9E%90"><span class="toc-number">1.4.</span> <span class="toc-text">闪回工具分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AA%E5%9B%9E%E5%B7%A5%E5%85%B7%E7%9A%84%E6%96%B9%E6%A1%88"><span class="toc-number">1.5.</span> <span class="toc-text">闪回工具的方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8ESQL%E9%87%8D%E5%86%99%E4%B8%8E%E5%A4%87%E4%BB%BD%E7%9A%84%E6%96%B9%E6%A1%88"><span class="toc-number">1.5.1.</span> <span class="toc-text">基于SQL重写与备份的方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8Ebinlog-%E6%98%A0%E5%B0%84SQL%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%96%B9%E6%A1%88"><span class="toc-number">1.5.2.</span> <span class="toc-text">基于binlog 映射SQL语句的方案</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.6.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+        </nav>
+    </div>
+</aside>
+
+
+
+
+
+        </section>
+        <footer class="hidden lg:block fixed bottom-0 left-0 sm:w-1/12 lg:w-1/6 bg-gray-100 z-40">
+    
+    <div class="footer-social-links">
+        
+            <a target="_blank" rel="noopener" href="https://github.com/winjeg">
+                <i class="iconfont icon-github"></i>
+            </a>
+        
+            <a target="_blank" rel="noopener" href="https://t.me/winjeg">
+                <i class="iconfont icon-telegram"></i>
+            </a>
+        
+            <a target="_blank" rel="noopener" href="https://twitter.com/winjeg">
+                <i class="iconfont icon-twitter"></i>
+            </a>
+        
+            <a href="/atom.xml">
+                <i class="iconfont icon-rss"></i>
+            </a>
+        
+    </div>
+    
+    
+</footer>
+
+        <div id="mask" class="hidden mask fixed inset-0 bg-gray-900 opacity-75 z-40"></div>
+        <div id="search-view-container" class="hidden shadow-xl"></div>
+        
+<script src="/js/dom-event.min.js"></script>
+
+
+
+<script src="/js/local-search.min.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/js/lightgallery.min.js"></script>
+    
+<script src="/js/light-gallery.min.js"></script>
+
+
+
+
+
+
+    </body>
+</html>

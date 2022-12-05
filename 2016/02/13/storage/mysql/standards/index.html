@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html  lang="zh" >
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <title>MySQL 使用规范 | winjeg's blog</title>
+    <meta name="description" content="MySQL 使用规范目前我们数据库使用缺乏一个统一的使用规范，这篇规范是我参考阿里的部分的BP以及赶集网的SQL 军规结合酷家乐自身的情况制定的。 约定 数据库操作与使用一定要按照规范进行   所有的变更必须提前4小时提交申请，进过审批后才能执行操作   全网变更必须经过线下测试，线上小规模验证后，才能全网推送   数据订正和数据提取必须经过团队leader审核通过后才能进行操作；   禁止未经正">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL 使用规范">
+<meta property="og:url" content="https://winjeg.github.io/2016/02/13/storage/mysql/standards/index.html">
+<meta property="og:site_name" content="winjeg&#39;s blog">
+<meta property="og:description" content="MySQL 使用规范目前我们数据库使用缺乏一个统一的使用规范，这篇规范是我参考阿里的部分的BP以及赶集网的SQL 军规结合酷家乐自身的情况制定的。 约定 数据库操作与使用一定要按照规范进行   所有的变更必须提前4小时提交申请，进过审批后才能执行操作   全网变更必须经过线下测试，线上小规模验证后，才能全网推送   数据订正和数据提取必须经过团队leader审核通过后才能进行操作；   禁止未经正">
+<meta property="og:locale">
+<meta property="article:published_time" content="2016-02-13T15:14:11.000Z">
+<meta property="article:modified_time" content="2022-12-05T15:06:01.889Z">
+<meta property="article:author" content="winjeg">
+<meta property="article:tag" content="database">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon"><meta name="baidu-site-verification" content="5fNkcnppPy">
+
+    
+<link rel="stylesheet" href="/css/common.min.css">
+
+
+
+    
+    
+    
+    
+        <link href="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/css/lightgallery.min.css" rel="stylesheet">
+    
+    
+    
+<link rel="stylesheet" href="/css/iconfont.min.css">
+
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+    <body>
+        <header class="header header-fixture">
+    <div class="profile-search-wrap flex sm:block">
+        
+        
+        <div class="profile sm:text-center md:px-1 lg:px-3 sm:pb-4 sm:pt-6">
+            <a id="avatar" role="link" href="https://github.com/winjeg" class="inline-block lg:w-16 lg:h-16 w-8 h-8 m-2" target="_blank" rel="noopener" rel="noreferrer" >
+                <img src="https://www.gravatar.com/avatar/430f1fc50c046af01cd65a76639a2218?s=128" class="rounded-full" alt="avatar">
+            </a>
+            <h2 id="name" class="hidden lg:block">winjeg</h2>
+            <h3 id="title" class="hidden lg:block">Architect &amp; Coder</h3>
+            
+            <small id="location" class="hidden lg:block">
+                <i class="iconfont icon-map-icon"></i>
+                Hangzhou, China
+            </small>
+            
+        </div>
+        
+        
+<div class="search flex-1 flex lg:inline-block sm:hidden lg:px-4 lg:mt-2 lg:mb-4 lg:w-full">
+    <form id="search-form" class="my-auto flex-1 lg:border lg:border-solid lg:border-gray-200">
+        <div class="input-group table bg-gray-100 lg:bg-white w-full">
+            <input id="search-input" type="text" placeholder="Search" class="inline-block w-full bg-gray-100 lg:bg-white p-1">
+            <span class="table-cell">
+                <button name="search tigger button" disabled>
+                    <i class="iconfont icon-search m-2"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+        
+<div id="content-json" data-placeholder="Search" class="invisible hidden">/content.json</div>
+<script id="search-teamplate" type="text/html" data-path="/content.json">
+    <div>
+        <div class="search-header bg-gray-400">
+            <input id="actual-search-input" model="keyword" ref="input" class="inline-block w-full h-10 px-2 py-1" placeholder="Search" type="text">
+        </div>
+        <div class="search-result bg-gray-200">
+            {{#each searchPosts}}
+            <a href="/{{ path }}" class="result-item block px-2 pb-3 mb-1 pt-1 hover:bg-indigo-100">
+                <i class="iconfont icon-file"></i>
+                <h1 class="result-title inline font-medium text-lg">{{ title }}</h1>
+                <p class="result-content text-gray-600 text-sm">{{{ text }}}</p>
+            </a>
+            {{/each}}
+        </div>
+    </div>
+</script>
+
+</div>
+
+
+        <button name="menu toogle button" id="menu-toggle-btn" class="block sm:hidden p-3" role="button" aria-expanded="false">
+            <i class="iconfont icon-hamburger"></i>
+        </button>
+    </div>
+    <nav id="menu-nav" class="hidden sm:flex flex-col">
+        
+        
+            <div class="menu-item menu-home" role="menuitem">
+                <a href="/.">
+                    <i class="iconfont icon-home" aria-hidden="true"></i>
+                    <span class="menu-title">Home</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-archives" role="menuitem">
+                <a href="/archives">
+                    <i class="iconfont icon-archive" aria-hidden="true"></i>
+                    <span class="menu-title">Archives</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-categories" role="menuitem">
+                <a href="/categories">
+                    <i class="iconfont icon-folder" aria-hidden="true"></i>
+                    <span class="menu-title">Categories</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-tags" role="menuitem">
+                <a href="/tags">
+                    <i class="iconfont icon-tag" aria-hidden="true"></i>
+                    <span class="menu-title">Tags</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-repository" role="menuitem">
+                <a href="/repository">
+                    <i class="iconfont icon-project" aria-hidden="true"></i>
+                    <span class="menu-title">Repository</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-links" role="menuitem">
+                <a href="/links">
+                    <i class="iconfont icon-friend" aria-hidden="true"></i>
+                    <span class="menu-title">Links</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-about" role="menuitem">
+                <a href="/about">
+                    <i class="iconfont icon-cup" aria-hidden="true"></i>
+                    <span class="menu-title">About</span>
+                </a>
+            </div>
+        
+        
+<div class="social-links flex sm:flex-col lg:hidden mt-5">
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://github.com/winjeg">
+                <i class="iconfont social-icon icon-github"></i>
+                <span class="menu-title hidden lg:inline">menu.github</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://t.me/winjeg">
+                <i class="iconfont social-icon icon-telegram"></i>
+                <span class="menu-title hidden lg:inline">menu.telegram</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://twitter.com/winjeg">
+                <i class="iconfont social-icon icon-twitter"></i>
+                <span class="menu-title hidden lg:inline">menu.twitter</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a href="/atom.xml">
+                <i class="iconfont social-icon icon-rss"></i>
+                <span class="menu-title hidden lg:inline">menu.rss</span>
+            </a>
+        </span>
+    
+</div>
+
+
+    </nav>
+</header>
+
+        <section class="main-section">
+            
+    <main class="flex-1 px-4 py-14 md:px-5 lg:px-8 lg:py-4 relative min-h-screen">
+    
+
+    <article class="content article article-archives article-type-list" itemscope="">
+        <header class="article-header">
+            
+    
+        <h1 class="article-title text-lg" itemprop="name">
+            MySQL 使用规范
+        </h1>
+    
+
+
+
+            <p class="article-meta mb-3 text-xs">
+                <span class="article-date">
+    <i class="iconfont icon-calendar-check"></i>
+	<a href="/2016/02/13/storage/mysql/standards/" class="article-date">
+	  <time datetime="2016-02-13T15:14:11.000Z" itemprop="datePublished">Feb 13</time>
+	</a>
+</span>
+
+                
+    <span class="article-category">
+    <i class="iconfont icon-folder"></i>
+    <a class="article-category-link" href="/categories/storage/">storage</a> , <a class="article-category-link" href="/categories/storage/database/">database</a>
+  </span>
+
+
+                
+    <span class="article-tags">
+    <i class="iconfont icon-tag"></i>
+    <a class="article-tag-none-link" href="/tags/MySQL/" rel="tag">MySQL</a>, <a class="article-tag-none-link" href="/tags/database/" rel="tag">database</a>
+  </span>
+
+
+                <span class="_partial/post-comment"><i class="icon icon-comment"></i>
+                    <a href="/2016/02/13/storage/mysql/standards/#comments" class="article-comment-link">
+                        Comments
+                    </a>
+                </span>
+                
+
+            </p>
+        </header>
+        <div class="marked-body article-body">
+            <h1 id="MySQL-使用规范"><a href="#MySQL-使用规范" class="headerlink" title="MySQL 使用规范"></a>MySQL 使用规范</h1><p>目前我们数据库使用缺乏一个统一的使用规范，这篇规范是我参考阿里的部分的BP以及赶集网的SQL 军规结合酷家乐自身的情况制定的。</p>
+<h2 id="约定"><a href="#约定" class="headerlink" title="约定"></a>约定</h2><ol>
+<li><pre><code>数据库操作与使用一定要按照规范进行
+</code></pre>
+<ol start="2">
+<li><pre><code>所有的变更必须提前4小时提交申请，进过审批后才能执行操作
+</code></pre>
+<ol start="3">
+<li><pre><code>全网变更必须经过线下测试，线上小规模验证后，才能全网推送
+</code></pre>
+<ol start="4">
+<li><pre><code>数据订正和数据提取必须经过团队leader审核通过后才能进行操作；
+</code></pre>
+<ol start="5">
+<li><pre><code>禁止未经正式审批进行查阅，变更，传播，移动线上数据；
+</code></pre>
+<ol start="6">
+<li><pre><code>禁止对无关人员提供系统登录和发布权限；
+</code></pre>
+<ol start="7">
+<li><pre><code>重大变更（数据库停机，扩容，迁移）必须团队review
+</code></pre>
+<ol start="8">
+<li><pre><code>新发布的任何sql都必须进过严格的审核，添加上必要的索引
+</code></pre>
+<ol start="9">
+<li><pre><code>线上的操作务必谨慎，必须在测试环境中完全验证后才能到线上执行，同时需要必要的数据备份
+</code></pre>
+<ol start="10">
+<li><pre><code>禁止在非变更窗口执行变更， 添加索引或者添加字段的操作， 都需要在业务的低峰期进行
+</code></pre>
+<ol start="11">
+<li><pre><code>禁止在程序端显式加锁 
+</code></pre>
+<ol start="12">
+<li><pre><code>统一字符集为UTF8, 排序规则为 UTF-generic-ci
+</code></pre>
+<ol start="13">
+<li><pre><code>统一命名规范 表名一律用大小写，schema设计避免关键字（MYSQL 关键字列表），索引使用同一前缀 index_ + colname 用下划线分割
+</code></pre>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="核心"><a href="#核心" class="headerlink" title="核心"></a>核心</h2><ol>
+<li><pre><code>尽量不在数据库做运算， 把MySQL作为一个存储组件
+</code></pre>
+<ol start="2">
+<li><pre><code>在设计表之前就把表将来的使用场景考虑清楚，做好相应准备
+</code></pre>
+<ol start="3">
+<li><pre><code>控制单表数据量 
+</code></pre>
+<ol start="4">
+<li><pre><code>保持表身段苗条 
+</code></pre>
+<ol start="5">
+<li><pre><code>平衡范式使用，不冗余非必要字段
+</code></pre>
+<ol start="6">
+<li><pre><code>拒绝3B： BIG SQL)   大事务 (BIG Transaction)  大批量 (BIG Batch)
+</code></pre>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="Schema设计"><a href="#Schema设计" class="headerlink" title="Schema设计"></a>Schema设计</h2><ol>
+<li><pre><code>INNODB 引擎是你的最佳选择
+</code></pre>
+<ol start="2">
+<li><pre><code>用好数值字段类型 
+</code></pre>
+<ol start="3">
+<li><pre><code>将字符转化为数字， 如时间采用bigint, IP 采用 Unsigned Int， Enum 转为tinyint
+</code></pre>
+<ol start="4">
+<li><pre><code>比较小的表，通常情况下数据量小于5000的表，在未来的预期内也不会增加到比较大的，不用建立索引。
+</code></pre>
+<ol start="5">
+<li><pre><code>避免使用NULL字段 
+</code></pre>
+<ol start="6">
+<li><pre><code>不在在数据库里存图片
+</code></pre>
+<ol start="7">
+<li><pre><code>谨慎合理添加索引， 不要每个查询的字段都建立索引
+</code></pre>
+<ol start="8">
+<li><pre><code>字符字段必须建前缀索引 
+</code></pre>
+<ol start="9">
+<li><pre><code>不在索引列做运算 
+</code></pre>
+<ol start="10">
+<li><pre><code>自增列或全局ID做INNODB主键 
+</code></pre>
+<ol start="11">
+<li><pre><code>尽量不用外键
+</code></pre>
+<ol start="12">
+<li><pre><code>自增主键是你的最佳选择
+</code></pre>
+<ol start="13">
+<li><pre><code>新建表时总是设计添加冗余字段
+</code></pre>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="SQL-语句类"><a href="#SQL-语句类" class="headerlink" title="SQL 语句类"></a>SQL 语句类</h2><ol>
+<li><pre><code>SQL语句尽可能简单
+</code></pre>
+<ol start="2">
+<li><pre><code>保持事务(连接)短小 
+</code></pre>
+<ol start="3">
+<li><pre><code>尽可能避免使用SP/TRIG/FUNC 
+</code></pre>
+<ol start="4">
+<li><pre><code>尽量不用 SELECT *  改写OR语句 
+</code></pre>
+<ol start="5">
+<li><pre><code>避免负向查询和% 前缀模糊查询 
+</code></pre>
+<ol start="6">
+<li><pre><code>减少COUNT(*) 
+</code></pre>
+<ol start="7">
+<li><pre><code>LIMIT的高效分页 可以用where pk &gt; 之后limit num
+</code></pre>
+<ol start="8">
+<li><pre><code>避免单次数据库操作涉及行数过多的查询，此类查询没有加limit的都应该warning
+</code></pre>
+<ol start="9">
+<li><pre><code>尽量不使用UNION， 在代码里面实现Union
+</code></pre>
+<ol start="10">
+<li><pre><code>分解联接保证高幵发 
+</code></pre>
+<ol start="11">
+<li><pre><code>GROUP BY 去除排序 
+</code></pre>
+<ol start="12">
+<li><pre><code>order by,确认排序字段是否用到索引，避免filesort
+</code></pre>
+<ol start="13">
+<li><pre><code>在Update 操作的时候尽量不用 SELECT， 避免造成在此类操作的时候锁表
+</code></pre>
+<ol start="14">
+<li><pre><code>同数据类型的列值比较 
+</code></pre>
+<ol start="15">
+<li><pre><code>Load data导数据 
+</code></pre>
+<ol start="16">
+<li><pre><code>打散大批量更新尽量不用 INSERT ... SELEC
+</code></pre>
+<ol start="17">
+<li><pre><code>SQL 中 JOIN不超过两张表
+</code></pre>
+<ol start="18">
+<li><pre><code>Know Your SQL!
+</code></pre>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+
+        </div>
+        
+<blockquote class="copyright">
+    <p><strong>Link to this article : </strong><a class="permalink" href="https://winjeg.github.io/2016/02/13/storage/mysql/standards/">https://winjeg.github.io/2016/02/13/storage/mysql/standards/</a></p>
+    <p><strong>All rights reserved to winjeg</strong></p>
+</blockquote>
+
+
+    </article>
+    
+    <section id="comments">
+        
+    </section>
+
+
+    
+
+</main>
+
+
+<aside style="" id="sidebar" class="aside aside-fixture">
+    <div class="toc-sidebar">
+        <nav id="toc" class="article-toc">
+            <h3 class="toc-title">Catalogue</h3>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL-%E4%BD%BF%E7%94%A8%E8%A7%84%E8%8C%83"><span class="toc-number">1.</span> <span class="toc-text">MySQL 使用规范</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%A6%E5%AE%9A"><span class="toc-number">1.1.</span> <span class="toc-text">约定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83"><span class="toc-number">1.2.</span> <span class="toc-text">核心</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Schema%E8%AE%BE%E8%AE%A1"><span class="toc-number">1.3.</span> <span class="toc-text">Schema设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL-%E8%AF%AD%E5%8F%A5%E7%B1%BB"><span class="toc-number">1.4.</span> <span class="toc-text">SQL 语句类</span></a></li></ol></li></ol>
+        </nav>
+    </div>
+</aside>
+
+
+
+
+
+        </section>
+        <footer class="hidden lg:block fixed bottom-0 left-0 sm:w-1/12 lg:w-1/6 bg-gray-100 z-40">
+    
+    <div class="footer-social-links">
+        
+            <a target="_blank" rel="noopener" href="https://github.com/winjeg">
+                <i class="iconfont icon-github"></i>
+            </a>
+        
+            <a target="_blank" rel="noopener" href="https://t.me/winjeg">
+                <i class="iconfont icon-telegram"></i>
+            </a>
+        
+            <a target="_blank" rel="noopener" href="https://twitter.com/winjeg">
+                <i class="iconfont icon-twitter"></i>
+            </a>
+        
+            <a href="/atom.xml">
+                <i class="iconfont icon-rss"></i>
+            </a>
+        
+    </div>
+    
+    
+</footer>
+
+        <div id="mask" class="hidden mask fixed inset-0 bg-gray-900 opacity-75 z-40"></div>
+        <div id="search-view-container" class="hidden shadow-xl"></div>
+        
+<script src="/js/dom-event.min.js"></script>
+
+
+
+<script src="/js/local-search.min.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/js/lightgallery.min.js"></script>
+    
+<script src="/js/light-gallery.min.js"></script>
+
+
+
+
+
+
+    </body>
+</html>

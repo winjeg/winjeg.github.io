@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html  lang="zh" >
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <title>linux BootLoader Grub | winjeg's blog</title>
+    <meta name="description" content="前段时间修复移动硬盘分区表的时候，把本本的分区也重新弄了下，导致ubuntu的grub找不到linux分区（由于root分区uuid改变造成的不能正常启动），切换到Linux系统时，提示错误“unknown filesystem”，进入grub rescue模式。在Google上搜了一下，终于解决了，方法如下：  首先使用set命令，查看当前配置信息； 然后再使用ls命令，遍历一下所有的磁盘">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux BootLoader Grub">
+<meta property="og:url" content="https://winjeg.github.io/2014/05/13/linux/linux_bootloader/index.html">
+<meta property="og:site_name" content="winjeg&#39;s blog">
+<meta property="og:description" content="前段时间修复移动硬盘分区表的时候，把本本的分区也重新弄了下，导致ubuntu的grub找不到linux分区（由于root分区uuid改变造成的不能正常启动），切换到Linux系统时，提示错误“unknown filesystem”，进入grub rescue模式。在Google上搜了一下，终于解决了，方法如下：  首先使用set命令，查看当前配置信息； 然后再使用ls命令，遍历一下所有的磁盘">
+<meta property="og:locale">
+<meta property="article:published_time" content="2014-05-13T15:14:11.000Z">
+<meta property="article:modified_time" content="2022-12-05T15:06:01.889Z">
+<meta property="article:author" content="winjeg">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon"><meta name="baidu-site-verification" content="5fNkcnppPy">
+
+    
+<link rel="stylesheet" href="/css/common.min.css">
+
+
+
+    
+    
+    
+    
+        <link href="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/css/lightgallery.min.css" rel="stylesheet">
+    
+    
+    
+<link rel="stylesheet" href="/css/iconfont.min.css">
+
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+    <body>
+        <header class="header header-fixture">
+    <div class="profile-search-wrap flex sm:block">
+        
+        
+        <div class="profile sm:text-center md:px-1 lg:px-3 sm:pb-4 sm:pt-6">
+            <a id="avatar" role="link" href="https://github.com/winjeg" class="inline-block lg:w-16 lg:h-16 w-8 h-8 m-2" target="_blank" rel="noopener" rel="noreferrer" >
+                <img src="https://www.gravatar.com/avatar/430f1fc50c046af01cd65a76639a2218?s=128" class="rounded-full" alt="avatar">
+            </a>
+            <h2 id="name" class="hidden lg:block">winjeg</h2>
+            <h3 id="title" class="hidden lg:block">Architect &amp; Coder</h3>
+            
+            <small id="location" class="hidden lg:block">
+                <i class="iconfont icon-map-icon"></i>
+                Hangzhou, China
+            </small>
+            
+        </div>
+        
+        
+<div class="search flex-1 flex lg:inline-block sm:hidden lg:px-4 lg:mt-2 lg:mb-4 lg:w-full">
+    <form id="search-form" class="my-auto flex-1 lg:border lg:border-solid lg:border-gray-200">
+        <div class="input-group table bg-gray-100 lg:bg-white w-full">
+            <input id="search-input" type="text" placeholder="Search" class="inline-block w-full bg-gray-100 lg:bg-white p-1">
+            <span class="table-cell">
+                <button name="search tigger button" disabled>
+                    <i class="iconfont icon-search m-2"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+        
+<div id="content-json" data-placeholder="Search" class="invisible hidden">/content.json</div>
+<script id="search-teamplate" type="text/html" data-path="/content.json">
+    <div>
+        <div class="search-header bg-gray-400">
+            <input id="actual-search-input" model="keyword" ref="input" class="inline-block w-full h-10 px-2 py-1" placeholder="Search" type="text">
+        </div>
+        <div class="search-result bg-gray-200">
+            {{#each searchPosts}}
+            <a href="/{{ path }}" class="result-item block px-2 pb-3 mb-1 pt-1 hover:bg-indigo-100">
+                <i class="iconfont icon-file"></i>
+                <h1 class="result-title inline font-medium text-lg">{{ title }}</h1>
+                <p class="result-content text-gray-600 text-sm">{{{ text }}}</p>
+            </a>
+            {{/each}}
+        </div>
+    </div>
+</script>
+
+</div>
+
+
+        <button name="menu toogle button" id="menu-toggle-btn" class="block sm:hidden p-3" role="button" aria-expanded="false">
+            <i class="iconfont icon-hamburger"></i>
+        </button>
+    </div>
+    <nav id="menu-nav" class="hidden sm:flex flex-col">
+        
+        
+            <div class="menu-item menu-home" role="menuitem">
+                <a href="/.">
+                    <i class="iconfont icon-home" aria-hidden="true"></i>
+                    <span class="menu-title">Home</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-archives" role="menuitem">
+                <a href="/archives">
+                    <i class="iconfont icon-archive" aria-hidden="true"></i>
+                    <span class="menu-title">Archives</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-categories" role="menuitem">
+                <a href="/categories">
+                    <i class="iconfont icon-folder" aria-hidden="true"></i>
+                    <span class="menu-title">Categories</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-tags" role="menuitem">
+                <a href="/tags">
+                    <i class="iconfont icon-tag" aria-hidden="true"></i>
+                    <span class="menu-title">Tags</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-repository" role="menuitem">
+                <a href="/repository">
+                    <i class="iconfont icon-project" aria-hidden="true"></i>
+                    <span class="menu-title">Repository</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-links" role="menuitem">
+                <a href="/links">
+                    <i class="iconfont icon-friend" aria-hidden="true"></i>
+                    <span class="menu-title">Links</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-about" role="menuitem">
+                <a href="/about">
+                    <i class="iconfont icon-cup" aria-hidden="true"></i>
+                    <span class="menu-title">About</span>
+                </a>
+            </div>
+        
+        
+<div class="social-links flex sm:flex-col lg:hidden mt-5">
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://github.com/winjeg">
+                <i class="iconfont social-icon icon-github"></i>
+                <span class="menu-title hidden lg:inline">menu.github</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://t.me/winjeg">
+                <i class="iconfont social-icon icon-telegram"></i>
+                <span class="menu-title hidden lg:inline">menu.telegram</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://twitter.com/winjeg">
+                <i class="iconfont social-icon icon-twitter"></i>
+                <span class="menu-title hidden lg:inline">menu.twitter</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a href="/atom.xml">
+                <i class="iconfont social-icon icon-rss"></i>
+                <span class="menu-title hidden lg:inline">menu.rss</span>
+            </a>
+        </span>
+    
+</div>
+
+
+    </nav>
+</header>
+
+        <section class="main-section">
+            
+    <main class="flex-1 px-4 py-14 md:px-5 lg:px-8 lg:py-4 relative min-h-screen">
+    
+
+    <article class="content article article-archives article-type-list" itemscope="">
+        <header class="article-header">
+            
+    
+        <h1 class="article-title text-lg" itemprop="name">
+            linux BootLoader Grub
+        </h1>
+    
+
+
+
+            <p class="article-meta mb-3 text-xs">
+                <span class="article-date">
+    <i class="iconfont icon-calendar-check"></i>
+	<a href="/2014/05/13/linux/linux_bootloader/" class="article-date">
+	  <time datetime="2014-05-13T15:14:11.000Z" itemprop="datePublished">May 13</time>
+	</a>
+</span>
+
+                
+    <span class="article-category">
+    <i class="iconfont icon-folder"></i>
+    <a class="article-category-link" href="/categories/os/">os</a> , <a class="article-category-link" href="/categories/os/linux/">linux</a>
+  </span>
+
+
+                
+    <span class="article-tags">
+    <i class="iconfont icon-tag"></i>
+    <a class="article-tag-none-link" href="/tags/linux/" rel="tag">linux</a>
+  </span>
+
+
+                <span class="_partial/post-comment"><i class="icon icon-comment"></i>
+                    <a href="/2014/05/13/linux/linux_bootloader/#comments" class="article-comment-link">
+                        Comments
+                    </a>
+                </span>
+                
+
+            </p>
+        </header>
+        <div class="marked-body article-body">
+            <p>   前段时间修复移动硬盘分区表的时候，把本本的分区也重新弄了下，导致ubuntu的grub找不到linux分区（由于root分区uuid改变造成的不能正常启动），切换到Linux系统时，提示错误“unknown filesystem”，进入grub rescue模式。<br>在Google上搜了一下，终于解决了，方法如下：</p>
+<ol>
+<li>首先使用set命令，查看当前配置信息；</li>
+<li>然后再使用ls命令，遍历一下所有的磁盘；<br>3.查找Linux操作系统的”&#x2F;”分区所在的磁盘，可以使用“ls (hdx,x)&#x2F;”，这里的hdx代表你的物理磁盘，如果只有一块硬盘，则x的值为0，后面一个x（也肯呢个是msdosx,是具体情况而定）代表“&#x2F;”分区的编号。<br>执行该命令（注意，ls命令后的“&#x2F;”不能少，否则会出现“bad filename”错误）后，如果结果为“unknown filesystem”，则说明不是Linux分区，继续查找，知道返回带有“ &#x2F;boot”目录的分区。</li>
+<li>找到“&#x2F;”挂载点所在的分区后，就可以修改启动分区了：<br> grub rescue &gt;root&#x3D;(hdx,msdosx)<br> grub rescue &gt;prefix&#x3D;(hdx,msdosx)&#x2F;boot&#x2F;grub<br> grub rescue &gt;insmod normal<br> grub rescue &gt;normal<br>执行完normal命令后，如果normal模块加载成功，那我们就可以看到久违的grub引导菜单了。此时，按“c”切换到grub的命令行模式,修改grub菜单：<br>grub &gt;root&#x3D;(hdx,msdosx) &#x2F;&#x2F;设置系统启动分区，在这里指向内核所在分区<br>grub &gt;prefix&#x3D;(hdx,msdosx)<br>接下来加载Linux.mod模块，并将新的启动信息写入grub：<br>grub &gt;insmod (hdx,msdosx)&#x2F;boot&#x2F;gurb&#x2F;linux.mod<br>grub &gt;linux &#x2F;boot&#x2F;vmlinuz-xxx-xxx root&#x3D;&#x2F;dev&#x2F;sdax &#x2F;&#x2F;里边的xxxx可以按Tab键<br>grub &gt;initrd &#x2F;boot&#x2F;initrd.img-xxx-xxx<br>5.执行boot命令，启动系统（如果系统不能启动，可以重复1-4步，多试几次）：<br>grub &gt;boot<br>6.正常启动系统后，在终端中输入“sudo update-grub”命令，重新生成“grub.ccfg”文件，更新grub信息，屏幕会出现“generating…”的信息。<br>如果没有安装grub-pc软件包，或者grub-legacy，会出现无法找到命令的错误。这时，只需安装一下grub-pc软件包即可。（注意：安装过程中会出现提示要不要新建grub到第一分区，由于我的本本第一分区是Windows系统，所以在此我选择“NO”，而是将grub建立在“&#x2F;”挂载点所在的分区）<br>7.更新完毕之后，重启，问题解决了。如果问题还没解决，重复1-6步的同时，重新建立grub到第一硬盘mbr：<br>sudo grub-install &#x2F;dev&#x2F;sda</li>
+</ol>
+
+        </div>
+        
+<blockquote class="copyright">
+    <p><strong>Link to this article : </strong><a class="permalink" href="https://winjeg.github.io/2014/05/13/linux/linux_bootloader/">https://winjeg.github.io/2014/05/13/linux/linux_bootloader/</a></p>
+    <p><strong>All rights reserved to winjeg</strong></p>
+</blockquote>
+
+
+    </article>
+    
+    <section id="comments">
+        
+    </section>
+
+
+    
+
+</main>
+
+
+<aside style="" id="sidebar" class="aside aside-fixture">
+    <div class="toc-sidebar">
+        <nav id="toc" class="article-toc">
+            <h3 class="toc-title">Catalogue</h3>
+            
+        </nav>
+    </div>
+</aside>
+
+
+
+
+
+        </section>
+        <footer class="hidden lg:block fixed bottom-0 left-0 sm:w-1/12 lg:w-1/6 bg-gray-100 z-40">
+    
+    <div class="footer-social-links">
+        
+            <a target="_blank" rel="noopener" href="https://github.com/winjeg">
+                <i class="iconfont icon-github"></i>
+            </a>
+        
+            <a target="_blank" rel="noopener" href="https://t.me/winjeg">
+                <i class="iconfont icon-telegram"></i>
+            </a>
+        
+            <a target="_blank" rel="noopener" href="https://twitter.com/winjeg">
+                <i class="iconfont icon-twitter"></i>
+            </a>
+        
+            <a href="/atom.xml">
+                <i class="iconfont icon-rss"></i>
+            </a>
+        
+    </div>
+    
+    
+</footer>
+
+        <div id="mask" class="hidden mask fixed inset-0 bg-gray-900 opacity-75 z-40"></div>
+        <div id="search-view-container" class="hidden shadow-xl"></div>
+        
+<script src="/js/dom-event.min.js"></script>
+
+
+
+<script src="/js/local-search.min.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/js/lightgallery.min.js"></script>
+    
+<script src="/js/light-gallery.min.js"></script>
+
+
+
+
+
+
+    </body>
+</html>

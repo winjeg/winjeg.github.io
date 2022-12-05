@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html  lang="zh" >
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <title>redis 简谈redis监控 | winjeg's blog</title>
+    <meta name="description" content="简介由于redis是一个内存型的数据库，关注的点势必跟MySQL等非内存型的数据库相差比较多， 因此有必要单独对redis的监控关注项进行梳理。此外由于redis的单线程模型， 以及速度要求非常高，因此对于redis的监控需要因事制宜。 监控项内存由于redis是内存型数据库，因此对于内存的需求是最大的需求， 监控项里面最重要的也是对于内存的监控，一般出问题，大概率是内存满掉的问题。一般内存满了之">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis 简谈redis监控">
+<meta property="og:url" content="https://winjeg.github.io/2017/12/13/storage/redis/monitoring/index.html">
+<meta property="og:site_name" content="winjeg&#39;s blog">
+<meta property="og:description" content="简介由于redis是一个内存型的数据库，关注的点势必跟MySQL等非内存型的数据库相差比较多， 因此有必要单独对redis的监控关注项进行梳理。此外由于redis的单线程模型， 以及速度要求非常高，因此对于redis的监控需要因事制宜。 监控项内存由于redis是内存型数据库，因此对于内存的需求是最大的需求， 监控项里面最重要的也是对于内存的监控，一般出问题，大概率是内存满掉的问题。一般内存满了之">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-12-13T15:14:11.000Z">
+<meta property="article:modified_time" content="2022-12-05T15:06:01.889Z">
+<meta property="article:author" content="winjeg">
+<meta property="article:tag" content="database">
+<meta property="article:tag" content="redis">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon"><meta name="baidu-site-verification" content="5fNkcnppPy">
+
+    
+<link rel="stylesheet" href="/css/common.min.css">
+
+
+
+    
+    
+    
+    
+        <link href="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/css/lightgallery.min.css" rel="stylesheet">
+    
+    
+    
+<link rel="stylesheet" href="/css/iconfont.min.css">
+
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+    <body>
+        <header class="header header-fixture">
+    <div class="profile-search-wrap flex sm:block">
+        
+        
+        <div class="profile sm:text-center md:px-1 lg:px-3 sm:pb-4 sm:pt-6">
+            <a id="avatar" role="link" href="https://github.com/winjeg" class="inline-block lg:w-16 lg:h-16 w-8 h-8 m-2" target="_blank" rel="noopener" rel="noreferrer" >
+                <img src="https://www.gravatar.com/avatar/430f1fc50c046af01cd65a76639a2218?s=128" class="rounded-full" alt="avatar">
+            </a>
+            <h2 id="name" class="hidden lg:block">winjeg</h2>
+            <h3 id="title" class="hidden lg:block">Architect &amp; Coder</h3>
+            
+            <small id="location" class="hidden lg:block">
+                <i class="iconfont icon-map-icon"></i>
+                Hangzhou, China
+            </small>
+            
+        </div>
+        
+        
+<div class="search flex-1 flex lg:inline-block sm:hidden lg:px-4 lg:mt-2 lg:mb-4 lg:w-full">
+    <form id="search-form" class="my-auto flex-1 lg:border lg:border-solid lg:border-gray-200">
+        <div class="input-group table bg-gray-100 lg:bg-white w-full">
+            <input id="search-input" type="text" placeholder="Search" class="inline-block w-full bg-gray-100 lg:bg-white p-1">
+            <span class="table-cell">
+                <button name="search tigger button" disabled>
+                    <i class="iconfont icon-search m-2"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+        
+<div id="content-json" data-placeholder="Search" class="invisible hidden">/content.json</div>
+<script id="search-teamplate" type="text/html" data-path="/content.json">
+    <div>
+        <div class="search-header bg-gray-400">
+            <input id="actual-search-input" model="keyword" ref="input" class="inline-block w-full h-10 px-2 py-1" placeholder="Search" type="text">
+        </div>
+        <div class="search-result bg-gray-200">
+            {{#each searchPosts}}
+            <a href="/{{ path }}" class="result-item block px-2 pb-3 mb-1 pt-1 hover:bg-indigo-100">
+                <i class="iconfont icon-file"></i>
+                <h1 class="result-title inline font-medium text-lg">{{ title }}</h1>
+                <p class="result-content text-gray-600 text-sm">{{{ text }}}</p>
+            </a>
+            {{/each}}
+        </div>
+    </div>
+</script>
+
+</div>
+
+
+        <button name="menu toogle button" id="menu-toggle-btn" class="block sm:hidden p-3" role="button" aria-expanded="false">
+            <i class="iconfont icon-hamburger"></i>
+        </button>
+    </div>
+    <nav id="menu-nav" class="hidden sm:flex flex-col">
+        
+        
+            <div class="menu-item menu-home" role="menuitem">
+                <a href="/.">
+                    <i class="iconfont icon-home" aria-hidden="true"></i>
+                    <span class="menu-title">Home</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-archives" role="menuitem">
+                <a href="/archives">
+                    <i class="iconfont icon-archive" aria-hidden="true"></i>
+                    <span class="menu-title">Archives</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-categories" role="menuitem">
+                <a href="/categories">
+                    <i class="iconfont icon-folder" aria-hidden="true"></i>
+                    <span class="menu-title">Categories</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-tags" role="menuitem">
+                <a href="/tags">
+                    <i class="iconfont icon-tag" aria-hidden="true"></i>
+                    <span class="menu-title">Tags</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-repository" role="menuitem">
+                <a href="/repository">
+                    <i class="iconfont icon-project" aria-hidden="true"></i>
+                    <span class="menu-title">Repository</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-links" role="menuitem">
+                <a href="/links">
+                    <i class="iconfont icon-friend" aria-hidden="true"></i>
+                    <span class="menu-title">Links</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-about" role="menuitem">
+                <a href="/about">
+                    <i class="iconfont icon-cup" aria-hidden="true"></i>
+                    <span class="menu-title">About</span>
+                </a>
+            </div>
+        
+        
+<div class="social-links flex sm:flex-col lg:hidden mt-5">
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://github.com/winjeg">
+                <i class="iconfont social-icon icon-github"></i>
+                <span class="menu-title hidden lg:inline">menu.github</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://t.me/winjeg">
+                <i class="iconfont social-icon icon-telegram"></i>
+                <span class="menu-title hidden lg:inline">menu.telegram</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://twitter.com/winjeg">
+                <i class="iconfont social-icon icon-twitter"></i>
+                <span class="menu-title hidden lg:inline">menu.twitter</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a href="/atom.xml">
+                <i class="iconfont social-icon icon-rss"></i>
+                <span class="menu-title hidden lg:inline">menu.rss</span>
+            </a>
+        </span>
+    
+</div>
+
+
+    </nav>
+</header>
+
+        <section class="main-section">
+            
+    <main class="flex-1 px-4 py-14 md:px-5 lg:px-8 lg:py-4 relative min-h-screen">
+    
+
+    <article class="content article article-archives article-type-list" itemscope="">
+        <header class="article-header">
+            
+    
+        <h1 class="article-title text-lg" itemprop="name">
+            redis 简谈redis监控
+        </h1>
+    
+
+
+
+            <p class="article-meta mb-3 text-xs">
+                <span class="article-date">
+    <i class="iconfont icon-calendar-check"></i>
+	<a href="/2017/12/13/storage/redis/monitoring/" class="article-date">
+	  <time datetime="2017-12-13T15:14:11.000Z" itemprop="datePublished">Dec 13</time>
+	</a>
+</span>
+
+                
+    <span class="article-category">
+    <i class="iconfont icon-folder"></i>
+    <a class="article-category-link" href="/categories/storage/">storage</a> , <a class="article-category-link" href="/categories/storage/database/">database</a>
+  </span>
+
+
+                
+    <span class="article-tags">
+    <i class="iconfont icon-tag"></i>
+    <a class="article-tag-none-link" href="/tags/database/" rel="tag">database</a>, <a class="article-tag-none-link" href="/tags/redis/" rel="tag">redis</a>
+  </span>
+
+
+                <span class="_partial/post-comment"><i class="icon icon-comment"></i>
+                    <a href="/2017/12/13/storage/redis/monitoring/#comments" class="article-comment-link">
+                        Comments
+                    </a>
+                </span>
+                
+
+            </p>
+        </header>
+        <div class="marked-body article-body">
+            <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>由于redis是一个内存型的数据库，关注的点势必跟MySQL等非内存型的数据库相差比较多， 因此有必要单独对redis的监控关注项进行梳理。<br>此外由于redis的单线程模型， 以及速度要求非常高，因此对于redis的监控需要因事制宜。</p>
+<h3 id="监控项"><a href="#监控项" class="headerlink" title="监控项"></a>监控项</h3><h4 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h4><p>由于redis是内存型数据库，因此对于内存的需求是最大的需求， 监控项里面最重要的也是对于内存的监控，一般出问题，大概率是内存满掉的问题。<br>一般内存满了之后会导致一系列的问题，比如逐出了不该逐出的key、写不进数据、 超时阻塞等问题。 对于内存的监控是至关重要的。<br>一般一个合理的范围是在 30% 到70%之间。而超过了80%就需要报警和升级了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">10.1.9.164:7300&gt; info memory</span><br><span class="line"><span class="comment"># Memory</span></span><br><span class="line">used_memory:108476200</span><br><span class="line">used_memory_human:103.45M</span><br><span class="line">used_memory_rss:129523712</span><br><span class="line">used_memory_rss_human:123.52M</span><br><span class="line">used_memory_peak:109672760</span><br><span class="line">used_memory_peak_human:104.59M</span><br><span class="line">total_system_memory:16658898944</span><br><span class="line">total_system_memory_human:15.51G</span><br><span class="line">used_memory_lua:37888</span><br><span class="line">used_memory_lua_human:37.00K</span><br><span class="line">maxmemory:4294967296</span><br><span class="line">maxmemory_human:4.00G</span><br><span class="line">maxmemory_policy:volatile-lru</span><br><span class="line">mem_fragmentation_ratio:1.19</span><br><span class="line">mem_allocator:jemalloc-4.0.3</span><br><span class="line">10.1.9.164:7300&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="大Key，-慢查询"><a href="#大Key，-慢查询" class="headerlink" title="大Key， 慢查询"></a>大Key， 慢查询</h3><p>另外一个比较常见的导致线上问题的一大因素是对于redis的不合理的使用，如 大key与慢查询<br>一般而言redis的key与数据越大， 导致的查询时长就越长， 加上redis本身是单线程的模型，因此这类查询往往会影响到其他查询的正常进行， 对大key的控制一方面可以通过中间件或者proxy 等手段来截断或者拒绝， 一方面也是需要使用一定的手段如 redis的 <code>slowlog get</code>命令来查看。<br>有了能获取的方法，那自然就可以对这些东西进行监控并合理的进行报警。 一般来讲redis模型中， 还是以尽量不出现慢查询为宜， 一旦出现慢查询就应该立即报警。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">10.1.9.164:7300&gt; slowlog get</span><br><span class="line">1) 1) (integer) 155</span><br><span class="line">   2) (integer) 1545025300</span><br><span class="line">   3) (integer) 19422</span><br><span class="line">   4) 1) &quot;COMMAND&quot;</span><br><span class="line">2) 1) (integer) 154</span><br><span class="line">   2) (integer) 1544754674</span><br><span class="line">   3) (integer) 11571</span><br><span class="line">   4) 1) &quot;scan&quot;</span><br><span class="line">      2) &quot;26005&quot;</span><br><span class="line">      3) &quot;MATCH&quot;</span><br><span class="line">      4) &quot;*&quot;</span><br><span class="line">      5) &quot;COUNT&quot;</span><br><span class="line">      6) &quot;10000&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="连接数"><a href="#连接数" class="headerlink" title="连接数"></a>连接数</h3><p>redis在与客户端进行通信也是维护了连接的， 这些连接用来处理服务端与redis server之间的命令发送与数据发送等等 另外redis的最大连接数是有上限的 可以通过命令 <code>config get maxclients</code>来取得， 也可以使用<code>info clients</code>来看连接的使用情况，一般而言，连接数只要使用不满其实是不会出现太多的问题的， 但一定用满了，则会导致应用端错误。 因此对于连接数的监控也是以比率为标准比较好， 建议合理的范围是 &lt; 60%, 对于超过80%的情况应给予报警</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; info clients</span><br><span class="line">#Clients</span><br><span class="line">connected_clients:621</span><br><span class="line">client_longest_output_list:0</span><br><span class="line">client_biggest_input_buf:0</span><br><span class="line">blocked_clients:0</span><br><span class="line">127.0.0.1:6379&gt;</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; CONFIG GET maxclients</span><br><span class="line">    ##1) &quot;maxclients&quot;</span><br><span class="line">    ##2) &quot;10000&quot;</span><br><span class="line">127.0.0.1:6379&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h4><p>CPU对于redis来说也是比较重要的需要关注的一个项， 一般跟QPS直接相关， QPS越高，CPU使用的也就越高。<br>对于redis服务来讲， CPU 跟其他服务的要求差别也不大， 不正常区间是 &lt;70% 超过80%则需要报警。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">10.1.9.164:7300&gt; info cpu</span><br><span class="line"># CPU</span><br><span class="line">used_cpu_sys:88088.66</span><br><span class="line">used_cpu_user:39641.02</span><br><span class="line">used_cpu_sys_children:40.78</span><br><span class="line">used_cpu_user_children:131.68</span><br><span class="line">10.1.9.164:7300&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="QPS"><a href="#QPS" class="headerlink" title="QPS"></a>QPS</h4><p>QPS 即每秒钟Redis接受的请求数量，不同的Key的大小支持的QPS对于Redis是不同的， 因此单一的对redis的QPS进行监控可能意义不大。<br>如果要做redis QPS的监控应该与历史同期相比较，是否有剧增等情况。 还有一个可以参照点就是经验值， 一般这个配置的redis可以承受多少的QPS。 通过经验值与历史对比两个标准来决定是否需要报警。一般是历史同期的两倍，且比高峰期高的时候，是应该报警的。</p>
+<p>QPS 可以通过计算两个时间间隔内执行的总命令数量来计算出来</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">10.1.9.164:7300&gt; info  stats</span><br><span class="line"># Stats</span><br><span class="line">total_connections_received:215774</span><br><span class="line">total_commands_processed:2980658450</span><br><span class="line">instantaneous_ops_per_sec:50</span><br><span class="line">total_net_input_bytes:1135673367887</span><br><span class="line">total_net_output_bytes:594951090244</span><br><span class="line">instantaneous_input_kbps:30.66</span><br><span class="line">instantaneous_output_kbps:13.65</span><br><span class="line">rejected_connections:0</span><br><span class="line">sync_full:0</span><br><span class="line">sync_partial_ok:0</span><br><span class="line">sync_partial_err:0</span><br><span class="line">expired_keys:161591</span><br><span class="line">evicted_keys:0</span><br><span class="line">keyspace_hits:112552664</span><br><span class="line">keyspace_misses:809125690</span><br><span class="line">pubsub_channels:0</span><br><span class="line">pubsub_patterns:0</span><br><span class="line">latest_fork_usec:3349</span><br><span class="line">migrate_cached_sockets:0</span><br><span class="line">10.1.9.164:7300&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="网络IO"><a href="#网络IO" class="headerlink" title="网络IO"></a>网络IO</h4><p>网络IO就是redis在处理命令的时候占用的网络的流入与流出的量， 一般而言， 网络IO是较少关注的一个点， 但在网络达到带宽的上限的时候我们还是应该重视起来， 因为这个时候其他的东西是会阻塞的， 一般推荐的报警值为超过网络带宽的 80%</p>
+
+        </div>
+        
+<blockquote class="copyright">
+    <p><strong>Link to this article : </strong><a class="permalink" href="https://winjeg.github.io/2017/12/13/storage/redis/monitoring/">https://winjeg.github.io/2017/12/13/storage/redis/monitoring/</a></p>
+    <p><strong>All rights reserved to winjeg</strong></p>
+</blockquote>
+
+
+    </article>
+    
+    <section id="comments">
+        
+    </section>
+
+
+    
+
+</main>
+
+
+<aside style="" id="sidebar" class="aside aside-fixture">
+    <div class="toc-sidebar">
+        <nav id="toc" class="article-toc">
+            <h3 class="toc-title">Catalogue</h3>
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%91%E6%8E%A7%E9%A1%B9"><span class="toc-number">2.</span> <span class="toc-text">监控项</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E5%AD%98"><span class="toc-number">2.1.</span> <span class="toc-text">内存</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%A7Key%EF%BC%8C-%E6%85%A2%E6%9F%A5%E8%AF%A2"><span class="toc-number">3.</span> <span class="toc-text">大Key， 慢查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E6%95%B0"><span class="toc-number">4.</span> <span class="toc-text">连接数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#CPU"><span class="toc-number">4.1.</span> <span class="toc-text">CPU</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#QPS"><span class="toc-number">4.2.</span> <span class="toc-text">QPS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BD%91%E7%BB%9CIO"><span class="toc-number">4.3.</span> <span class="toc-text">网络IO</span></a></li></ol></li></ol>
+        </nav>
+    </div>
+</aside>
+
+
+
+
+
+        </section>
+        <footer class="hidden lg:block fixed bottom-0 left-0 sm:w-1/12 lg:w-1/6 bg-gray-100 z-40">
+    
+    <div class="footer-social-links">
+        
+            <a target="_blank" rel="noopener" href="https://github.com/winjeg">
+                <i class="iconfont icon-github"></i>
+            </a>
+        
+            <a target="_blank" rel="noopener" href="https://t.me/winjeg">
+                <i class="iconfont icon-telegram"></i>
+            </a>
+        
+            <a target="_blank" rel="noopener" href="https://twitter.com/winjeg">
+                <i class="iconfont icon-twitter"></i>
+            </a>
+        
+            <a href="/atom.xml">
+                <i class="iconfont icon-rss"></i>
+            </a>
+        
+    </div>
+    
+    
+</footer>
+
+        <div id="mask" class="hidden mask fixed inset-0 bg-gray-900 opacity-75 z-40"></div>
+        <div id="search-view-container" class="hidden shadow-xl"></div>
+        
+<script src="/js/dom-event.min.js"></script>
+
+
+
+<script src="/js/local-search.min.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/js/lightgallery.min.js"></script>
+    
+<script src="/js/light-gallery.min.js"></script>
+
+
+
+
+
+
+    </body>
+</html>

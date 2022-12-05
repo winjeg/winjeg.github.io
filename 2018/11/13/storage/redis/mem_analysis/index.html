@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html  lang="zh" >
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <title>redis 内存分析工具 `rma4go` | winjeg's blog</title>
+    <meta name="description" content="redis 简介redis是一个很有名的内存型数据库，这里不做详细介绍。而rma4go (redis memory analyzer for golang) 是一个redis的内存分析工具，这个工具的主要作用是针对运行时期的redis进行内存的分析，统计redis中key的分布情况， 各种数据类型的使用情况，key的size，大key的数量及分布, key的过期状况分布等一些有助于定位redis使">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis 内存分析工具 &#96;rma4go&#96;">
+<meta property="og:url" content="https://winjeg.github.io/2018/11/13/storage/redis/mem_analysis/index.html">
+<meta property="og:site_name" content="winjeg&#39;s blog">
+<meta property="og:description" content="redis 简介redis是一个很有名的内存型数据库，这里不做详细介绍。而rma4go (redis memory analyzer for golang) 是一个redis的内存分析工具，这个工具的主要作用是针对运行时期的redis进行内存的分析，统计redis中key的分布情况， 各种数据类型的使用情况，key的size，大key的数量及分布, key的过期状况分布等一些有助于定位redis使">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-11-13T15:14:11.000Z">
+<meta property="article:modified_time" content="2022-12-05T15:06:01.889Z">
+<meta property="article:author" content="winjeg">
+<meta property="article:tag" content="database">
+<meta property="article:tag" content="redis">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon"><meta name="baidu-site-verification" content="5fNkcnppPy">
+
+    
+<link rel="stylesheet" href="/css/common.min.css">
+
+
+
+    
+    
+    
+    
+        <link href="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/css/lightgallery.min.css" rel="stylesheet">
+    
+    
+    
+<link rel="stylesheet" href="/css/iconfont.min.css">
+
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+    <body>
+        <header class="header header-fixture">
+    <div class="profile-search-wrap flex sm:block">
+        
+        
+        <div class="profile sm:text-center md:px-1 lg:px-3 sm:pb-4 sm:pt-6">
+            <a id="avatar" role="link" href="https://github.com/winjeg" class="inline-block lg:w-16 lg:h-16 w-8 h-8 m-2" target="_blank" rel="noopener" rel="noreferrer" >
+                <img src="https://www.gravatar.com/avatar/430f1fc50c046af01cd65a76639a2218?s=128" class="rounded-full" alt="avatar">
+            </a>
+            <h2 id="name" class="hidden lg:block">winjeg</h2>
+            <h3 id="title" class="hidden lg:block">Architect &amp; Coder</h3>
+            
+            <small id="location" class="hidden lg:block">
+                <i class="iconfont icon-map-icon"></i>
+                Hangzhou, China
+            </small>
+            
+        </div>
+        
+        
+<div class="search flex-1 flex lg:inline-block sm:hidden lg:px-4 lg:mt-2 lg:mb-4 lg:w-full">
+    <form id="search-form" class="my-auto flex-1 lg:border lg:border-solid lg:border-gray-200">
+        <div class="input-group table bg-gray-100 lg:bg-white w-full">
+            <input id="search-input" type="text" placeholder="Search" class="inline-block w-full bg-gray-100 lg:bg-white p-1">
+            <span class="table-cell">
+                <button name="search tigger button" disabled>
+                    <i class="iconfont icon-search m-2"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+        
+<div id="content-json" data-placeholder="Search" class="invisible hidden">/content.json</div>
+<script id="search-teamplate" type="text/html" data-path="/content.json">
+    <div>
+        <div class="search-header bg-gray-400">
+            <input id="actual-search-input" model="keyword" ref="input" class="inline-block w-full h-10 px-2 py-1" placeholder="Search" type="text">
+        </div>
+        <div class="search-result bg-gray-200">
+            {{#each searchPosts}}
+            <a href="/{{ path }}" class="result-item block px-2 pb-3 mb-1 pt-1 hover:bg-indigo-100">
+                <i class="iconfont icon-file"></i>
+                <h1 class="result-title inline font-medium text-lg">{{ title }}</h1>
+                <p class="result-content text-gray-600 text-sm">{{{ text }}}</p>
+            </a>
+            {{/each}}
+        </div>
+    </div>
+</script>
+
+</div>
+
+
+        <button name="menu toogle button" id="menu-toggle-btn" class="block sm:hidden p-3" role="button" aria-expanded="false">
+            <i class="iconfont icon-hamburger"></i>
+        </button>
+    </div>
+    <nav id="menu-nav" class="hidden sm:flex flex-col">
+        
+        
+            <div class="menu-item menu-home" role="menuitem">
+                <a href="/.">
+                    <i class="iconfont icon-home" aria-hidden="true"></i>
+                    <span class="menu-title">Home</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-archives" role="menuitem">
+                <a href="/archives">
+                    <i class="iconfont icon-archive" aria-hidden="true"></i>
+                    <span class="menu-title">Archives</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-categories" role="menuitem">
+                <a href="/categories">
+                    <i class="iconfont icon-folder" aria-hidden="true"></i>
+                    <span class="menu-title">Categories</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-tags" role="menuitem">
+                <a href="/tags">
+                    <i class="iconfont icon-tag" aria-hidden="true"></i>
+                    <span class="menu-title">Tags</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-repository" role="menuitem">
+                <a href="/repository">
+                    <i class="iconfont icon-project" aria-hidden="true"></i>
+                    <span class="menu-title">Repository</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-links" role="menuitem">
+                <a href="/links">
+                    <i class="iconfont icon-friend" aria-hidden="true"></i>
+                    <span class="menu-title">Links</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-about" role="menuitem">
+                <a href="/about">
+                    <i class="iconfont icon-cup" aria-hidden="true"></i>
+                    <span class="menu-title">About</span>
+                </a>
+            </div>
+        
+        
+<div class="social-links flex sm:flex-col lg:hidden mt-5">
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://github.com/winjeg">
+                <i class="iconfont social-icon icon-github"></i>
+                <span class="menu-title hidden lg:inline">menu.github</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://t.me/winjeg">
+                <i class="iconfont social-icon icon-telegram"></i>
+                <span class="menu-title hidden lg:inline">menu.telegram</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://twitter.com/winjeg">
+                <i class="iconfont social-icon icon-twitter"></i>
+                <span class="menu-title hidden lg:inline">menu.twitter</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a href="/atom.xml">
+                <i class="iconfont social-icon icon-rss"></i>
+                <span class="menu-title hidden lg:inline">menu.rss</span>
+            </a>
+        </span>
+    
+</div>
+
+
+    </nav>
+</header>
+
+        <section class="main-section">
+            
+    <main class="flex-1 px-4 py-14 md:px-5 lg:px-8 lg:py-4 relative min-h-screen">
+    
+
+    <article class="content article article-archives article-type-list" itemscope="">
+        <header class="article-header">
+            
+    
+        <h1 class="article-title text-lg" itemprop="name">
+            redis 内存分析工具 `rma4go`
+        </h1>
+    
+
+
+
+            <p class="article-meta mb-3 text-xs">
+                <span class="article-date">
+    <i class="iconfont icon-calendar-check"></i>
+	<a href="/2018/11/13/storage/redis/mem_analysis/" class="article-date">
+	  <time datetime="2018-11-13T15:14:11.000Z" itemprop="datePublished">Nov 13</time>
+	</a>
+</span>
+
+                
+    <span class="article-category">
+    <i class="iconfont icon-folder"></i>
+    <a class="article-category-link" href="/categories/storage/">storage</a> , <a class="article-category-link" href="/categories/storage/database/">database</a>
+  </span>
+
+
+                
+    <span class="article-tags">
+    <i class="iconfont icon-tag"></i>
+    <a class="article-tag-none-link" href="/tags/database/" rel="tag">database</a>, <a class="article-tag-none-link" href="/tags/redis/" rel="tag">redis</a>
+  </span>
+
+
+                <span class="_partial/post-comment"><i class="icon icon-comment"></i>
+                    <a href="/2018/11/13/storage/redis/mem_analysis/#comments" class="article-comment-link">
+                        Comments
+                    </a>
+                </span>
+                
+
+            </p>
+        </header>
+        <div class="marked-body article-body">
+            <h2 id="redis-简介"><a href="#redis-简介" class="headerlink" title="redis 简介"></a>redis 简介</h2><p>redis是一个很有名的内存型数据库，这里不做详细介绍。而<code>rma4go</code> (redis memory analyzer for golang) 是一个redis的内存分析工具，这个工具的主要作用是针对运行时期的redis进行内存的分析，统计redis中key的分布情况， 各种数据类型的使用情况，key的size，大key的数量及分布, key的过期状况分布等一些有助于定位redis使用问题的工具，希望这能够给应用开发者提供便利排查生产中所遇到的实际问题。</p>
+<h2 id="rma4go的应用场景"><a href="#rma4go的应用场景" class="headerlink" title="rma4go的应用场景"></a><code>rma4go</code>的应用场景</h2><p>redis是目前很流行的一个内存型数据库，很多企业都在使用。 但由于业界并没有很多对于redis使用上的规范，或者是有一些规范并没有被很好的遵循， 存在很多redis使用上的问题，我这边就列举一些例子：</p>
+<ol>
+<li>redis 存用满了, 不知道key的分布情况，不知道来源于那个应用</li>
+<li>redis 被block了，不知道什么原因导致的block，是哪个应用里的什么key的操作导致的</li>
+<li>想迁移redis数据，或者调整一些设置，但不知道要不要对redis里的数据进行保留，以及不知道什么业务在使用等</li>
+<li>redis的key的过期情况不明朗， 不知道哪些东西可以删除或者调整<br>其实上面的一些问题是我随便列举出来的一些，并不是所有的存在的问题，相信也有很多其他场景同样会用到这样的一个redis内存分析工具<code>rma4go</code></li>
+</ol>
+<h2 id="rma4go的具体功能"><a href="#rma4go的具体功能" class="headerlink" title="rma4go的具体功能"></a>rma4go的具体功能</h2><h3 id="数据维度"><a href="#数据维度" class="headerlink" title="数据维度"></a>数据维度</h3><p>对于key的分析我们这个工具会提供如下几个维度的数据：</p>
+<ul>
+<li>key的数量分布维度</li>
+<li>key的过期分布维度</li>
+<li>key的类型分布维度</li>
+<li>key对应的的数据的大小分布维度</li>
+<li>key的前缀分布维度</li>
+<li>慢key与大key的维度</li>
+</ul>
+<p>当然以后如果发现有更好的纬度也会添加进去，目前先以这几个纬度为主</p>
+<h3 id="数据类型设计"><a href="#数据类型设计" class="headerlink" title="数据类型设计"></a>数据类型设计</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> RedisStat <span class="keyword">struct</span> &#123;</span><br><span class="line">	All     KeyStat <span class="string">`json:&quot;all&quot;`</span></span><br><span class="line">	String  KeyStat <span class="string">`json:&quot;string&quot;`</span></span><br><span class="line">	Hash    KeyStat <span class="string">`json:&quot;hash&quot;`</span></span><br><span class="line">	Set     KeyStat <span class="string">`json:&quot;set&quot;`</span></span><br><span class="line">	List    KeyStat <span class="string">`json:&quot;list&quot;`</span></span><br><span class="line">	ZSet    KeyStat <span class="string">`json:&quot;zset&quot;`</span></span><br><span class="line">	Other   KeyStat <span class="string">`json:&quot;other&quot;`</span></span><br><span class="line">	BigKeys KeyStat <span class="string">`json:&quot;bigKeys&quot;`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// distributions of keys of all prefixes</span></span><br><span class="line"><span class="keyword">type</span> Distribution <span class="keyword">struct</span> &#123;</span><br><span class="line">	KeyPattern <span class="type">string</span> <span class="string">`json:&quot;pattern&quot;`</span></span><br><span class="line">	Metrics</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// basic metrics of a group of key</span></span><br><span class="line"><span class="keyword">type</span> Metrics <span class="keyword">struct</span> &#123;</span><br><span class="line">	KeyCount       <span class="type">int64</span> <span class="string">`json:&quot;keyCount&quot;`</span></span><br><span class="line">	KeySize        <span class="type">int64</span> <span class="string">`json:&quot;keySize&quot;`</span></span><br><span class="line">	DataSize       <span class="type">int64</span> <span class="string">`json:&quot;dataSize&quot;`</span></span><br><span class="line">	KeyNeverExpire <span class="type">int64</span> <span class="string">`json:&quot;neverExpire&quot;`</span></span><br><span class="line">	ExpireInHour   <span class="type">int64</span> <span class="string">`json:&quot;expireInHour&quot;`</span>  <span class="comment">// &gt;= 0h &lt; 1h</span></span><br><span class="line">	ExpireInDay    <span class="type">int64</span> <span class="string">`json:&quot;expireInDay&quot;`</span>   <span class="comment">// &gt;= 1h &lt; 24h</span></span><br><span class="line">	ExpireInWeek   <span class="type">int64</span> <span class="string">`json:&quot;expireInWeek&quot;`</span>  <span class="comment">// &gt;= 1d &lt; 7d</span></span><br><span class="line">	ExpireOutWeek  <span class="type">int64</span> <span class="string">`json:&quot;expireOutWeek&quot;`</span> <span class="comment">// &gt;= 7d</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="实现细节"><a href="#实现细节" class="headerlink" title="实现细节"></a>实现细节</h3><h4 id="key元信息"><a href="#key元信息" class="headerlink" title="key元信息"></a>key元信息</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">type KeyMeta struct &#123;</span><br><span class="line">	Key      string</span><br><span class="line">	KeySize  int64</span><br><span class="line">	DataSize int64</span><br><span class="line">	Ttl      int64</span><br><span class="line">	Type     string</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>众所周知， redis里的所有的数据基本都是由key的， 也是根据key进行操作的，那么对redis里的key进行分析我们必须要记录下来这个key的信息才可以做到， 我们能记录的信息正如以上结构中的一样， key本身， key的大小， 数据的大小， 过期时间以及key的类型。这些信息是我们对key进行分析的一个基础信息，都可以通过一些简单的redis命令就可以取到。</p>
+<h4 id="遍历redis所有key"><a href="#遍历redis所有key" class="headerlink" title="遍历redis所有key"></a>遍历redis所有key</h4><p>要对一个redis进行完整的key分析， 我们就需要有办法能够访问到所有key的源信息， 所幸redis提供了 <code>scan</code>这么一种方式可以比较轻量的遍历所有的key，访问到相应的key的元信息。<br>这样对于redis而言， 进行在线key分析的时候造成的压力也不会非常大，当然key分析不能再QPS高峰期进行， 需要在redis资源余量允许的情况下进行分析。</p>
+<p>另外由于redis本身的一个内存清理机制，有25%的过期占用可以在分析key的时候被清理掉， 因此这个分析工具同时兼具了清理一部分内存的作用， 如果redis里面存在过期的而且存在于内存里面的key的话。</p>
+<h4 id="对记录的信息进行分析与汇总"><a href="#对记录的信息进行分析与汇总" class="headerlink" title="对记录的信息进行分析与汇总"></a>对记录的信息进行分析与汇总</h4><p>有了遍历所有key的方法， 又有了元数据， 剩下的事情就是把这些数据进行聚合汇总， 这个主要是一个算法上的工作，<br>最难的部分要数这个key聚合的部分了， 这里面有很多取舍， 由于作者我本人不是专攻算法的， 而且没有找到合适的库， 因此只能动手自己想了一种方式。 基本的思路是：</p>
+<h5 id="压缩的算法"><a href="#压缩的算法" class="headerlink" title="压缩的算法"></a>压缩的算法</h5><ol>
+<li>对于每个新的key的元信息， 添加到老的key分析对象里去</li>
+<li>对这个key从后往前缩短， 去除尾部，看是否已经包含这个key的统计信息，如果包含， 则把key的信息累加上去， 如果不包含则创建一个新的纪录。</li>
+<li>当记录的个数添加到一定数量的时候， 对对象的个数进行一次压缩<ul>
+<li>压缩的算法也是从字符串的末尾往字符串首部进行压缩</li>
+<li>当压缩不能增加这个pattern 的key的个数的时候使用原来的key（压缩前的key）</li>
+<li>当压缩可以增加这个pattern的key的个数的时候，进行key的合并，把pattern设置成压缩后的pattern</li>
+<li>当记录的条数超过指定的条数就循环往复，直到压缩到小于指定的条数为止</li>
+<li>如果对于key的最小长度（就算再压缩也要保留一两位）有要求， 有一些压缩到字符串的最小长度的参数可以进行调整与设置， 进行一定的取舍。</li>
+</ul>
+</li>
+<li>直到scan完毕</li>
+</ol>
+<h5 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h5><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	defaultSize = <span class="number">128</span></span><br><span class="line">	compactNum  = <span class="number">30</span></span><br><span class="line">	maxLeftNum =  <span class="number">150</span></span><br><span class="line">	minKeyLenLower = <span class="number">2</span></span><br><span class="line">	minKeyLen   = <span class="number">5</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(stat *KeyStat)</span></span> compact() &#123;</span><br><span class="line">	distMap := stat.Distribution</span><br><span class="line">	tmpMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">string</span>][]<span class="type">string</span>, defaultSize)</span><br><span class="line">	shrinkTo := compactNum</span><br><span class="line">	<span class="keyword">for</span> k := <span class="keyword">range</span> distMap &#123;</span><br><span class="line">		compactedKey := k</span><br><span class="line">		<span class="keyword">if</span> orgks, ok := tmpMap[compactedKey]; ok &#123;</span><br><span class="line">			orgks = <span class="built_in">append</span>(orgks, k)</span><br><span class="line">			tmpMap[compactedKey] = orgks</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			ks := <span class="built_in">make</span>([]<span class="type">string</span>, <span class="number">0</span>, defaultSize)</span><br><span class="line">			ks = <span class="built_in">append</span>(ks, k)</span><br><span class="line">			tmpMap[compactedKey] = ks</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	shrinkTo--</span><br><span class="line">	<span class="keyword">for</span> (<span class="built_in">len</span>(tmpMap) &gt; compactNum &amp;&amp; shrinkTo &gt;= minKeyLen) || (<span class="built_in">len</span>(tmpMap) &gt; maxLeftNum &amp;&amp; shrinkTo &gt;= minKeyLenLower) &#123;</span><br><span class="line">		tnMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">string</span>][]<span class="type">string</span>, defaultSize)</span><br><span class="line">		<span class="keyword">for</span> k := <span class="keyword">range</span> tmpMap &#123;</span><br><span class="line">			<span class="comment">// shrink</span></span><br><span class="line">			<span class="keyword">if</span> <span class="built_in">len</span>(k) &gt; shrinkTo &#123;</span><br><span class="line">				compactedKey := k[<span class="number">0</span>:shrinkTo]</span><br><span class="line">				<span class="keyword">if</span> oik, ok := tnMap[compactedKey]; ok &#123;</span><br><span class="line">					oik = <span class="built_in">append</span>(oik, tmpMap[k]...)</span><br><span class="line">					tnMap[compactedKey] = oik</span><br><span class="line"></span><br><span class="line">				&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					ks := <span class="built_in">make</span>([]<span class="type">string</span>, <span class="number">0</span>, defaultSize)</span><br><span class="line">					ks = <span class="built_in">append</span>(ks, tmpMap[k]...)</span><br><span class="line">					tnMap[compactedKey] = ks</span><br><span class="line">				&#125;</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				tnMap[k] = tmpMap[k]</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 如果此次shrink 没有使得这个集合的元素数量增加， 就使用原来的key</span></span><br><span class="line">		<span class="keyword">for</span> k := <span class="keyword">range</span> tmpMap &#123;</span><br><span class="line">			<span class="keyword">if</span> <span class="built_in">len</span>(k) &gt; shrinkTo &#123;</span><br><span class="line">				ck := k[<span class="number">0</span>:shrinkTo]</span><br><span class="line">				<span class="keyword">if</span> <span class="built_in">len</span>(tnMap[ck]) == <span class="built_in">len</span>(tmpMap[k]) &amp;&amp; <span class="built_in">len</span>(tnMap[ck]) &gt; <span class="number">1</span> &#123;</span><br><span class="line">					x := <span class="built_in">make</span>([]<span class="type">string</span>, <span class="number">0</span>, defaultSize)</span><br><span class="line">					tnMap[k] = <span class="built_in">append</span>(x, tnMap[ck]...)</span><br><span class="line">					<span class="built_in">delete</span>(tnMap, ck)</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		tmpMap = tnMap</span><br><span class="line">		shrinkTo --</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	dists := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">string</span>]Distribution, defaultSize)</span><br><span class="line">	<span class="keyword">for</span> k, v := <span class="keyword">range</span> tmpMap &#123;</span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">len</span>(v) &gt; <span class="number">1</span> &#123;</span><br><span class="line">			<span class="keyword">var</span> nd Distribution</span><br><span class="line">			<span class="keyword">for</span> _, dk := <span class="keyword">range</span> v &#123;</span><br><span class="line">				d := distMap[dk]</span><br><span class="line">				nd.KeyPattern = k + <span class="string">&quot;*&quot;</span></span><br><span class="line">				nd.KeyCount += d.KeyCount</span><br><span class="line">				nd.KeySize += d.KeySize</span><br><span class="line">				nd.DataSize += d.DataSize</span><br><span class="line">				nd.ExpireInHour += d.ExpireInHour</span><br><span class="line">				nd.ExpireInWeek += d.ExpireInWeek</span><br><span class="line">				nd.ExpireInDay += d.ExpireInDay</span><br><span class="line">				nd.ExpireOutWeek += d.ExpireOutWeek</span><br><span class="line">				nd.KeyNeverExpire += d.KeyNeverExpire</span><br><span class="line">			&#125;</span><br><span class="line">			dists[k] = nd</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">for</span> _, dk := <span class="keyword">range</span> v &#123;</span><br><span class="line">				nd := distMap[dk]</span><br><span class="line">				nd.KeyPattern = dk + <span class="string">&quot;*&quot;</span></span><br><span class="line">				dists[dk] = nd</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	stat.Distribution = dists</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="在线key分析的github项目"><a href="#在线key分析的github项目" class="headerlink" title="在线key分析的github项目"></a>在线key分析的github项目</h2><p><a target="_blank" rel="noopener" href="https://github.com/winjeg/rma4go">rma4go</a><br>这是一个我已经写好的项目， 它使用起来非常简单</p>
+<h3 id="构建方法"><a href="#构建方法" class="headerlink" title="构建方法"></a>构建方法</h3><ol>
+<li>构建之前请确保golang sdk 已经安装， 并且版本 &gt;&#x3D;1.11.0</li>
+<li>请确保已经具备翻墙的环境， 因为它要下载一些依赖，可能来自墙外<br>翻墙方法如下<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// linux/osx</span><br><span class="line"><span class="built_in">export</span> http_proxy=somehost:port</span><br><span class="line"><span class="built_in">export</span> https_proxy=somehost:port</span><br><span class="line">// windows</span><br><span class="line"><span class="built_in">set</span> http_proxy=somehost:port</span><br><span class="line"><span class="built_in">set</span> https_proxy=somehost:port</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li>构建<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:winjeg/rma4go.git</span><br><span class="line">cd rma4go</span><br><span class="line">go build .</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>用法如下：<code>rma4go -h</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">rma4go usage:</span><br><span class="line">rma4go -r some_host -p 6379 -a password -d 0</span><br><span class="line">======================================================</span><br><span class="line">  -H string</span><br><span class="line">        address of a redis (default &quot;localhost&quot;)</span><br><span class="line">  -a string</span><br><span class="line">        password/auth of the redis</span><br><span class="line">  -d int</span><br><span class="line">        db of the redis to analyze</span><br><span class="line">  -h    help content</span><br><span class="line">  -p int</span><br><span class="line">        port of the redis (default 6379)</span><br><span class="line">  -r string</span><br><span class="line">        address of a redis (default &quot;localhost&quot;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="示例输出"><a href="#示例输出" class="headerlink" title="示例输出"></a>示例输出</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">all keys statistics</span><br><span class="line"></span><br><span class="line">| PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |</span><br><span class="line">|---------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|</span><br><span class="line">| total   |       0 |        0 |         0 |              0 |             0 |              0 |               0 |            0 |</span><br><span class="line">string keys statistics</span><br><span class="line"></span><br><span class="line">| PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |</span><br><span class="line">|---------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|</span><br><span class="line">| total   |       0 |        0 |         0 |              0 |             0 |              0 |               0 |            0 |</span><br><span class="line">list keys statistics</span><br><span class="line"></span><br><span class="line">| PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |</span><br><span class="line">|---------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|</span><br><span class="line">| total   |       0 |        0 |         0 |              0 |             0 |              0 |               0 |            0 |</span><br><span class="line">hash keys statistics</span><br><span class="line"></span><br><span class="line">| PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |</span><br><span class="line">|---------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|</span><br><span class="line">| total   |       0 |        0 |         0 |              0 |             0 |              0 |               0 |            0 |</span><br><span class="line">set keys statistics</span><br><span class="line"></span><br><span class="line">| PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |</span><br><span class="line">|---------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|</span><br><span class="line">| total   |       0 |        0 |         0 |              0 |             0 |              0 |               0 |            0 |</span><br><span class="line">zset keys statistics</span><br><span class="line"></span><br><span class="line">| PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |</span><br><span class="line">|---------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|</span><br><span class="line">| total   |       0 |        0 |         0 |              0 |             0 |              0 |               0 |            0 |</span><br><span class="line">other keys statistics</span><br><span class="line"></span><br><span class="line">| PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |</span><br><span class="line">|---------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|</span><br><span class="line">| total   |       0 |        0 |         0 |              0 |             0 |              0 |               0 |            0 |</span><br><span class="line">big keys statistics</span><br><span class="line"></span><br><span class="line">| PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |</span><br><span class="line">|---------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|</span><br><span class="line">| total   |       0 |        0 |         0 |              0 |             0 |              0 |               0 |            0 |</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>rendered by markdown<br>total count 4004</p>
+<p>all keys statistics</p>
+<table>
+<thead>
+<tr>
+<th>PATTERN</th>
+<th>KEY NUM</th>
+<th>KEY SIZE</th>
+<th>DATA SIZE</th>
+<th>EXPIRE IN HOUR</th>
+<th>EXPIRE IN DAY</th>
+<th>EXPIRE IN WEEK</th>
+<th>EXPIRE OUT WEEK</th>
+<th>NEVER EXPIRE</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TOP_TEN_NEW_XXXXXXXX*</td>
+<td>1</td>
+<td>20</td>
+<td>1529</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>XXXXXXXXXXXXXX_STATISTICS_MIGRATION_LIST*</td>
+<td>1</td>
+<td>40</td>
+<td>7692832</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>time-root:*</td>
+<td>23</td>
+<td>272</td>
+<td>299</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>23</td>
+</tr>
+<tr>
+<td>DS_AXXXXXXXX_CORRECT*</td>
+<td>2</td>
+<td>45</td>
+<td>46</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2</td>
+</tr>
+<tr>
+<td>time-2*</td>
+<td>761</td>
+<td>7528</td>
+<td>9893</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>761</td>
+</tr>
+<tr>
+<td>time-level:*</td>
+<td>537</td>
+<td>8461</td>
+<td>6981</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>537</td>
+</tr>
+<tr>
+<td>time-9*</td>
+<td>102</td>
+<td>901</td>
+<td>1326</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>102</td>
+</tr>
+<tr>
+<td>time-7*</td>
+<td>153</td>
+<td>1372</td>
+<td>1989</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>153</td>
+</tr>
+<tr>
+<td>DS_MAGIC_SUCC_2017-06-22*</td>
+<td>1</td>
+<td>24</td>
+<td>415</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>tersssss*</td>
+<td>5</td>
+<td>124</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>5</td>
+</tr>
+<tr>
+<td>appoint_abcdefg_msgid*</td>
+<td>1</td>
+<td>21</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>BUSSINESSXXXXXXX_STATISTICS_NEED_CALC_RECENT*</td>
+<td>1</td>
+<td>44</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>switch_abcd_abcde*</td>
+<td>3</td>
+<td>69</td>
+<td>3</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+</tr>
+<tr>
+<td>abcdeferCounter_201*</td>
+<td>3</td>
+<td>78</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+</tr>
+<tr>
+<td>diy1234567flag*</td>
+<td>1</td>
+<td>14</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>DS_PRXXBCD_LIST*</td>
+<td>1</td>
+<td>15</td>
+<td>17208</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>time-4*</td>
+<td>133</td>
+<td>1194</td>
+<td>1729</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>133</td>
+</tr>
+<tr>
+<td>datastatistics_switch_version0*</td>
+<td>1</td>
+<td>30</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>register_count_2_201*</td>
+<td>592</td>
+<td>15984</td>
+<td>640</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>592</td>
+</tr>
+<tr>
+<td>canVisitNewabcdef1234PageLevels*</td>
+<td>1</td>
+<td>31</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>YOUR_WEEK_VITALITY_INFO*</td>
+<td>1</td>
+<td>23</td>
+<td>75782</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>time-8*</td>
+<td>101</td>
+<td>894</td>
+<td>1313</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>101</td>
+</tr>
+<tr>
+<td>EXPERTS_APPOINT_INFO_MAP*</td>
+<td>1</td>
+<td>24</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>time-3*</td>
+<td>130</td>
+<td>1215</td>
+<td>1690</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>130</td>
+</tr>
+<tr>
+<td>time-1*</td>
+<td>943</td>
+<td>9456</td>
+<td>12259</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>943</td>
+</tr>
+<tr>
+<td>time-64*</td>
+<td>87</td>
+<td>781</td>
+<td>1131</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>87</td>
+</tr>
+<tr>
+<td>time-5*</td>
+<td>168</td>
+<td>1516</td>
+<td>2184</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>168</td>
+</tr>
+<tr>
+<td>total</td>
+<td>4004</td>
+<td>53422</td>
+<td>7832490</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>4004</td>
+</tr>
+</tbody></table>
+<p>string keys statistics</p>
+<table>
+<thead>
+<tr>
+<th>PATTERN</th>
+<th>KEY NUM</th>
+<th>KEY SIZE</th>
+<th>DATA SIZE</th>
+<th>EXPIRE IN HOUR</th>
+<th>EXPIRE IN DAY</th>
+<th>EXPIRE IN WEEK</th>
+<th>EXPIRE OUT WEEK</th>
+<th>NEVER EXPIRE</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>BUSSINESSXXXXXXX_STATISTICS_NEED_CALC_RECENT*</td>
+<td>1</td>
+<td>44</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>time-5*</td>
+<td>130</td>
+<td>1174</td>
+<td>1690</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>130</td>
+</tr>
+<tr>
+<td>datastatistics_switch_version0*</td>
+<td>1</td>
+<td>30</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>time-7*</td>
+<td>39</td>
+<td>348</td>
+<td>507</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>39</td>
+</tr>
+<tr>
+<td>time-level:*</td>
+<td>567</td>
+<td>8939</td>
+<td>7371</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>567</td>
+</tr>
+<tr>
+<td>diy1234567flag*</td>
+<td>1</td>
+<td>14</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>switch_abcd_abcde*</td>
+<td>3</td>
+<td>69</td>
+<td>3</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+</tr>
+<tr>
+<td>time-2*</td>
+<td>598</td>
+<td>5918</td>
+<td>7774</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>598</td>
+</tr>
+<tr>
+<td>time-6*</td>
+<td>125</td>
+<td>1118</td>
+<td>1625</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>125</td>
+</tr>
+<tr>
+<td>time-4*</td>
+<td>136</td>
+<td>1225</td>
+<td>1768</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>136</td>
+</tr>
+<tr>
+<td>time-8*</td>
+<td>72</td>
+<td>636</td>
+<td>936</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>72</td>
+</tr>
+<tr>
+<td>time-1*</td>
+<td>1176</td>
+<td>11814</td>
+<td>15288</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1176</td>
+</tr>
+<tr>
+<td>time-9*</td>
+<td>100</td>
+<td>880</td>
+<td>1300</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>100</td>
+</tr>
+<tr>
+<td>time-root:*</td>
+<td>23</td>
+<td>272</td>
+<td>299</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>23</td>
+</tr>
+<tr>
+<td>register_count_2_201*</td>
+<td>592</td>
+<td>15984</td>
+<td>640</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>592</td>
+</tr>
+<tr>
+<td>DS_AXXXXXXXX_CORRECT*</td>
+<td>1</td>
+<td>20</td>
+<td>20</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>TOP_TEN_NEW_tersssss*</td>
+<td>1</td>
+<td>20</td>
+<td>1529</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>time-3*</td>
+<td>202</td>
+<td>1925</td>
+<td>2626</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>202</td>
+</tr>
+<tr>
+<td>total</td>
+<td>3989</td>
+<td>53042</td>
+<td>46253</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>3989</td>
+</tr>
+</tbody></table>
+<p>list keys statistics</p>
+<table>
+<thead>
+<tr>
+<th>PATTERN</th>
+<th>KEY NUM</th>
+<th>KEY SIZE</th>
+<th>DATA SIZE</th>
+<th>EXPIRE IN HOUR</th>
+<th>EXPIRE IN DAY</th>
+<th>EXPIRE IN WEEK</th>
+<th>EXPIRE OUT WEEK</th>
+<th>NEVER EXPIRE</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>XXXXXXXXXXXXXX_STATISTICS_MIGRATION_LIST*</td>
+<td>1</td>
+<td>40</td>
+<td>7692832</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>DS_MAGIC_SUCC_2017-06-22*</td>
+<td>1</td>
+<td>24</td>
+<td>415</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>DS_PRXXBCD_LIST*</td>
+<td>1</td>
+<td>15</td>
+<td>17208</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>total</td>
+<td>3</td>
+<td>79</td>
+<td>7710455</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+</tr>
+</tbody></table>
+<p>hash keys statistics</p>
+<table>
+<thead>
+<tr>
+<th>PATTERN</th>
+<th>KEY NUM</th>
+<th>KEY SIZE</th>
+<th>DATA SIZE</th>
+<th>EXPIRE IN HOUR</th>
+<th>EXPIRE IN DAY</th>
+<th>EXPIRE IN WEEK</th>
+<th>EXPIRE OUT WEEK</th>
+<th>NEVER EXPIRE</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>tersssss_action_prepage_new*</td>
+<td>1</td>
+<td>27</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>YOUR_WEEK_VITALITY_INFO*</td>
+<td>1</td>
+<td>23</td>
+<td>75782</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>EXPERTS_APPOINT_INFO_MAP*</td>
+<td>1</td>
+<td>24</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>abcdeferCounter_2017-06-11*</td>
+<td>1</td>
+<td>26</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>tersssssHardTaskCounter*</td>
+<td>1</td>
+<td>23</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>abcdeferCounter_2018-04-27*</td>
+<td>1</td>
+<td>26</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>abcdeferCounter_2017-09-01*</td>
+<td>1</td>
+<td>26</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>tersssssEasyTaskCounter*</td>
+<td>1</td>
+<td>23</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>total</td>
+<td>8</td>
+<td>198</td>
+<td>75782</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>8</td>
+</tr>
+</tbody></table>
+<p>set keys statistics</p>
+<table>
+<thead>
+<tr>
+<th>PATTERN</th>
+<th>KEY NUM</th>
+<th>KEY SIZE</th>
+<th>DATA SIZE</th>
+<th>EXPIRE IN HOUR</th>
+<th>EXPIRE IN DAY</th>
+<th>EXPIRE IN WEEK</th>
+<th>EXPIRE OUT WEEK</th>
+<th>NEVER EXPIRE</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>tersssss_bind_phone_phone*</td>
+<td>1</td>
+<td>25</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>appoint_abcdefg_msgid*</td>
+<td>1</td>
+<td>21</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>canVisitNewabcdef1234PageLevels*</td>
+<td>1</td>
+<td>31</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>tersssss_bind_phone_userid*</td>
+<td>1</td>
+<td>26</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>total</td>
+<td>4</td>
+<td>103</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>4</td>
+</tr>
+</tbody></table>
+<p>zset keys statistics</p>
+<table>
+<thead>
+<tr>
+<th>PATTERN</th>
+<th>KEY NUM</th>
+<th>KEY SIZE</th>
+<th>DATA SIZE</th>
+<th>EXPIRE IN HOUR</th>
+<th>EXPIRE IN DAY</th>
+<th>EXPIRE IN WEEK</th>
+<th>EXPIRE OUT WEEK</th>
+<th>NEVER EXPIRE</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>total</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>other keys statistics</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>PATTERN</th>
+<th>KEY NUM</th>
+<th>KEY SIZE</th>
+<th>DATA SIZE</th>
+<th>EXPIRE IN HOUR</th>
+<th>EXPIRE IN DAY</th>
+<th>EXPIRE IN WEEK</th>
+<th>EXPIRE OUT WEEK</th>
+<th>NEVER EXPIRE</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>total</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody></table>
+<p>big keys statistics</p>
+<table>
+<thead>
+<tr>
+<th>PATTERN</th>
+<th>KEY NUM</th>
+<th>KEY SIZE</th>
+<th>DATA SIZE</th>
+<th>EXPIRE IN HOUR</th>
+<th>EXPIRE IN DAY</th>
+<th>EXPIRE IN WEEK</th>
+<th>EXPIRE OUT WEEK</th>
+<th>NEVER EXPIRE</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>XXXXXXXXXXXXXX_STATISTICS_MIGRATION_LIST*</td>
+<td>1</td>
+<td>40</td>
+<td>7692832</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>total</td>
+<td>1</td>
+<td>40</td>
+<td>7692832</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<h3 id="作为依赖使用"><a href="#作为依赖使用" class="headerlink" title="作为依赖使用"></a>作为依赖使用</h3><p>获取方法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/winjeg/rma4go</span><br></pre></td></tr></table></figure>
+
+<p>使用方法如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">testFunc</span><span class="params">()</span></span> &#123;</span><br><span class="line">	h := <span class="string">&quot;localhost&quot;</span></span><br><span class="line">	a := <span class="string">&quot;&quot;</span></span><br><span class="line">	p := <span class="number">6379</span></span><br><span class="line">	cli := client.BuildRedisClient(client.ConnInfo&#123;</span><br><span class="line">		Host: h,</span><br><span class="line">		Auth: a,</span><br><span class="line">		Port: p,</span><br><span class="line">	&#125;, cmder.GetDb())</span><br><span class="line"></span><br><span class="line">	stat := analyzer.ScanAllKeys(cli)</span><br><span class="line">    <span class="comment">// print in command line</span></span><br><span class="line">	stat.Print()</span><br><span class="line">	<span class="comment">// the object is ready to use</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="github-维护-主要阵地"><a href="#github-维护-主要阵地" class="headerlink" title="github 维护(主要阵地)"></a>github 维护(主要阵地)</h3><ol>
+<li>欢迎其他开发者加入</li>
+<li>欢迎提issue 反馈问题</li>
+<li>欢迎任何有意义的建议</li>
+<li>另外欢迎star，不建议fork，建议直接提交PR  ; )</li>
+</ol>
+
+        </div>
+        
+<blockquote class="copyright">
+    <p><strong>Link to this article : </strong><a class="permalink" href="https://winjeg.github.io/2018/11/13/storage/redis/mem_analysis/">https://winjeg.github.io/2018/11/13/storage/redis/mem_analysis/</a></p>
+    <p><strong>All rights reserved to winjeg</strong></p>
+</blockquote>
+
+
+    </article>
+    
+    <section id="comments">
+        
+    </section>
+
+
+    
+
+</main>
+
+
+<aside style="" id="sidebar" class="aside aside-fixture">
+    <div class="toc-sidebar">
+        <nav id="toc" class="article-toc">
+            <h3 class="toc-title">Catalogue</h3>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#redis-%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">redis 简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rma4go%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">2.</span> <span class="toc-text">rma4go的应用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rma4go%E7%9A%84%E5%85%B7%E4%BD%93%E5%8A%9F%E8%83%BD"><span class="toc-number">3.</span> <span class="toc-text">rma4go的具体功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%B4%E5%BA%A6"><span class="toc-number">3.1.</span> <span class="toc-text">数据维度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%AE%BE%E8%AE%A1"><span class="toc-number">3.2.</span> <span class="toc-text">数据类型设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82"><span class="toc-number">3.3.</span> <span class="toc-text">实现细节</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#key%E5%85%83%E4%BF%A1%E6%81%AF"><span class="toc-number">3.3.1.</span> <span class="toc-text">key元信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%81%8D%E5%8E%86redis%E6%89%80%E6%9C%89key"><span class="toc-number">3.3.2.</span> <span class="toc-text">遍历redis所有key</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%B9%E8%AE%B0%E5%BD%95%E7%9A%84%E4%BF%A1%E6%81%AF%E8%BF%9B%E8%A1%8C%E5%88%86%E6%9E%90%E4%B8%8E%E6%B1%87%E6%80%BB"><span class="toc-number">3.3.3.</span> <span class="toc-text">对记录的信息进行分析与汇总</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8E%8B%E7%BC%A9%E7%9A%84%E7%AE%97%E6%B3%95"><span class="toc-number">3.3.3.1.</span> <span class="toc-text">压缩的算法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%A6%82%E4%B8%8B"><span class="toc-number">3.3.3.2.</span> <span class="toc-text">代码如下</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E7%BA%BFkey%E5%88%86%E6%9E%90%E7%9A%84github%E9%A1%B9%E7%9B%AE"><span class="toc-number">4.</span> <span class="toc-text">在线key分析的github项目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E6%96%B9%E6%B3%95"><span class="toc-number">4.1.</span> <span class="toc-text">构建方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">4.2.</span> <span class="toc-text">使用方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E8%BE%93%E5%87%BA"><span class="toc-number">4.3.</span> <span class="toc-text">示例输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%9C%E4%B8%BA%E4%BE%9D%E8%B5%96%E4%BD%BF%E7%94%A8"><span class="toc-number">4.4.</span> <span class="toc-text">作为依赖使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#github-%E7%BB%B4%E6%8A%A4-%E4%B8%BB%E8%A6%81%E9%98%B5%E5%9C%B0"><span class="toc-number">4.5.</span> <span class="toc-text">github 维护(主要阵地)</span></a></li></ol></li></ol>
+        </nav>
+    </div>
+</aside>
+
+
+
+
+
+        </section>
+        <footer class="hidden lg:block fixed bottom-0 left-0 sm:w-1/12 lg:w-1/6 bg-gray-100 z-40">
+    
+    <div class="footer-social-links">
+        
+            <a target="_blank" rel="noopener" href="https://github.com/winjeg">
+                <i class="iconfont icon-github"></i>
+            </a>
+        
+            <a target="_blank" rel="noopener" href="https://t.me/winjeg">
+                <i class="iconfont icon-telegram"></i>
+            </a>
+        
+            <a target="_blank" rel="noopener" href="https://twitter.com/winjeg">
+                <i class="iconfont icon-twitter"></i>
+            </a>
+        
+            <a href="/atom.xml">
+                <i class="iconfont icon-rss"></i>
+            </a>
+        
+    </div>
+    
+    
+</footer>
+
+        <div id="mask" class="hidden mask fixed inset-0 bg-gray-900 opacity-75 z-40"></div>
+        <div id="search-view-container" class="hidden shadow-xl"></div>
+        
+<script src="/js/dom-event.min.js"></script>
+
+
+
+<script src="/js/local-search.min.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/js/lightgallery.min.js"></script>
+    
+<script src="/js/light-gallery.min.js"></script>
+
+
+
+
+
+
+    </body>
+</html>

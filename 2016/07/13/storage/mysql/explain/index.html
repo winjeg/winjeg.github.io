@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html  lang="zh" >
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <title>使用Explain了解SQL语句的执行计划 | winjeg's blog</title>
+    <meta name="description" content="语法与含义语义上讲EXPLAIN 、DESCRIBE 、 DESC 是一样的但习惯上用法不太一样， DESC 经常用于描述一个表或者列的信息EXPLAIN经常用于描述一个查询执行计划 1234explain select 1;desc select 1;describe select 1;explain format&#x3D;json select 1;   explain_typeEXTENDED -&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Explain了解SQL语句的执行计划">
+<meta property="og:url" content="https://winjeg.github.io/2016/07/13/storage/mysql/explain/index.html">
+<meta property="og:site_name" content="winjeg&#39;s blog">
+<meta property="og:description" content="语法与含义语义上讲EXPLAIN 、DESCRIBE 、 DESC 是一样的但习惯上用法不太一样， DESC 经常用于描述一个表或者列的信息EXPLAIN经常用于描述一个查询执行计划 1234explain select 1;desc select 1;describe select 1;explain format&#x3D;json select 1;   explain_typeEXTENDED -&amp;">
+<meta property="og:locale">
+<meta property="og:image" content="https://qhyxpicoss.kujiale.com/2018/12/17/LQLZ2NIKAQBZMZASAAAAADY8_931x497.png">
+<meta property="og:image" content="https://qhyxpicoss.kujiale.com/2018/12/17/LQL3LDQKAQBZOUTLAAAAAAY8_891x593.png">
+<meta property="og:image" content="https://qhyxpicoss.kujiale.com/2018/12/17/LQL3LDQKAQBZOUTLAAAAAAQ8_690x857.png">
+<meta property="article:published_time" content="2016-07-13T15:14:11.000Z">
+<meta property="article:modified_time" content="2022-12-05T15:06:01.889Z">
+<meta property="article:author" content="winjeg">
+<meta property="article:tag" content="database">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="sql">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://qhyxpicoss.kujiale.com/2018/12/17/LQLZ2NIKAQBZMZASAAAAADY8_931x497.png">
+
+    
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon"><meta name="baidu-site-verification" content="5fNkcnppPy">
+
+    
+<link rel="stylesheet" href="/css/common.min.css">
+
+
+
+    
+    
+    
+    
+        <link href="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/css/lightgallery.min.css" rel="stylesheet">
+    
+    
+    
+<link rel="stylesheet" href="/css/iconfont.min.css">
+
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+    <body>
+        <header class="header header-fixture">
+    <div class="profile-search-wrap flex sm:block">
+        
+        
+        <div class="profile sm:text-center md:px-1 lg:px-3 sm:pb-4 sm:pt-6">
+            <a id="avatar" role="link" href="https://github.com/winjeg" class="inline-block lg:w-16 lg:h-16 w-8 h-8 m-2" target="_blank" rel="noopener" rel="noreferrer" >
+                <img src="https://www.gravatar.com/avatar/430f1fc50c046af01cd65a76639a2218?s=128" class="rounded-full" alt="avatar">
+            </a>
+            <h2 id="name" class="hidden lg:block">winjeg</h2>
+            <h3 id="title" class="hidden lg:block">Architect &amp; Coder</h3>
+            
+            <small id="location" class="hidden lg:block">
+                <i class="iconfont icon-map-icon"></i>
+                Hangzhou, China
+            </small>
+            
+        </div>
+        
+        
+<div class="search flex-1 flex lg:inline-block sm:hidden lg:px-4 lg:mt-2 lg:mb-4 lg:w-full">
+    <form id="search-form" class="my-auto flex-1 lg:border lg:border-solid lg:border-gray-200">
+        <div class="input-group table bg-gray-100 lg:bg-white w-full">
+            <input id="search-input" type="text" placeholder="Search" class="inline-block w-full bg-gray-100 lg:bg-white p-1">
+            <span class="table-cell">
+                <button name="search tigger button" disabled>
+                    <i class="iconfont icon-search m-2"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+        
+<div id="content-json" data-placeholder="Search" class="invisible hidden">/content.json</div>
+<script id="search-teamplate" type="text/html" data-path="/content.json">
+    <div>
+        <div class="search-header bg-gray-400">
+            <input id="actual-search-input" model="keyword" ref="input" class="inline-block w-full h-10 px-2 py-1" placeholder="Search" type="text">
+        </div>
+        <div class="search-result bg-gray-200">
+            {{#each searchPosts}}
+            <a href="/{{ path }}" class="result-item block px-2 pb-3 mb-1 pt-1 hover:bg-indigo-100">
+                <i class="iconfont icon-file"></i>
+                <h1 class="result-title inline font-medium text-lg">{{ title }}</h1>
+                <p class="result-content text-gray-600 text-sm">{{{ text }}}</p>
+            </a>
+            {{/each}}
+        </div>
+    </div>
+</script>
+
+</div>
+
+
+        <button name="menu toogle button" id="menu-toggle-btn" class="block sm:hidden p-3" role="button" aria-expanded="false">
+            <i class="iconfont icon-hamburger"></i>
+        </button>
+    </div>
+    <nav id="menu-nav" class="hidden sm:flex flex-col">
+        
+        
+            <div class="menu-item menu-home" role="menuitem">
+                <a href="/.">
+                    <i class="iconfont icon-home" aria-hidden="true"></i>
+                    <span class="menu-title">Home</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-archives" role="menuitem">
+                <a href="/archives">
+                    <i class="iconfont icon-archive" aria-hidden="true"></i>
+                    <span class="menu-title">Archives</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-categories" role="menuitem">
+                <a href="/categories">
+                    <i class="iconfont icon-folder" aria-hidden="true"></i>
+                    <span class="menu-title">Categories</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-tags" role="menuitem">
+                <a href="/tags">
+                    <i class="iconfont icon-tag" aria-hidden="true"></i>
+                    <span class="menu-title">Tags</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-repository" role="menuitem">
+                <a href="/repository">
+                    <i class="iconfont icon-project" aria-hidden="true"></i>
+                    <span class="menu-title">Repository</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-links" role="menuitem">
+                <a href="/links">
+                    <i class="iconfont icon-friend" aria-hidden="true"></i>
+                    <span class="menu-title">Links</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-about" role="menuitem">
+                <a href="/about">
+                    <i class="iconfont icon-cup" aria-hidden="true"></i>
+                    <span class="menu-title">About</span>
+                </a>
+            </div>
+        
+        
+<div class="social-links flex sm:flex-col lg:hidden mt-5">
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://github.com/winjeg">
+                <i class="iconfont social-icon icon-github"></i>
+                <span class="menu-title hidden lg:inline">menu.github</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://t.me/winjeg">
+                <i class="iconfont social-icon icon-telegram"></i>
+                <span class="menu-title hidden lg:inline">menu.telegram</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://twitter.com/winjeg">
+                <i class="iconfont social-icon icon-twitter"></i>
+                <span class="menu-title hidden lg:inline">menu.twitter</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a href="/atom.xml">
+                <i class="iconfont social-icon icon-rss"></i>
+                <span class="menu-title hidden lg:inline">menu.rss</span>
+            </a>
+        </span>
+    
+</div>
+
+
+    </nav>
+</header>
+
+        <section class="main-section">
+            
+    <main class="flex-1 px-4 py-14 md:px-5 lg:px-8 lg:py-4 relative min-h-screen">
+    
+
+    <article class="content article article-archives article-type-list" itemscope="">
+        <header class="article-header">
+            
+    
+        <h1 class="article-title text-lg" itemprop="name">
+            使用Explain了解SQL语句的执行计划
+        </h1>
+    
+
+
+
+            <p class="article-meta mb-3 text-xs">
+                <span class="article-date">
+    <i class="iconfont icon-calendar-check"></i>
+	<a href="/2016/07/13/storage/mysql/explain/" class="article-date">
+	  <time datetime="2016-07-13T15:14:11.000Z" itemprop="datePublished">Jul 13</time>
+	</a>
+</span>
+
+                
+    <span class="article-category">
+    <i class="iconfont icon-folder"></i>
+    <a class="article-category-link" href="/categories/storage/">storage</a> , <a class="article-category-link" href="/categories/storage/database/">database</a>
+  </span>
+
+
+                
+    <span class="article-tags">
+    <i class="iconfont icon-tag"></i>
+    <a class="article-tag-none-link" href="/tags/MySQL/" rel="tag">MySQL</a>, <a class="article-tag-none-link" href="/tags/database/" rel="tag">database</a>, <a class="article-tag-none-link" href="/tags/sql/" rel="tag">sql</a>
+  </span>
+
+
+                <span class="_partial/post-comment"><i class="icon icon-comment"></i>
+                    <a href="/2016/07/13/storage/mysql/explain/#comments" class="article-comment-link">
+                        Comments
+                    </a>
+                </span>
+                
+
+            </p>
+        </header>
+        <div class="marked-body article-body">
+            <h2 id="语法与含义"><a href="#语法与含义" class="headerlink" title="语法与含义"></a>语法与含义</h2><p>语义上讲EXPLAIN 、DESCRIBE 、 DESC 是一样的<br>但习惯上用法不太一样， DESC 经常用于描述一个表或者列的信息<br>EXPLAIN经常用于描述一个查询执行计划</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">explain <span class="keyword">select</span> <span class="number">1</span>;</span><br><span class="line"><span class="keyword">desc</span> <span class="keyword">select</span> <span class="number">1</span>;</span><br><span class="line"><span class="keyword">describe</span> <span class="keyword">select</span> <span class="number">1</span>;</span><br><span class="line">explain format<span class="operator">=</span>json <span class="keyword">select</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="explain-type"><a href="#explain-type" class="headerlink" title="explain_type"></a>explain_type</h3><p>EXTENDED -&gt; 显示额外信息(filtered info)<br>PARTITIONS -&gt;  显示所用的分区 (目前没用到)<br>FORMAT -&gt; 显示结果的格式 (JSON&#x2F;TRADITIONAL, 分表表示用JSON或者表格形式)</p>
+<p>Explain支持 SELECT&#x2F;INSERT&#x2F;UPDATE&#x2F;DELETE&#x2F;REPLACE 等语句</p>
+<h3 id="Explain-结果集中需要特别注意的列"><a href="#Explain-结果集中需要特别注意的列" class="headerlink" title="Explain 结果集中需要特别注意的列"></a>Explain 结果集中需要特别注意的列</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ALL</td>
+<td>全表扫描</td>
+</tr>
+<tr>
+<td>INDEX</td>
+<td>使用覆盖索引，且全表扫描的时候</td>
+</tr>
+<tr>
+<td>RANGE</td>
+<td>使用索引并且是在索引范围内查找的时候</td>
+</tr>
+<tr>
+<td>REF</td>
+<td>在查询中直接用索引匹配单个值的时候</td>
+</tr>
+<tr>
+<td>EQ_REF</td>
+<td>用索引查找，而且HIT到index的时候</td>
+</tr>
+<tr>
+<td>CONST, SYSTEM</td>
+<td>MYSQL 可以把有些查询转换成常量比如用主键查找 一行记录</td>
+</tr>
+<tr>
+<td>NULL</td>
+<td>如SELECT 1 等不需要表的查询</td>
+</tr>
+</tbody></table>
+<p><em>对于上表而言， 越往下， 效率越高</em></p>
+<p><img src="https://qhyxpicoss.kujiale.com/2018/12/17/LQLZ2NIKAQBZMZASAAAAADY8_931x497.png" alt="type1"></p>
+<p><img src="https://qhyxpicoss.kujiale.com/2018/12/17/LQL3LDQKAQBZOUTLAAAAAAY8_891x593.png" alt="type2"></p>
+<h3 id="Key"><a href="#Key" class="headerlink" title="Key"></a>Key</h3><p>Key 是指MySQL最终决定回用哪个索引到这个执行计划中， 一般有没有用到索引及用到的是哪个索引就看此列。</p>
+<h3 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h3><p>REF 记录了 在Key列记录中的索引中所用的列，或常量</p>
+<h3 id="Rows-与-Filtered"><a href="#Rows-与-Filtered" class="headerlink" title="Rows 与 Filtered"></a>Rows 与 Filtered</h3><p>ROWS列记录了查找需要查找的元素，所需要扫描的行数<br>FILTERED的列显示的是针对表里面符合某个条件的记录的百分比所做的一个悲观的估算</p>
+<h3 id="Extra"><a href="#Extra" class="headerlink" title="Extra"></a>Extra</h3><ul>
+<li><code>USING INDEX</code><br>是不是用了覆盖索引</li>
+<li><code>USING WHERE</code><br>MYSQL会在检索行后根据WHERE条件进行过滤</li>
+<li><code>USING TEMPORARY</code><br>在对查询结果进行排序的时候是否用了临时表</li>
+<li><code>USING FILE SORT</code><br>MYSQL对查询结果进行排序，不用索引排序</li>
+</ul>
+<h2 id="MySQL-Visual-Explain"><a href="#MySQL-Visual-Explain" class="headerlink" title="MySQL Visual Explain"></a>MySQL Visual Explain</h2><p>Visual explain 是MySQL Workbench 带的一项功能，其他工具很少会有此项功能，它可以比较直观的告诉你整个查询的执行计划，及查取过程，是分析SQL语句不可或缺的利器。<br>在 Visual Explain中从蓝到红的效率是递减的，越偏向红效率就越低，越偏向蓝效率就越高。<br>下图是个例子<br><img src="https://qhyxpicoss.kujiale.com/2018/12/17/LQL3LDQKAQBZOUTLAAAAAAQ8_690x857.png" alt="visual explain"></p>
+
+        </div>
+        
+<blockquote class="copyright">
+    <p><strong>Link to this article : </strong><a class="permalink" href="https://winjeg.github.io/2016/07/13/storage/mysql/explain/">https://winjeg.github.io/2016/07/13/storage/mysql/explain/</a></p>
+    <p><strong>All rights reserved to winjeg</strong></p>
+</blockquote>
+
+
+    </article>
+    
+    <section id="comments">
+        
+    </section>
+
+
+    
+
+</main>
+
+
+<aside style="" id="sidebar" class="aside aside-fixture">
+    <div class="toc-sidebar">
+        <nav id="toc" class="article-toc">
+            <h3 class="toc-title">Catalogue</h3>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95%E4%B8%8E%E5%90%AB%E4%B9%89"><span class="toc-number">1.</span> <span class="toc-text">语法与含义</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#explain-type"><span class="toc-number">1.1.</span> <span class="toc-text">explain_type</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Explain-%E7%BB%93%E6%9E%9C%E9%9B%86%E4%B8%AD%E9%9C%80%E8%A6%81%E7%89%B9%E5%88%AB%E6%B3%A8%E6%84%8F%E7%9A%84%E5%88%97"><span class="toc-number">1.2.</span> <span class="toc-text">Explain 结果集中需要特别注意的列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Key"><span class="toc-number">1.3.</span> <span class="toc-text">Key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ref"><span class="toc-number">1.4.</span> <span class="toc-text">Ref</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Rows-%E4%B8%8E-Filtered"><span class="toc-number">1.5.</span> <span class="toc-text">Rows 与 Filtered</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Extra"><span class="toc-number">1.6.</span> <span class="toc-text">Extra</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL-Visual-Explain"><span class="toc-number">2.</span> <span class="toc-text">MySQL Visual Explain</span></a></li></ol>
+        </nav>
+    </div>
+</aside>
+
+
+
+
+
+        </section>
+        <footer class="hidden lg:block fixed bottom-0 left-0 sm:w-1/12 lg:w-1/6 bg-gray-100 z-40">
+    
+    <div class="footer-social-links">
+        
+            <a target="_blank" rel="noopener" href="https://github.com/winjeg">
+                <i class="iconfont icon-github"></i>
+            </a>
+        
+            <a target="_blank" rel="noopener" href="https://t.me/winjeg">
+                <i class="iconfont icon-telegram"></i>
+            </a>
+        
+            <a target="_blank" rel="noopener" href="https://twitter.com/winjeg">
+                <i class="iconfont icon-twitter"></i>
+            </a>
+        
+            <a href="/atom.xml">
+                <i class="iconfont icon-rss"></i>
+            </a>
+        
+    </div>
+    
+    
+</footer>
+
+        <div id="mask" class="hidden mask fixed inset-0 bg-gray-900 opacity-75 z-40"></div>
+        <div id="search-view-container" class="hidden shadow-xl"></div>
+        
+<script src="/js/dom-event.min.js"></script>
+
+
+
+<script src="/js/local-search.min.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/js/lightgallery.min.js"></script>
+    
+<script src="/js/light-gallery.min.js"></script>
+
+
+
+
+
+
+    </body>
+</html>

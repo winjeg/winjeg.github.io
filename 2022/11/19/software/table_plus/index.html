@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html  lang="zh" >
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <title>简而美的 国产MySQL GUI 工具 Tables+ | winjeg's blog</title>
+    <meta name="description" content="Tables+ 是一款面向大众程序员开放的， 一款MySQL客户端， 它使用electron编写， 以保证此软件的跨平台可用， 另外，它是一款纯个人打造软件， 也希望大家多予以支持，以便此软件能够更好的发展下去。  MySQL已经毫无疑问的成为了中小网站的首选存储方案，MySQL的工具，市面上现有的MySQL客户端还是比较多的。市面上现有的一些MySQL工具想必大家也不陌生。但毫无疑问，这些都是几">
+<meta property="og:type" content="article">
+<meta property="og:title" content="简而美的 国产MySQL GUI 工具 Tables+">
+<meta property="og:url" content="https://winjeg.github.io/2022/11/19/software/table_plus/index.html">
+<meta property="og:site_name" content="winjeg&#39;s blog">
+<meta property="og:description" content="Tables+ 是一款面向大众程序员开放的， 一款MySQL客户端， 它使用electron编写， 以保证此软件的跨平台可用， 另外，它是一款纯个人打造软件， 也希望大家多予以支持，以便此软件能够更好的发展下去。  MySQL已经毫无疑问的成为了中小网站的首选存储方案，MySQL的工具，市面上现有的MySQL客户端还是比较多的。市面上现有的一些MySQL工具想必大家也不陌生。但毫无疑问，这些都是几">
+<meta property="og:locale">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2bd8ab64a35f4af982773cb269bc1ce8~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2e9e4454702c4d61b1471def4d2140c3~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/be0bcaa8a1b34206a620a9f58a280bd6~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d92473e2b59e4cffb14ee2cc62511e42~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3644067fe88345d1952fb53b6e3b1d1e~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/811d94f3b6754106bd7459a282afca62~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e9bb421d847546df87604c2681706262~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7bdde8cb2f164dd0a73481ce44be1921~tplv-k3u1fbpfcp-watermark.image">
+<meta property="article:published_time" content="2022-11-19T15:14:11.000Z">
+<meta property="article:modified_time" content="2022-12-05T15:06:01.889Z">
+<meta property="article:author" content="winjeg">
+<meta property="article:tag" content="mysql">
+<meta property="article:tag" content="electron">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2bd8ab64a35f4af982773cb269bc1ce8~tplv-k3u1fbpfcp-watermark.image">
+
+    
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon"><meta name="baidu-site-verification" content="5fNkcnppPy">
+
+    
+<link rel="stylesheet" href="/css/common.min.css">
+
+
+
+    
+    
+    
+    
+        <link href="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/css/lightgallery.min.css" rel="stylesheet">
+    
+    
+    
+<link rel="stylesheet" href="/css/iconfont.min.css">
+
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+    <body>
+        <header class="header header-fixture">
+    <div class="profile-search-wrap flex sm:block">
+        
+        
+        <div class="profile sm:text-center md:px-1 lg:px-3 sm:pb-4 sm:pt-6">
+            <a id="avatar" role="link" href="https://github.com/winjeg" class="inline-block lg:w-16 lg:h-16 w-8 h-8 m-2" target="_blank" rel="noopener" rel="noreferrer" >
+                <img src="https://www.gravatar.com/avatar/430f1fc50c046af01cd65a76639a2218?s=128" class="rounded-full" alt="avatar">
+            </a>
+            <h2 id="name" class="hidden lg:block">winjeg</h2>
+            <h3 id="title" class="hidden lg:block">Architect &amp; Coder</h3>
+            
+            <small id="location" class="hidden lg:block">
+                <i class="iconfont icon-map-icon"></i>
+                Hangzhou, China
+            </small>
+            
+        </div>
+        
+        
+<div class="search flex-1 flex lg:inline-block sm:hidden lg:px-4 lg:mt-2 lg:mb-4 lg:w-full">
+    <form id="search-form" class="my-auto flex-1 lg:border lg:border-solid lg:border-gray-200">
+        <div class="input-group table bg-gray-100 lg:bg-white w-full">
+            <input id="search-input" type="text" placeholder="Search" class="inline-block w-full bg-gray-100 lg:bg-white p-1">
+            <span class="table-cell">
+                <button name="search tigger button" disabled>
+                    <i class="iconfont icon-search m-2"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+        
+<div id="content-json" data-placeholder="Search" class="invisible hidden">/content.json</div>
+<script id="search-teamplate" type="text/html" data-path="/content.json">
+    <div>
+        <div class="search-header bg-gray-400">
+            <input id="actual-search-input" model="keyword" ref="input" class="inline-block w-full h-10 px-2 py-1" placeholder="Search" type="text">
+        </div>
+        <div class="search-result bg-gray-200">
+            {{#each searchPosts}}
+            <a href="/{{ path }}" class="result-item block px-2 pb-3 mb-1 pt-1 hover:bg-indigo-100">
+                <i class="iconfont icon-file"></i>
+                <h1 class="result-title inline font-medium text-lg">{{ title }}</h1>
+                <p class="result-content text-gray-600 text-sm">{{{ text }}}</p>
+            </a>
+            {{/each}}
+        </div>
+    </div>
+</script>
+
+</div>
+
+
+        <button name="menu toogle button" id="menu-toggle-btn" class="block sm:hidden p-3" role="button" aria-expanded="false">
+            <i class="iconfont icon-hamburger"></i>
+        </button>
+    </div>
+    <nav id="menu-nav" class="hidden sm:flex flex-col">
+        
+        
+            <div class="menu-item menu-home" role="menuitem">
+                <a href="/.">
+                    <i class="iconfont icon-home" aria-hidden="true"></i>
+                    <span class="menu-title">Home</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-archives" role="menuitem">
+                <a href="/archives">
+                    <i class="iconfont icon-archive" aria-hidden="true"></i>
+                    <span class="menu-title">Archives</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-categories" role="menuitem">
+                <a href="/categories">
+                    <i class="iconfont icon-folder" aria-hidden="true"></i>
+                    <span class="menu-title">Categories</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-tags" role="menuitem">
+                <a href="/tags">
+                    <i class="iconfont icon-tag" aria-hidden="true"></i>
+                    <span class="menu-title">Tags</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-repository" role="menuitem">
+                <a href="/repository">
+                    <i class="iconfont icon-project" aria-hidden="true"></i>
+                    <span class="menu-title">Repository</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-links" role="menuitem">
+                <a href="/links">
+                    <i class="iconfont icon-friend" aria-hidden="true"></i>
+                    <span class="menu-title">Links</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-about" role="menuitem">
+                <a href="/about">
+                    <i class="iconfont icon-cup" aria-hidden="true"></i>
+                    <span class="menu-title">About</span>
+                </a>
+            </div>
+        
+        
+<div class="social-links flex sm:flex-col lg:hidden mt-5">
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://github.com/winjeg">
+                <i class="iconfont social-icon icon-github"></i>
+                <span class="menu-title hidden lg:inline">menu.github</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://t.me/winjeg">
+                <i class="iconfont social-icon icon-telegram"></i>
+                <span class="menu-title hidden lg:inline">menu.telegram</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://twitter.com/winjeg">
+                <i class="iconfont social-icon icon-twitter"></i>
+                <span class="menu-title hidden lg:inline">menu.twitter</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a href="/atom.xml">
+                <i class="iconfont social-icon icon-rss"></i>
+                <span class="menu-title hidden lg:inline">menu.rss</span>
+            </a>
+        </span>
+    
+</div>
+
+
+    </nav>
+</header>
+
+        <section class="main-section">
+            
+    <main class="flex-1 px-4 py-14 md:px-5 lg:px-8 lg:py-4 relative min-h-screen">
+    
+
+    <article class="content article article-archives article-type-list" itemscope="">
+        <header class="article-header">
+            
+    
+        <h1 class="article-title text-lg" itemprop="name">
+            简而美的 国产MySQL GUI 工具 Tables+
+        </h1>
+    
+
+
+
+            <p class="article-meta mb-3 text-xs">
+                <span class="article-date">
+    <i class="iconfont icon-calendar-check"></i>
+	<a href="/2022/11/19/software/table_plus/" class="article-date">
+	  <time datetime="2022-11-19T15:14:11.000Z" itemprop="datePublished">Nov 19</time>
+	</a>
+</span>
+
+                
+    <span class="article-category">
+    <i class="iconfont icon-folder"></i>
+    <a class="article-category-link" href="/categories/software/">software</a>
+  </span>
+
+
+                
+    <span class="article-tags">
+    <i class="iconfont icon-tag"></i>
+    <a class="article-tag-none-link" href="/tags/electron/" rel="tag">electron</a>, <a class="article-tag-none-link" href="/tags/mysql/" rel="tag">mysql</a>
+  </span>
+
+
+                <span class="_partial/post-comment"><i class="icon icon-comment"></i>
+                    <a href="/2022/11/19/software/table_plus/#comments" class="article-comment-link">
+                        Comments
+                    </a>
+                </span>
+                
+
+            </p>
+        </header>
+        <div class="marked-body article-body">
+            <p>Tables+ 是一款面向大众程序员开放的， 一款MySQL客户端， 它使用electron编写， 以保证此软件的跨平台可用， 另外，它是一款纯个人打造软件， 也希望大家多予以支持，以便此软件能够更好的发展下去。</p>
+<p> MySQL已经毫无疑问的成为了中小网站的首选存储方案，MySQL的工具，市面上现有的MySQL客户端还是比较多的。市面上现有的一些MySQL工具想必大家也不陌生。但毫无疑问，这些都是几十年的老工具了。很少会给人焕然一新的感觉，而且很多都已经与现在流行的界面元素脱节， Tables+ 的出现，无疑是弥补了这些缺失， 更重要的是它是一款相对完整的国产 MySQL客户端软件。</p>
+<h2 id="功能列表"><a href="#功能列表" class="headerlink" title="功能列表"></a>功能列表</h2><p>下面通过一些典型的软件界面截图，来介绍此软件的功能, 附软件<a target="_blank" rel="noopener" href="https://github.com/gridsx/gridsx.github.io/releases/tag/v1.0.0">下载地址</a><br><a target="_blank" rel="noopener" href="https://github.com/gridsx/gridsx.github.io/releases/tag/v1.0.0">备用下载地址</a></p>
+<h3 id="连接管理"><a href="#连接管理" class="headerlink" title="连接管理"></a>连接管理</h3><p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2bd8ab64a35f4af982773cb269bc1ce8~tplv-k3u1fbpfcp-watermark.image" alt="conn_mgr.png"><br>您可以通过连接管理-&gt;添加MySQL连接，进行MySQL连接信息的录入。</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2e9e4454702c4d61b1471def4d2140c3~tplv-k3u1fbpfcp-watermark.image" alt="home.png"><br> 录入完毕后，如果您需要删除或者修改，可以在软件首页，去删除这些已经录入的连接信息。<br> 如果您录入了非常多的连接信息， 您可以通过首页右上角的搜索按钮，对您录入的连接进行搜索过滤。</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/be0bcaa8a1b34206a620a9f58a280bd6~tplv-k3u1fbpfcp-watermark.image" alt="query.png"><br>点击首页卡片， 可以轻松进入数据库查询界面， 这里您可以输入SQL进行查询，查看执行计划， 也可以保存和格式化您的SQL。</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d92473e2b59e4cffb14ee2cc62511e42~tplv-k3u1fbpfcp-watermark.image" alt="tables.png"><br>点击左侧表列表，您将看到此库下面的所有的表， 如果您的表数量过多，还可以进行分组管理哦，这是一个非常方便的功能， 这里可以进行常见的双击查看表数据，删除表， 新建表等操作， 也可以对打开的表的数据进行修改保存。</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3644067fe88345d1952fb53b6e3b1d1e~tplv-k3u1fbpfcp-watermark.image" alt="design.png"></p>
+<p>在设计表界面， 您可以随意的修改表的列， 索引， 以及其他表选项， 以便满足您的表设计需求。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/811d94f3b6754106bd7459a282afca62~tplv-k3u1fbpfcp-watermark.image" alt="user_sql.png"><br>最后， 如果您想查看自己保存的SQL在哪，可以点击用户SQL，查看自己保存的SQL。<br>如果您想查看SQL内容，可以直接点击这里的卡片，进入查询页面，即可查看和查询。</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e9bb421d847546df87604c2681706262~tplv-k3u1fbpfcp-watermark.image" alt="lang.png"><br>最后， 如果您想对此软件的外观，和语言进行一定的修改，您可以通过文件-&gt; 设置， 找到您能设置的一些选项。</p>
+<h2 id="设计理念：简单和美"><a href="#设计理念：简单和美" class="headerlink" title="设计理念：简单和美"></a>设计理念：简单和美</h2><p>Tables+ 对于多余的功能，绝对不设计， 比如不常用的函数， 不常用的存储过程， 以及触发器等等。<br>这些已经被很多互联网公司弃用， 因此，在此软件中不会特别的支持这些已经过时了的功能。 软件本身采用了比较现代的界面设计语言， 很多功能都经过精心调试和设计。</p>
+<h2 id="软件-RoadMap"><a href="#软件-RoadMap" class="headerlink" title="软件 RoadMap:"></a>软件 RoadMap:</h2><p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7bdde8cb2f164dd0a73481ce44be1921~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<h2 id="贡献"><a href="#贡献" class="headerlink" title="贡献"></a>贡献</h2><p>如果您对此软件有疑问，或者有兴趣， 可以 <a href="mailto://winjeg@qq.com">邮件</a> 我，说明您的意向。</p>
+
+        </div>
+        
+<blockquote class="copyright">
+    <p><strong>Link to this article : </strong><a class="permalink" href="https://winjeg.github.io/2022/11/19/software/table_plus/">https://winjeg.github.io/2022/11/19/software/table_plus/</a></p>
+    <p><strong>All rights reserved to winjeg</strong></p>
+</blockquote>
+
+
+    </article>
+    
+    <section id="comments">
+        
+    </section>
+
+
+    
+
+</main>
+
+
+<aside style="" id="sidebar" class="aside aside-fixture">
+    <div class="toc-sidebar">
+        <nav id="toc" class="article-toc">
+            <h3 class="toc-title">Catalogue</h3>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%9F%E8%83%BD%E5%88%97%E8%A1%A8"><span class="toc-number">1.</span> <span class="toc-text">功能列表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E7%AE%A1%E7%90%86"><span class="toc-number">1.1.</span> <span class="toc-text">连接管理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E7%90%86%E5%BF%B5%EF%BC%9A%E7%AE%80%E5%8D%95%E5%92%8C%E7%BE%8E"><span class="toc-number">2.</span> <span class="toc-text">设计理念：简单和美</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6-RoadMap"><span class="toc-number">3.</span> <span class="toc-text">软件 RoadMap:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B4%A1%E7%8C%AE"><span class="toc-number">4.</span> <span class="toc-text">贡献</span></a></li></ol>
+        </nav>
+    </div>
+</aside>
+
+
+
+
+
+        </section>
+        <footer class="hidden lg:block fixed bottom-0 left-0 sm:w-1/12 lg:w-1/6 bg-gray-100 z-40">
+    
+    <div class="footer-social-links">
+        
+            <a target="_blank" rel="noopener" href="https://github.com/winjeg">
+                <i class="iconfont icon-github"></i>
+            </a>
+        
+            <a target="_blank" rel="noopener" href="https://t.me/winjeg">
+                <i class="iconfont icon-telegram"></i>
+            </a>
+        
+            <a target="_blank" rel="noopener" href="https://twitter.com/winjeg">
+                <i class="iconfont icon-twitter"></i>
+            </a>
+        
+            <a href="/atom.xml">
+                <i class="iconfont icon-rss"></i>
+            </a>
+        
+    </div>
+    
+    
+</footer>
+
+        <div id="mask" class="hidden mask fixed inset-0 bg-gray-900 opacity-75 z-40"></div>
+        <div id="search-view-container" class="hidden shadow-xl"></div>
+        
+<script src="/js/dom-event.min.js"></script>
+
+
+
+<script src="/js/local-search.min.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/js/lightgallery.min.js"></script>
+    
+<script src="/js/light-gallery.min.js"></script>
+
+
+
+
+
+
+    </body>
+</html>

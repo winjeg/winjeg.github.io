@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html  lang="zh" >
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <title>简谈MySQL报警 | winjeg's blog</title>
+    <meta name="description" content="报警报警时我们保证稳定性的最后一道坎， 如果进入了报警的阶段，应用离Down掉就不远了。 报警也是我们保障稳定性的一个重要的环节。对于报警的设置是比较考究的， 下面主要会分析一下报警的几个方面。 报警的及时性 ★★★★★对于报警，笔者认为最应该优先保障的就是及时性， 试想一个应用已经被用户反馈挂了的情况下， 这个时候就算不用报警，开发者应该也已经知道了。 这个时候报警存在的意义就是0了。因此报警最">
+<meta property="og:type" content="article">
+<meta property="og:title" content="简谈MySQL报警">
+<meta property="og:url" content="https://winjeg.github.io/2016/08/13/storage/mysql/alert/index.html">
+<meta property="og:site_name" content="winjeg&#39;s blog">
+<meta property="og:description" content="报警报警时我们保证稳定性的最后一道坎， 如果进入了报警的阶段，应用离Down掉就不远了。 报警也是我们保障稳定性的一个重要的环节。对于报警的设置是比较考究的， 下面主要会分析一下报警的几个方面。 报警的及时性 ★★★★★对于报警，笔者认为最应该优先保障的就是及时性， 试想一个应用已经被用户反馈挂了的情况下， 这个时候就算不用报警，开发者应该也已经知道了。 这个时候报警存在的意义就是0了。因此报警最">
+<meta property="og:locale">
+<meta property="article:published_time" content="2016-08-13T15:14:11.000Z">
+<meta property="article:modified_time" content="2022-12-05T15:06:01.889Z">
+<meta property="article:author" content="winjeg">
+<meta property="article:tag" content="database">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon"><meta name="baidu-site-verification" content="5fNkcnppPy">
+
+    
+<link rel="stylesheet" href="/css/common.min.css">
+
+
+
+    
+    
+    
+    
+        <link href="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/css/lightgallery.min.css" rel="stylesheet">
+    
+    
+    
+<link rel="stylesheet" href="/css/iconfont.min.css">
+
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+    <body>
+        <header class="header header-fixture">
+    <div class="profile-search-wrap flex sm:block">
+        
+        
+        <div class="profile sm:text-center md:px-1 lg:px-3 sm:pb-4 sm:pt-6">
+            <a id="avatar" role="link" href="https://github.com/winjeg" class="inline-block lg:w-16 lg:h-16 w-8 h-8 m-2" target="_blank" rel="noopener" rel="noreferrer" >
+                <img src="https://www.gravatar.com/avatar/430f1fc50c046af01cd65a76639a2218?s=128" class="rounded-full" alt="avatar">
+            </a>
+            <h2 id="name" class="hidden lg:block">winjeg</h2>
+            <h3 id="title" class="hidden lg:block">Architect &amp; Coder</h3>
+            
+            <small id="location" class="hidden lg:block">
+                <i class="iconfont icon-map-icon"></i>
+                Hangzhou, China
+            </small>
+            
+        </div>
+        
+        
+<div class="search flex-1 flex lg:inline-block sm:hidden lg:px-4 lg:mt-2 lg:mb-4 lg:w-full">
+    <form id="search-form" class="my-auto flex-1 lg:border lg:border-solid lg:border-gray-200">
+        <div class="input-group table bg-gray-100 lg:bg-white w-full">
+            <input id="search-input" type="text" placeholder="Search" class="inline-block w-full bg-gray-100 lg:bg-white p-1">
+            <span class="table-cell">
+                <button name="search tigger button" disabled>
+                    <i class="iconfont icon-search m-2"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+        
+<div id="content-json" data-placeholder="Search" class="invisible hidden">/content.json</div>
+<script id="search-teamplate" type="text/html" data-path="/content.json">
+    <div>
+        <div class="search-header bg-gray-400">
+            <input id="actual-search-input" model="keyword" ref="input" class="inline-block w-full h-10 px-2 py-1" placeholder="Search" type="text">
+        </div>
+        <div class="search-result bg-gray-200">
+            {{#each searchPosts}}
+            <a href="/{{ path }}" class="result-item block px-2 pb-3 mb-1 pt-1 hover:bg-indigo-100">
+                <i class="iconfont icon-file"></i>
+                <h1 class="result-title inline font-medium text-lg">{{ title }}</h1>
+                <p class="result-content text-gray-600 text-sm">{{{ text }}}</p>
+            </a>
+            {{/each}}
+        </div>
+    </div>
+</script>
+
+</div>
+
+
+        <button name="menu toogle button" id="menu-toggle-btn" class="block sm:hidden p-3" role="button" aria-expanded="false">
+            <i class="iconfont icon-hamburger"></i>
+        </button>
+    </div>
+    <nav id="menu-nav" class="hidden sm:flex flex-col">
+        
+        
+            <div class="menu-item menu-home" role="menuitem">
+                <a href="/.">
+                    <i class="iconfont icon-home" aria-hidden="true"></i>
+                    <span class="menu-title">Home</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-archives" role="menuitem">
+                <a href="/archives">
+                    <i class="iconfont icon-archive" aria-hidden="true"></i>
+                    <span class="menu-title">Archives</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-categories" role="menuitem">
+                <a href="/categories">
+                    <i class="iconfont icon-folder" aria-hidden="true"></i>
+                    <span class="menu-title">Categories</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-tags" role="menuitem">
+                <a href="/tags">
+                    <i class="iconfont icon-tag" aria-hidden="true"></i>
+                    <span class="menu-title">Tags</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-repository" role="menuitem">
+                <a href="/repository">
+                    <i class="iconfont icon-project" aria-hidden="true"></i>
+                    <span class="menu-title">Repository</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-links" role="menuitem">
+                <a href="/links">
+                    <i class="iconfont icon-friend" aria-hidden="true"></i>
+                    <span class="menu-title">Links</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-about" role="menuitem">
+                <a href="/about">
+                    <i class="iconfont icon-cup" aria-hidden="true"></i>
+                    <span class="menu-title">About</span>
+                </a>
+            </div>
+        
+        
+<div class="social-links flex sm:flex-col lg:hidden mt-5">
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://github.com/winjeg">
+                <i class="iconfont social-icon icon-github"></i>
+                <span class="menu-title hidden lg:inline">menu.github</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://t.me/winjeg">
+                <i class="iconfont social-icon icon-telegram"></i>
+                <span class="menu-title hidden lg:inline">menu.telegram</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://twitter.com/winjeg">
+                <i class="iconfont social-icon icon-twitter"></i>
+                <span class="menu-title hidden lg:inline">menu.twitter</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a href="/atom.xml">
+                <i class="iconfont social-icon icon-rss"></i>
+                <span class="menu-title hidden lg:inline">menu.rss</span>
+            </a>
+        </span>
+    
+</div>
+
+
+    </nav>
+</header>
+
+        <section class="main-section">
+            
+    <main class="flex-1 px-4 py-14 md:px-5 lg:px-8 lg:py-4 relative min-h-screen">
+    
+
+    <article class="content article article-archives article-type-list" itemscope="">
+        <header class="article-header">
+            
+    
+        <h1 class="article-title text-lg" itemprop="name">
+            简谈MySQL报警
+        </h1>
+    
+
+
+
+            <p class="article-meta mb-3 text-xs">
+                <span class="article-date">
+    <i class="iconfont icon-calendar-check"></i>
+	<a href="/2016/08/13/storage/mysql/alert/" class="article-date">
+	  <time datetime="2016-08-13T15:14:11.000Z" itemprop="datePublished">Aug 13</time>
+	</a>
+</span>
+
+                
+    <span class="article-category">
+    <i class="iconfont icon-folder"></i>
+    <a class="article-category-link" href="/categories/storage/">storage</a> , <a class="article-category-link" href="/categories/storage/database/">database</a>
+  </span>
+
+
+                
+    <span class="article-tags">
+    <i class="iconfont icon-tag"></i>
+    <a class="article-tag-none-link" href="/tags/MySQL/" rel="tag">MySQL</a>, <a class="article-tag-none-link" href="/tags/database/" rel="tag">database</a>
+  </span>
+
+
+                <span class="_partial/post-comment"><i class="icon icon-comment"></i>
+                    <a href="/2016/08/13/storage/mysql/alert/#comments" class="article-comment-link">
+                        Comments
+                    </a>
+                </span>
+                
+
+            </p>
+        </header>
+        <div class="marked-body article-body">
+            <h2 id="报警"><a href="#报警" class="headerlink" title="报警"></a>报警</h2><p>报警时我们保证稳定性的最后一道坎， 如果进入了报警的阶段，应用离Down掉就不远了。 报警也是我们保障稳定性的一个重要的环节。<br>对于报警的设置是比较考究的， 下面主要会分析一下报警的几个方面。</p>
+<h3 id="报警的及时性-★★★★★"><a href="#报警的及时性-★★★★★" class="headerlink" title="报警的及时性 ★★★★★"></a>报警的及时性 ★★★★★</h3><p>对于报警，笔者认为最应该优先保障的就是及时性， 试想一个应用已经被用户反馈挂了的情况下， 这个时候就算不用报警，开发者应该也已经知道了。 这个时候报警存在的意义就是0了。因此报警最重要的一个特性就是要能及时地反馈问题，让应用开发者能够在用户发现之前发现问题，处理问题和解决问题。</p>
+<h3 id="报警的准确性-★★★★☆"><a href="#报警的准确性-★★★★☆" class="headerlink" title="报警的准确性 ★★★★☆"></a>报警的准确性 ★★★★☆</h3><p>很多人会碰到收到的报警太多的情况， 也有很多人会碰到收不到报警的情况。这两种情况基本上来讲都是不太正常的， 当然不排除后者是在应用非常良好的情况下，有一堆其他措施能够保证不需要走到报警这个环节。对于过多的报警，很多人往往容易麻木， 这样就容易造成人们心理的一种懈怠， 反正之前报警什么事情也不会发生， 现在报警应该也不会发生什么事情，一旦到了关键时候，警也报了，但没有相应的人员去处理，最终酿成应用挂掉影响用户的惨剧。 所以报警不光是要能及时， 也要能准确， 能够区分报警的优先级别，用不同的方式来警告开发者， 并正确反馈情况。</p>
+<h3 id="报警的渠道和高可用-★★★★☆"><a href="#报警的渠道和高可用-★★★★☆" class="headerlink" title="报警的渠道和高可用 ★★★★☆"></a>报警的渠道和高可用 ★★★★☆</h3><p>说到报警的高可用， 除了报警服务本身的架构之外，本文更关注的是多渠道。<br>因为任何渠道都有阻塞或者down掉的可能性， 而且不同的渠道的触达及时性不同。<br>一般而言，电话报警的触达及时性是最高的，有电话大家往往能够及时看到。 其次，短信也是一个报警经常选择的手段， 因为短信也是会在比较短的时间内可以被开发者察觉到， 而且手机是随身携带的，不管在上班还是下班都能相对及时的收到。第三开发者往往会使用一些聊天软件如企业微信与钉钉， 这些软件在开发者使用电脑的时候可以比较及时的收到，因为性格不同， 一般开发者下班不太会关注这类软件的通知与消息，因此这类软件的有效性只能排到第三。最后一个也是一个很常见的手段：邮件。 邮件对于大家来说都不陌生， 但邮件的实时性一般会比较差一点， 但邮件有一个好处：可以沉淀比较多的内容，一起发送。</p>
+<p>不同的渠道的作用与及时性也不一样，一般报警会选择多渠道结合， 科学合理的利用与选择这些渠道。</p>
+<h3 id="报警的科学性与智能性-★★★☆☆"><a href="#报警的科学性与智能性-★★★☆☆" class="headerlink" title="报警的科学性与智能性 ★★★☆☆"></a>报警的科学性与智能性 ★★★☆☆</h3><p>最后一点也是不太好做的一点， 但一旦做好就会让人感觉比较舒服。试想一下，利用机器学习的方式，回顾监控需要关注的各个指标，以及当时的处理情况，通过与往期数据的结合分析， 最终做出决定是否要报警。 这类服务一般的研发成本也比较高， 但它确实可以让人感觉比较有用，比较舒服。 如果做的好， 可以在各项指标都还正常的情况下，会更早的报警，更早的反馈问题， 可以留给开发者更多的时间处理问题，这在极大程度上能减少损失；另外这类报警一般也可以比较人性化一点： 比如可以根据报警的优先级以及时间段决定是否去烦扰正在熟睡中的开发者。<br>总之这个领域可以做的比较多，但做的好往往会要求比较高的投入与比较精致的设计。</p>
+
+        </div>
+        
+<blockquote class="copyright">
+    <p><strong>Link to this article : </strong><a class="permalink" href="https://winjeg.github.io/2016/08/13/storage/mysql/alert/">https://winjeg.github.io/2016/08/13/storage/mysql/alert/</a></p>
+    <p><strong>All rights reserved to winjeg</strong></p>
+</blockquote>
+
+
+    </article>
+    
+    <section id="comments">
+        
+    </section>
+
+
+    
+
+</main>
+
+
+<aside style="" id="sidebar" class="aside aside-fixture">
+    <div class="toc-sidebar">
+        <nav id="toc" class="article-toc">
+            <h3 class="toc-title">Catalogue</h3>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%A5%E8%AD%A6"><span class="toc-number">1.</span> <span class="toc-text">报警</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%A5%E8%AD%A6%E7%9A%84%E5%8F%8A%E6%97%B6%E6%80%A7-%E2%98%85%E2%98%85%E2%98%85%E2%98%85%E2%98%85"><span class="toc-number">1.1.</span> <span class="toc-text">报警的及时性 ★★★★★</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%A5%E8%AD%A6%E7%9A%84%E5%87%86%E7%A1%AE%E6%80%A7-%E2%98%85%E2%98%85%E2%98%85%E2%98%85%E2%98%86"><span class="toc-number">1.2.</span> <span class="toc-text">报警的准确性 ★★★★☆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%A5%E8%AD%A6%E7%9A%84%E6%B8%A0%E9%81%93%E5%92%8C%E9%AB%98%E5%8F%AF%E7%94%A8-%E2%98%85%E2%98%85%E2%98%85%E2%98%85%E2%98%86"><span class="toc-number">1.3.</span> <span class="toc-text">报警的渠道和高可用 ★★★★☆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%A5%E8%AD%A6%E7%9A%84%E7%A7%91%E5%AD%A6%E6%80%A7%E4%B8%8E%E6%99%BA%E8%83%BD%E6%80%A7-%E2%98%85%E2%98%85%E2%98%85%E2%98%86%E2%98%86"><span class="toc-number">1.4.</span> <span class="toc-text">报警的科学性与智能性 ★★★☆☆</span></a></li></ol></li></ol>
+        </nav>
+    </div>
+</aside>
+
+
+
+
+
+        </section>
+        <footer class="hidden lg:block fixed bottom-0 left-0 sm:w-1/12 lg:w-1/6 bg-gray-100 z-40">
+    
+    <div class="footer-social-links">
+        
+            <a target="_blank" rel="noopener" href="https://github.com/winjeg">
+                <i class="iconfont icon-github"></i>
+            </a>
+        
+            <a target="_blank" rel="noopener" href="https://t.me/winjeg">
+                <i class="iconfont icon-telegram"></i>
+            </a>
+        
+            <a target="_blank" rel="noopener" href="https://twitter.com/winjeg">
+                <i class="iconfont icon-twitter"></i>
+            </a>
+        
+            <a href="/atom.xml">
+                <i class="iconfont icon-rss"></i>
+            </a>
+        
+    </div>
+    
+    
+</footer>
+
+        <div id="mask" class="hidden mask fixed inset-0 bg-gray-900 opacity-75 z-40"></div>
+        <div id="search-view-container" class="hidden shadow-xl"></div>
+        
+<script src="/js/dom-event.min.js"></script>
+
+
+
+<script src="/js/local-search.min.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/js/lightgallery.min.js"></script>
+    
+<script src="/js/light-gallery.min.js"></script>
+
+
+
+
+
+
+    </body>
+</html>

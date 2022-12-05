@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html  lang="zh" >
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <title>TDDL 常见配置详解 | winjeg's blog</title>
+    <meta name="description" content="TDDL 简介TDDL 是淘宝开源的一个基于Client做的， 用于如下特性的一个中间件：  读写分离 权重调配 分库分表 流控&#x2F;限速 数据库信息配置化 查询重写与优化TDDL 最新的版本是个泄露的版本, 有兴趣的同学可以下载源代码研究一下。  TDDL的配置均以Key-Value 形式存储， 拥有 内存-磁盘-远程 三级降级措施, 官方默认存储配置的地方为Diamond服务器。由于TD">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TDDL 常见配置详解">
+<meta property="og:url" content="https://winjeg.github.io/2016/09/13/storage/tddl_config/index.html">
+<meta property="og:site_name" content="winjeg&#39;s blog">
+<meta property="og:description" content="TDDL 简介TDDL 是淘宝开源的一个基于Client做的， 用于如下特性的一个中间件：  读写分离 权重调配 分库分表 流控&#x2F;限速 数据库信息配置化 查询重写与优化TDDL 最新的版本是个泄露的版本, 有兴趣的同学可以下载源代码研究一下。  TDDL的配置均以Key-Value 形式存储， 拥有 内存-磁盘-远程 三级降级措施, 官方默认存储配置的地方为Diamond服务器。由于TD">
+<meta property="og:locale">
+<meta property="article:published_time" content="2016-09-13T15:14:11.000Z">
+<meta property="article:modified_time" content="2022-12-05T15:06:01.889Z">
+<meta property="article:author" content="winjeg">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="middleware">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon"><meta name="baidu-site-verification" content="5fNkcnppPy">
+
+    
+<link rel="stylesheet" href="/css/common.min.css">
+
+
+
+    
+    
+    
+    
+        <link href="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/css/lightgallery.min.css" rel="stylesheet">
+    
+    
+    
+<link rel="stylesheet" href="/css/iconfont.min.css">
+
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+    <body>
+        <header class="header header-fixture">
+    <div class="profile-search-wrap flex sm:block">
+        
+        
+        <div class="profile sm:text-center md:px-1 lg:px-3 sm:pb-4 sm:pt-6">
+            <a id="avatar" role="link" href="https://github.com/winjeg" class="inline-block lg:w-16 lg:h-16 w-8 h-8 m-2" target="_blank" rel="noopener" rel="noreferrer" >
+                <img src="https://www.gravatar.com/avatar/430f1fc50c046af01cd65a76639a2218?s=128" class="rounded-full" alt="avatar">
+            </a>
+            <h2 id="name" class="hidden lg:block">winjeg</h2>
+            <h3 id="title" class="hidden lg:block">Architect &amp; Coder</h3>
+            
+            <small id="location" class="hidden lg:block">
+                <i class="iconfont icon-map-icon"></i>
+                Hangzhou, China
+            </small>
+            
+        </div>
+        
+        
+<div class="search flex-1 flex lg:inline-block sm:hidden lg:px-4 lg:mt-2 lg:mb-4 lg:w-full">
+    <form id="search-form" class="my-auto flex-1 lg:border lg:border-solid lg:border-gray-200">
+        <div class="input-group table bg-gray-100 lg:bg-white w-full">
+            <input id="search-input" type="text" placeholder="Search" class="inline-block w-full bg-gray-100 lg:bg-white p-1">
+            <span class="table-cell">
+                <button name="search tigger button" disabled>
+                    <i class="iconfont icon-search m-2"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+        
+<div id="content-json" data-placeholder="Search" class="invisible hidden">/content.json</div>
+<script id="search-teamplate" type="text/html" data-path="/content.json">
+    <div>
+        <div class="search-header bg-gray-400">
+            <input id="actual-search-input" model="keyword" ref="input" class="inline-block w-full h-10 px-2 py-1" placeholder="Search" type="text">
+        </div>
+        <div class="search-result bg-gray-200">
+            {{#each searchPosts}}
+            <a href="/{{ path }}" class="result-item block px-2 pb-3 mb-1 pt-1 hover:bg-indigo-100">
+                <i class="iconfont icon-file"></i>
+                <h1 class="result-title inline font-medium text-lg">{{ title }}</h1>
+                <p class="result-content text-gray-600 text-sm">{{{ text }}}</p>
+            </a>
+            {{/each}}
+        </div>
+    </div>
+</script>
+
+</div>
+
+
+        <button name="menu toogle button" id="menu-toggle-btn" class="block sm:hidden p-3" role="button" aria-expanded="false">
+            <i class="iconfont icon-hamburger"></i>
+        </button>
+    </div>
+    <nav id="menu-nav" class="hidden sm:flex flex-col">
+        
+        
+            <div class="menu-item menu-home" role="menuitem">
+                <a href="/.">
+                    <i class="iconfont icon-home" aria-hidden="true"></i>
+                    <span class="menu-title">Home</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-archives" role="menuitem">
+                <a href="/archives">
+                    <i class="iconfont icon-archive" aria-hidden="true"></i>
+                    <span class="menu-title">Archives</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-categories" role="menuitem">
+                <a href="/categories">
+                    <i class="iconfont icon-folder" aria-hidden="true"></i>
+                    <span class="menu-title">Categories</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-tags" role="menuitem">
+                <a href="/tags">
+                    <i class="iconfont icon-tag" aria-hidden="true"></i>
+                    <span class="menu-title">Tags</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-repository" role="menuitem">
+                <a href="/repository">
+                    <i class="iconfont icon-project" aria-hidden="true"></i>
+                    <span class="menu-title">Repository</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-links" role="menuitem">
+                <a href="/links">
+                    <i class="iconfont icon-friend" aria-hidden="true"></i>
+                    <span class="menu-title">Links</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-about" role="menuitem">
+                <a href="/about">
+                    <i class="iconfont icon-cup" aria-hidden="true"></i>
+                    <span class="menu-title">About</span>
+                </a>
+            </div>
+        
+        
+<div class="social-links flex sm:flex-col lg:hidden mt-5">
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://github.com/winjeg">
+                <i class="iconfont social-icon icon-github"></i>
+                <span class="menu-title hidden lg:inline">menu.github</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://t.me/winjeg">
+                <i class="iconfont social-icon icon-telegram"></i>
+                <span class="menu-title hidden lg:inline">menu.telegram</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://twitter.com/winjeg">
+                <i class="iconfont social-icon icon-twitter"></i>
+                <span class="menu-title hidden lg:inline">menu.twitter</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a href="/atom.xml">
+                <i class="iconfont social-icon icon-rss"></i>
+                <span class="menu-title hidden lg:inline">menu.rss</span>
+            </a>
+        </span>
+    
+</div>
+
+
+    </nav>
+</header>
+
+        <section class="main-section">
+            
+    <main class="flex-1 px-4 py-14 md:px-5 lg:px-8 lg:py-4 relative min-h-screen">
+    
+
+    <article class="content article article-archives article-type-list" itemscope="">
+        <header class="article-header">
+            
+    
+        <h1 class="article-title text-lg" itemprop="name">
+            TDDL 常见配置详解
+        </h1>
+    
+
+
+
+            <p class="article-meta mb-3 text-xs">
+                <span class="article-date">
+    <i class="iconfont icon-calendar-check"></i>
+	<a href="/2016/09/13/storage/tddl_config/" class="article-date">
+	  <time datetime="2016-09-13T15:14:11.000Z" itemprop="datePublished">Sep 13</time>
+	</a>
+</span>
+
+                
+    <span class="article-category">
+    <i class="iconfont icon-folder"></i>
+    <a class="article-category-link" href="/categories/storage/">storage</a> , <a class="article-category-link" href="/categories/storage/middleware/">middleware</a>
+  </span>
+
+
+                
+    <span class="article-tags">
+    <i class="iconfont icon-tag"></i>
+    <a class="article-tag-none-link" href="/tags/MySQL/" rel="tag">MySQL</a>, <a class="article-tag-none-link" href="/tags/middleware/" rel="tag">middleware</a>
+  </span>
+
+
+                <span class="_partial/post-comment"><i class="icon icon-comment"></i>
+                    <a href="/2016/09/13/storage/tddl_config/#comments" class="article-comment-link">
+                        Comments
+                    </a>
+                </span>
+                
+
+            </p>
+        </header>
+        <div class="marked-body article-body">
+            <h2 id="TDDL-简介"><a href="#TDDL-简介" class="headerlink" title="TDDL 简介"></a>TDDL 简介</h2><p>TDDL 是淘宝开源的一个基于Client做的， 用于如下特性的一个中间件：</p>
+<ol>
+<li>读写分离</li>
+<li>权重调配</li>
+<li>分库分表</li>
+<li>流控&#x2F;限速</li>
+<li>数据库信息配置化</li>
+<li>查询重写与优化<br>TDDL 最新的版本是个<a target="_blank" rel="noopener" href="https://github.com/loye168/tddl5">泄露的版本</a>, 有兴趣的同学可以下载源代码研究一下。</li>
+</ol>
+<p>TDDL的配置均以Key-Value 形式存储， 拥有 内存-磁盘-远程 三级降级措施, 官方默认存储配置的地方为<code>Diamond</code>服务器。<br>由于TDDL的配置规则相对复杂， 也许很多人并不能入门， 此文档就是给大家一个配置入门的方案。</p>
+<h2 id="变量列表说明"><a href="#变量列表说明" class="headerlink" title="变量列表说明"></a>变量列表说明</h2><ol>
+<li><code>$&#123;dbName&#125;</code> 数据库名称</li>
+<li><code>$&#123;envName&#125;</code> 环境名称</li>
+<li><code>$&#123;userName&#125;</code> 访问数据库使用的用户名</li>
+<li><code>$&#123;ip&#125;</code> mysql 服务器的IP地址</li>
+<li><code>$&#123;appName&#125;</code> appName，数据源名称</li>
+<li><code>$&#123;groupName&#125;</code> 分组名称</li>
+<li><code>$&#123;atomName&#125;</code> 物理数据库别名</li>
+</ol>
+<h2 id="数据源的拓扑结构"><a href="#数据源的拓扑结构" class="headerlink" title="数据源的拓扑结构"></a>数据源的拓扑结构</h2><h3 id="com-taobao-tddl-v1-ds-appName-topology"><a href="#com-taobao-tddl-v1-ds-appName-topology" class="headerlink" title="com.taobao.tddl.v1_ds-${appName}_topology"></a>com.taobao.tddl.v1_ds-${appName}_topology</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">matrix</span> <span class="attr">xmlns</span>=<span class="string">&quot;https://github.com/tddl/tddl/schema/matrix&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;https://github.com/tddl/tddl/schema/matrix https://raw.github.com/tddl/tddl/master/tddl-common/src/main/resources/META-INF/matrix.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">appName</span>&gt;</span>$&#123;appName&#125;<span class="tag">&lt;/<span class="name">appName</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">group</span> <span class="attr">name</span>=<span class="string">&quot;$&#123;groupName&#125;&quot;</span> <span class="attr">type</span>=<span class="string">&quot;mysql_jdbc&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">atom</span> <span class="attr">name</span>=<span class="string">&quot;$&#123;atomName&#125;&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">group</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">matrix</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这份key-value 对， 配置的是数据源的整体的拓扑结构信息， 这里会想尽的写清楚有哪些 数据分组， 哪些物理数据库会被用到.<br>其中  <code>appName</code> 元素只允许存在一个， 但 <code>group</code> 元素允许存在多个， 也允许非mysql段的存在， <code>atom</code>元素只能存在于<code>group</code> 元素之中，但可以存在多个， 每个<code>group</code> 下面的 <code>atom</code> 都是在数据上是等价的（数据集合相同， 可能读写属性不同）</p>
+<h2 id="数据源的规则集合"><a href="#数据源的规则集合" class="headerlink" title="数据源的规则集合"></a>数据源的规则集合</h2><h3 id="com-taobao-tddl-rule-le-appName"><a href="#com-taobao-tddl-rule-le-appName" class="headerlink" title="com.taobao.tddl.rule.le.${appName}"></a>com.taobao.tddl.rule.le.${appName}</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;designsnapshot_bean&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.taobao.tddl.rule.TableRule&quot;</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dbNamePattern&quot;</span> <span class="attr">value</span>=<span class="string">&quot;designsnapshot_&#123;0000&#125;&quot;</span>/&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dbRuleArray&quot;</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">value</span>&gt;</span>(#designid,1,64#.longValue() % 256).intdiv(64)<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;tbNamePattern&quot;</span> <span class="attr">value</span>=<span class="string">&quot;designsnapshot_&#123;0000&#125;&quot;</span> /&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;tbRuleArray&quot;</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">value</span>&gt;</span>#designid,1,64#.longValue() % 64<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;allowFullTableScan&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;vtabroot&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.taobao.tddl.rule.VirtualTableRoot&quot;</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;tableRules&quot;</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">map</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">entry</span> <span class="attr">key</span>=<span class="string">&quot;design_snapshot&quot;</span> <span class="attr">value-ref</span>=<span class="string">&quot;designsnapshot_bean&quot;</span> /&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">map</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dbIndexMap&quot;</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">map</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">entry</span> <span class="attr">key</span>=<span class="string">&quot;designsnapshot_sequence&quot;</span> <span class="attr">value</span>=<span class="string">&quot;designsnapshot_0000&quot;</span> /&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">map</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;defaultDbIndex&quot;</span> <span class="attr">value</span>=<span class="string">&quot;tms-db-dev&quot;</span> /&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这是一个表明整个数据源拓扑结构的规则文件， 也是分库分表规则配置的地方. <code>vtabroot</code> 是总的规则入口的<code>bean</code>。下面有几个概念需要详细解释一下。</p>
+<ol>
+<li><code>defaultDbIndex</code> 是默认的数据分组的设定， 当一个数据源（逻辑）有多个数据库（不同的数据库）的时候， 一个查询分发需要知道这个查询所涉及的表在哪个库上， 如果没有特殊指定， 那就会分发到这个东西指定的 <code>group</code>上。</li>
+<li><code>dbIndexMap</code> 用于指定哪些表在哪 <code>group</code>， 具体来说就是表库的映射关系， 优先级比 <code>defaultDbIndex</code> 高， 同样是在用于配置多个不同数据的数据库的时候使用的。</li>
+<li><code>tableRules</code> 用于定义虚拟表与虚拟表对应的分库分表规则的实际物理数据库关系。 key 是虚拟表名， 可以直接 SELECT FROM , value-ref 是 分库分表规则对应的bean</li>
+<li><code>分库分表的bean</code> 用于设置分库分表的规则<br><code>dbRuleArra</code> 是分库规则。如例所示， 以 designid列 进行分库， 每个库64张表， 共分为 256&#x2F;64个库，比如designid &#x3D; 500,  244 &#x2F; 64  &#x3D; 3 分到第四个库上。<br><code>tbRuleArray</code> 是分表规则。进入到每个库上的ID再进行取余64决定最后落到哪个表里。 这两个字段写法并非固定， 都是支持TDDL内置的一些表达式语法的， 具体得去看代码，此处只列出了最常用的取模的表达式。</li>
+</ol>
+<h2 id="数据源的读写分离权重优先级等配置"><a href="#数据源的读写分离权重优先级等配置" class="headerlink" title="数据源的读写分离权重优先级等配置"></a>数据源的读写分离权重优先级等配置</h2><h3 id="com-taobao-tddl-jdbc-group-V2-4-1-groupName"><a href="#com-taobao-tddl-jdbc-group-V2-4-1-groupName" class="headerlink" title="com.taobao.tddl.jdbc.group_V2.4.1_${groupName}"></a>com.taobao.tddl.jdbc.group_V2.4.1_${groupName}</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$&#123;atomName&#125;:rwp0i0,$&#123;atomName&#125;:rp1i1</span><br></pre></td></tr></table></figure>
+<p>逗号是各个数据库原的分隔符，冒号前面的是<code>atom</code>的名字。<code>rw</code> 是指读写, <code>r</code> 是指只读, <code>p</code> 是优先级的意思， p越大则越优先分配到。<code>i</code> index， 是指各个数据源的一个index， 此外还有个权重配置的<code>w</code>可以写在 <code>p</code> 后面 </p>
+<h2 id="数据库本身的配置"><a href="#数据库本身的配置" class="headerlink" title="数据库本身的配置"></a>数据库本身的配置</h2><h3 id="com-taobao-tddl-atom-global-atomName"><a href="#com-taobao-tddl-atom-global-atomName" class="headerlink" title="com.taobao.tddl.atom.global.${atomName}"></a>com.taobao.tddl.atom.global.${atomName}</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dbName=$&#123;dbName&#125;</span><br><span class="line">dbType=mysql</span><br><span class="line">dbStatus=RW</span><br><span class="line">ip=$&#123;ip&#125;</span><br><span class="line">port=3306</span><br></pre></td></tr></table></figure>
+<p>数据库自身的配置， 与TDDL 无关， 需要让TDDL知道数据库的地址， 端口， 数据库名称等基本信息</p>
+<h2 id="连接池的配置"><a href="#连接池的配置" class="headerlink" title="连接池的配置"></a>连接池的配置</h2><h1 id="com-taobao-tddl-atom-app-appName-atomName"><a href="#com-taobao-tddl-atom-app-appName-atomName" class="headerlink" title="com.taobao.tddl.atom.app.${appName}.${atomName}"></a>com.taobao.tddl.atom.app.${appName}.${atomName}</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">userName=$&#123;userName&#125;</span><br><span class="line">maxPoolSize=100</span><br><span class="line">minPoolSize=5</span><br><span class="line">idleTimeout=1</span><br><span class="line">testOnBorrow=1</span><br><span class="line">abandonedTimeout=60</span><br><span class="line">connectionProperties=charset=utf-8</span><br></pre></td></tr></table></figure>
+<p>由于TDDL底层使用<code>Driud</code>连接池， 因此， 这里主要用于配置 <code>druid</code> 连接池</p>
+<h2 id="数据库账号与密码指定"><a href="#数据库账号与密码指定" class="headerlink" title="数据库账号与密码指定"></a>数据库账号与密码指定</h2><h3 id="com-taobao-tddl-atom-passwd-dbName-mysql-userName"><a href="#com-taobao-tddl-atom-passwd-dbName-mysql-userName" class="headerlink" title="com.taobao.tddl.atom.passwd.${dbName}.mysql.${userName}"></a>com.taobao.tddl.atom.passwd.${dbName}.mysql.${userName}</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">encPasswd=$&#123;password&#125;</span><br></pre></td></tr></table></figure>
+<p>此处用于配置数据库用的密码。 由于开源出来的版本好像是没有对应的加密逻辑实现的， 因此， 这里的密码并不是加密的密码，而是明文的密码。<br>不过用户可以自行实现加密方法， 此处的接口TDDL是有留出来的。</p>
+
+        </div>
+        
+<blockquote class="copyright">
+    <p><strong>Link to this article : </strong><a class="permalink" href="https://winjeg.github.io/2016/09/13/storage/tddl_config/">https://winjeg.github.io/2016/09/13/storage/tddl_config/</a></p>
+    <p><strong>All rights reserved to winjeg</strong></p>
+</blockquote>
+
+
+    </article>
+    
+    <section id="comments">
+        
+    </section>
+
+
+    
+
+</main>
+
+
+<aside style="" id="sidebar" class="aside aside-fixture">
+    <div class="toc-sidebar">
+        <nav id="toc" class="article-toc">
+            <h3 class="toc-title">Catalogue</h3>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TDDL-%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">TDDL 简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E5%88%97%E8%A1%A8%E8%AF%B4%E6%98%8E"><span class="toc-number">2.</span> <span class="toc-text">变量列表说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%BA%90%E7%9A%84%E6%8B%93%E6%89%91%E7%BB%93%E6%9E%84"><span class="toc-number">3.</span> <span class="toc-text">数据源的拓扑结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#com-taobao-tddl-v1-ds-appName-topology"><span class="toc-number">3.1.</span> <span class="toc-text">com.taobao.tddl.v1_ds-${appName}_topology</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%BA%90%E7%9A%84%E8%A7%84%E5%88%99%E9%9B%86%E5%90%88"><span class="toc-number">4.</span> <span class="toc-text">数据源的规则集合</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#com-taobao-tddl-rule-le-appName"><span class="toc-number">4.1.</span> <span class="toc-text">com.taobao.tddl.rule.le.${appName}</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%BA%90%E7%9A%84%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E6%9D%83%E9%87%8D%E4%BC%98%E5%85%88%E7%BA%A7%E7%AD%89%E9%85%8D%E7%BD%AE"><span class="toc-number">5.</span> <span class="toc-text">数据源的读写分离权重优先级等配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#com-taobao-tddl-jdbc-group-V2-4-1-groupName"><span class="toc-number">5.1.</span> <span class="toc-text">com.taobao.tddl.jdbc.group_V2.4.1_${groupName}</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%AC%E8%BA%AB%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">6.</span> <span class="toc-text">数据库本身的配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#com-taobao-tddl-atom-global-atomName"><span class="toc-number">6.1.</span> <span class="toc-text">com.taobao.tddl.atom.global.${atomName}</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E6%B1%A0%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">7.</span> <span class="toc-text">连接池的配置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#com-taobao-tddl-atom-app-appName-atomName"><span class="toc-number"></span> <span class="toc-text">com.taobao.tddl.atom.app.${appName}.${atomName}</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%B4%A6%E5%8F%B7%E4%B8%8E%E5%AF%86%E7%A0%81%E6%8C%87%E5%AE%9A"><span class="toc-number">1.</span> <span class="toc-text">数据库账号与密码指定</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#com-taobao-tddl-atom-passwd-dbName-mysql-userName"><span class="toc-number">1.1.</span> <span class="toc-text">com.taobao.tddl.atom.passwd.${dbName}.mysql.${userName}</span></a></li></ol></li></ol>
+        </nav>
+    </div>
+</aside>
+
+
+
+
+
+        </section>
+        <footer class="hidden lg:block fixed bottom-0 left-0 sm:w-1/12 lg:w-1/6 bg-gray-100 z-40">
+    
+    <div class="footer-social-links">
+        
+            <a target="_blank" rel="noopener" href="https://github.com/winjeg">
+                <i class="iconfont icon-github"></i>
+            </a>
+        
+            <a target="_blank" rel="noopener" href="https://t.me/winjeg">
+                <i class="iconfont icon-telegram"></i>
+            </a>
+        
+            <a target="_blank" rel="noopener" href="https://twitter.com/winjeg">
+                <i class="iconfont icon-twitter"></i>
+            </a>
+        
+            <a href="/atom.xml">
+                <i class="iconfont icon-rss"></i>
+            </a>
+        
+    </div>
+    
+    
+</footer>
+
+        <div id="mask" class="hidden mask fixed inset-0 bg-gray-900 opacity-75 z-40"></div>
+        <div id="search-view-container" class="hidden shadow-xl"></div>
+        
+<script src="/js/dom-event.min.js"></script>
+
+
+
+<script src="/js/local-search.min.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/js/lightgallery.min.js"></script>
+    
+<script src="/js/light-gallery.min.js"></script>
+
+
+
+
+
+
+    </body>
+</html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html  lang="zh" >
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <title>打造属于自己的Linux个性化界面 | winjeg's blog</title>
+    <meta name="description" content="极力外观爱好者浏览这一页内容， 因为这一页会详细的讲述如何自定义一个适合自己使用的Linux系统， 包括外观，也包括一些界面美化软件。 #外观定制 选择一种桌面环境（Gnome）设置壁纸与锁屏界面选择自己喜欢的图标 (icon)选择自己喜欢主题 (theme)选择一个Dock软件 (docky&#x2F;plank&#x2F;cairodock)选择一个桌面显示软件 （Conky）操作习惯定制快捷">
+<meta property="og:type" content="article">
+<meta property="og:title" content="打造属于自己的Linux个性化界面">
+<meta property="og:url" content="https://winjeg.github.io/2014/09/13/linux/linux_customize/index.html">
+<meta property="og:site_name" content="winjeg&#39;s blog">
+<meta property="og:description" content="极力外观爱好者浏览这一页内容， 因为这一页会详细的讲述如何自定义一个适合自己使用的Linux系统， 包括外观，也包括一些界面美化软件。 #外观定制 选择一种桌面环境（Gnome）设置壁纸与锁屏界面选择自己喜欢的图标 (icon)选择自己喜欢主题 (theme)选择一个Dock软件 (docky&#x2F;plank&#x2F;cairodock)选择一个桌面显示软件 （Conky）操作习惯定制快捷">
+<meta property="og:locale">
+<meta property="article:published_time" content="2014-09-13T15:14:11.000Z">
+<meta property="article:modified_time" content="2022-12-05T15:06:01.889Z">
+<meta property="article:author" content="winjeg">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon"><meta name="baidu-site-verification" content="5fNkcnppPy">
+
+    
+<link rel="stylesheet" href="/css/common.min.css">
+
+
+
+    
+    
+    
+    
+        <link href="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/css/lightgallery.min.css" rel="stylesheet">
+    
+    
+    
+<link rel="stylesheet" href="/css/iconfont.min.css">
+
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+    <body>
+        <header class="header header-fixture">
+    <div class="profile-search-wrap flex sm:block">
+        
+        
+        <div class="profile sm:text-center md:px-1 lg:px-3 sm:pb-4 sm:pt-6">
+            <a id="avatar" role="link" href="https://github.com/winjeg" class="inline-block lg:w-16 lg:h-16 w-8 h-8 m-2" target="_blank" rel="noopener" rel="noreferrer" >
+                <img src="https://www.gravatar.com/avatar/430f1fc50c046af01cd65a76639a2218?s=128" class="rounded-full" alt="avatar">
+            </a>
+            <h2 id="name" class="hidden lg:block">winjeg</h2>
+            <h3 id="title" class="hidden lg:block">Architect &amp; Coder</h3>
+            
+            <small id="location" class="hidden lg:block">
+                <i class="iconfont icon-map-icon"></i>
+                Hangzhou, China
+            </small>
+            
+        </div>
+        
+        
+<div class="search flex-1 flex lg:inline-block sm:hidden lg:px-4 lg:mt-2 lg:mb-4 lg:w-full">
+    <form id="search-form" class="my-auto flex-1 lg:border lg:border-solid lg:border-gray-200">
+        <div class="input-group table bg-gray-100 lg:bg-white w-full">
+            <input id="search-input" type="text" placeholder="Search" class="inline-block w-full bg-gray-100 lg:bg-white p-1">
+            <span class="table-cell">
+                <button name="search tigger button" disabled>
+                    <i class="iconfont icon-search m-2"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+        
+<div id="content-json" data-placeholder="Search" class="invisible hidden">/content.json</div>
+<script id="search-teamplate" type="text/html" data-path="/content.json">
+    <div>
+        <div class="search-header bg-gray-400">
+            <input id="actual-search-input" model="keyword" ref="input" class="inline-block w-full h-10 px-2 py-1" placeholder="Search" type="text">
+        </div>
+        <div class="search-result bg-gray-200">
+            {{#each searchPosts}}
+            <a href="/{{ path }}" class="result-item block px-2 pb-3 mb-1 pt-1 hover:bg-indigo-100">
+                <i class="iconfont icon-file"></i>
+                <h1 class="result-title inline font-medium text-lg">{{ title }}</h1>
+                <p class="result-content text-gray-600 text-sm">{{{ text }}}</p>
+            </a>
+            {{/each}}
+        </div>
+    </div>
+</script>
+
+</div>
+
+
+        <button name="menu toogle button" id="menu-toggle-btn" class="block sm:hidden p-3" role="button" aria-expanded="false">
+            <i class="iconfont icon-hamburger"></i>
+        </button>
+    </div>
+    <nav id="menu-nav" class="hidden sm:flex flex-col">
+        
+        
+            <div class="menu-item menu-home" role="menuitem">
+                <a href="/.">
+                    <i class="iconfont icon-home" aria-hidden="true"></i>
+                    <span class="menu-title">Home</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-archives" role="menuitem">
+                <a href="/archives">
+                    <i class="iconfont icon-archive" aria-hidden="true"></i>
+                    <span class="menu-title">Archives</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-categories" role="menuitem">
+                <a href="/categories">
+                    <i class="iconfont icon-folder" aria-hidden="true"></i>
+                    <span class="menu-title">Categories</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-tags" role="menuitem">
+                <a href="/tags">
+                    <i class="iconfont icon-tag" aria-hidden="true"></i>
+                    <span class="menu-title">Tags</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-repository" role="menuitem">
+                <a href="/repository">
+                    <i class="iconfont icon-project" aria-hidden="true"></i>
+                    <span class="menu-title">Repository</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-links" role="menuitem">
+                <a href="/links">
+                    <i class="iconfont icon-friend" aria-hidden="true"></i>
+                    <span class="menu-title">Links</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-about" role="menuitem">
+                <a href="/about">
+                    <i class="iconfont icon-cup" aria-hidden="true"></i>
+                    <span class="menu-title">About</span>
+                </a>
+            </div>
+        
+        
+<div class="social-links flex sm:flex-col lg:hidden mt-5">
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://github.com/winjeg">
+                <i class="iconfont social-icon icon-github"></i>
+                <span class="menu-title hidden lg:inline">menu.github</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://t.me/winjeg">
+                <i class="iconfont social-icon icon-telegram"></i>
+                <span class="menu-title hidden lg:inline">menu.telegram</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a target="_blank" rel="noopener" href="https://twitter.com/winjeg">
+                <i class="iconfont social-icon icon-twitter"></i>
+                <span class="menu-title hidden lg:inline">menu.twitter</span>
+            </a>
+        </span>
+    
+        <span class="social-item text-center">
+            <a href="/atom.xml">
+                <i class="iconfont social-icon icon-rss"></i>
+                <span class="menu-title hidden lg:inline">menu.rss</span>
+            </a>
+        </span>
+    
+</div>
+
+
+    </nav>
+</header>
+
+        <section class="main-section">
+            
+    <main class="flex-1 px-4 py-14 md:px-5 lg:px-8 lg:py-4 relative min-h-screen">
+    
+
+    <article class="content article article-archives article-type-list" itemscope="">
+        <header class="article-header">
+            
+    
+        <h1 class="article-title text-lg" itemprop="name">
+            打造属于自己的Linux个性化界面
+        </h1>
+    
+
+
+
+            <p class="article-meta mb-3 text-xs">
+                <span class="article-date">
+    <i class="iconfont icon-calendar-check"></i>
+	<a href="/2014/09/13/linux/linux_customize/" class="article-date">
+	  <time datetime="2014-09-13T15:14:11.000Z" itemprop="datePublished">Sep 13</time>
+	</a>
+</span>
+
+                
+    <span class="article-category">
+    <i class="iconfont icon-folder"></i>
+    <a class="article-category-link" href="/categories/os/">os</a> , <a class="article-category-link" href="/categories/os/linux/">linux</a>
+  </span>
+
+
+                
+    <span class="article-tags">
+    <i class="iconfont icon-tag"></i>
+    <a class="article-tag-none-link" href="/tags/linux/" rel="tag">linux</a>
+  </span>
+
+
+                <span class="_partial/post-comment"><i class="icon icon-comment"></i>
+                    <a href="/2014/09/13/linux/linux_customize/#comments" class="article-comment-link">
+                        Comments
+                    </a>
+                </span>
+                
+
+            </p>
+        </header>
+        <div class="marked-body article-body">
+            <h1 id=""><a href="#" class="headerlink" title=""></a></h1><p>极力外观爱好者浏览这一页内容， 因为这一页会详细的讲述如何自定义一个适合自己使用的Linux系统， 包括外观，也包括一些界面美化软件。</p>
+<p>#外观定制</p>
+<h2 id="选择一种桌面环境（Gnome）"><a href="#选择一种桌面环境（Gnome）" class="headerlink" title="选择一种桌面环境（Gnome）"></a>选择一种桌面环境（Gnome）</h2><h2 id="设置壁纸与锁屏界面"><a href="#设置壁纸与锁屏界面" class="headerlink" title="设置壁纸与锁屏界面"></a>设置壁纸与锁屏界面</h2><h2 id="选择自己喜欢的图标-icon"><a href="#选择自己喜欢的图标-icon" class="headerlink" title="选择自己喜欢的图标 (icon)"></a>选择自己喜欢的图标 (icon)</h2><h2 id="选择自己喜欢主题-theme"><a href="#选择自己喜欢主题-theme" class="headerlink" title="选择自己喜欢主题 (theme)"></a>选择自己喜欢主题 (theme)</h2><h2 id="选择一个Dock软件-docky-x2F-plank-x2F-cairodock"><a href="#选择一个Dock软件-docky-x2F-plank-x2F-cairodock" class="headerlink" title="选择一个Dock软件 (docky&#x2F;plank&#x2F;cairodock)"></a>选择一个Dock软件 (docky&#x2F;plank&#x2F;cairodock)</h2><h2 id="选择一个桌面显示软件-（Conky）"><a href="#选择一个桌面显示软件-（Conky）" class="headerlink" title="选择一个桌面显示软件 （Conky）"></a>选择一个桌面显示软件 （Conky）</h2><h1 id="操作习惯定制"><a href="#操作习惯定制" class="headerlink" title="操作习惯定制"></a>操作习惯定制</h1><h2 id="快捷键定制"><a href="#快捷键定制" class="headerlink" title="快捷键定制"></a>快捷键定制</h2><h2 id="鼠标行为定制"><a href="#鼠标行为定制" class="headerlink" title="鼠标行为定制"></a>鼠标行为定制</h2><h2 id="定制完成后的效果图"><a href="#定制完成后的效果图" class="headerlink" title="定制完成后的效果图"></a>定制完成后的效果图</h2>
+        </div>
+        
+<blockquote class="copyright">
+    <p><strong>Link to this article : </strong><a class="permalink" href="https://winjeg.github.io/2014/09/13/linux/linux_customize/">https://winjeg.github.io/2014/09/13/linux/linux_customize/</a></p>
+    <p><strong>All rights reserved to winjeg</strong></p>
+</blockquote>
+
+
+    </article>
+    
+    <section id="comments">
+        
+    </section>
+
+
+    
+
+</main>
+
+
+<aside style="" id="sidebar" class="aside aside-fixture">
+    <div class="toc-sidebar">
+        <nav id="toc" class="article-toc">
+            <h3 class="toc-title">Catalogue</h3>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text"></span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E4%B8%80%E7%A7%8D%E6%A1%8C%E9%9D%A2%E7%8E%AF%E5%A2%83%EF%BC%88Gnome%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">选择一种桌面环境（Gnome）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E5%A3%81%E7%BA%B8%E4%B8%8E%E9%94%81%E5%B1%8F%E7%95%8C%E9%9D%A2"><span class="toc-number">1.2.</span> <span class="toc-text">设置壁纸与锁屏界面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E8%87%AA%E5%B7%B1%E5%96%9C%E6%AC%A2%E7%9A%84%E5%9B%BE%E6%A0%87-icon"><span class="toc-number">1.3.</span> <span class="toc-text">选择自己喜欢的图标 (icon)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E8%87%AA%E5%B7%B1%E5%96%9C%E6%AC%A2%E4%B8%BB%E9%A2%98-theme"><span class="toc-number">1.4.</span> <span class="toc-text">选择自己喜欢主题 (theme)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E4%B8%80%E4%B8%AADock%E8%BD%AF%E4%BB%B6-docky-x2F-plank-x2F-cairodock"><span class="toc-number">1.5.</span> <span class="toc-text">选择一个Dock软件 (docky&#x2F;plank&#x2F;cairodock)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E4%B8%80%E4%B8%AA%E6%A1%8C%E9%9D%A2%E6%98%BE%E7%A4%BA%E8%BD%AF%E4%BB%B6-%EF%BC%88Conky%EF%BC%89"><span class="toc-number">1.6.</span> <span class="toc-text">选择一个桌面显示软件 （Conky）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E4%B9%A0%E6%83%AF%E5%AE%9A%E5%88%B6"><span class="toc-number">2.</span> <span class="toc-text">操作习惯定制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%AE%9A%E5%88%B6"><span class="toc-number">2.1.</span> <span class="toc-text">快捷键定制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%BC%A0%E6%A0%87%E8%A1%8C%E4%B8%BA%E5%AE%9A%E5%88%B6"><span class="toc-number">2.2.</span> <span class="toc-text">鼠标行为定制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E5%88%B6%E5%AE%8C%E6%88%90%E5%90%8E%E7%9A%84%E6%95%88%E6%9E%9C%E5%9B%BE"><span class="toc-number">2.3.</span> <span class="toc-text">定制完成后的效果图</span></a></li></ol></li></ol>
+        </nav>
+    </div>
+</aside>
+
+
+
+
+
+        </section>
+        <footer class="hidden lg:block fixed bottom-0 left-0 sm:w-1/12 lg:w-1/6 bg-gray-100 z-40">
+    
+    <div class="footer-social-links">
+        
+            <a target="_blank" rel="noopener" href="https://github.com/winjeg">
+                <i class="iconfont icon-github"></i>
+            </a>
+        
+            <a target="_blank" rel="noopener" href="https://t.me/winjeg">
+                <i class="iconfont icon-telegram"></i>
+            </a>
+        
+            <a target="_blank" rel="noopener" href="https://twitter.com/winjeg">
+                <i class="iconfont icon-twitter"></i>
+            </a>
+        
+            <a href="/atom.xml">
+                <i class="iconfont icon-rss"></i>
+            </a>
+        
+    </div>
+    
+    
+</footer>
+
+        <div id="mask" class="hidden mask fixed inset-0 bg-gray-900 opacity-75 z-40"></div>
+        <div id="search-view-container" class="hidden shadow-xl"></div>
+        
+<script src="/js/dom-event.min.js"></script>
+
+
+
+<script src="/js/local-search.min.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/js/lightgallery.min.js"></script>
+    
+<script src="/js/light-gallery.min.js"></script>
+
+
+
+
+
+
+    </body>
+</html>
