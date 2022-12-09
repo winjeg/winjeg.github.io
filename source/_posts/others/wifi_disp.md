@@ -2,7 +2,7 @@
 title: Wifi DISPLAY 与Miracast那些事
 date: 2021-12-13 10:14:11
 toc: true
-# thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
+# img: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
 tags:
   - multi-media
 categories:

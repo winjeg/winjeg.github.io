@@ -2,7 +2,7 @@
 title: 索引优化
 date: 2016-07-13 15:14:11
 toc: true
-# thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
+# img: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
 tags:
   - 索引
   - database

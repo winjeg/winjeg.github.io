@@ -2,7 +2,7 @@
 title: Git提交规范
 date: 2021-11-12 10:14:11
 toc: true
-thumbnail: https://user-images.githubusercontent.com/7270177/59480122-fb5ba480-8e91-11e9-9c26-7f8d6d97868a.png
+img: https://user-images.githubusercontent.com/7270177/59480122-fb5ba480-8e91-11e9-9c26-7f8d6d97868a.png
 tags:
   - git
 categories:

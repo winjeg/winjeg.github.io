@@ -2,7 +2,7 @@
 title: etcd的安装与配置
 date: 2018-11-13 15:14:11
 toc: true
-thumbnail: https://user-images.githubusercontent.com/7270177/59736948-53c5e400-928e-11e9-9a25-c7b7d94b861f.png
+img: https://user-images.githubusercontent.com/7270177/59736948-53c5e400-928e-11e9-9a25-c7b7d94b861f.png
 tags: 
     - etcd
     - database 

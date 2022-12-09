@@ -2,7 +2,7 @@
 title: 双拼输入法是什么
 date: 2018-12-13 10:14:11
 toc: true
-thumbnail: https://user-images.githubusercontent.com/7270177/86505485-da952280-bdf7-11ea-84b7-26e732485417.png
+img: https://user-images.githubusercontent.com/7270177/86505485-da952280-bdf7-11ea-84b7-26e732485417.png
 tags:
   - ldap
   - java

@@ -1,7 +1,7 @@
 ---
 title:  TypeScript 简易笔记
 date: 2019-05-18 15:14:11
-thumbnail: https://user-images.githubusercontent.com/7270177/60314147-341c7300-9994-11e9-92d1-3310b8b37eaf.png
+img: https://user-images.githubusercontent.com/7270177/60314147-341c7300-9994-11e9-92d1-3310b8b37eaf.png
 toc: true
 tags:
     - npm

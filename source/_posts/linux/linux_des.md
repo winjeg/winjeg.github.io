@@ -2,7 +2,7 @@
 title: Linux桌面环境对比与介绍
 date: 2014-09-13 15:14:11
 toc: true
-# thumbnail: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
+# img: https://avatars3.githubusercontent.com/u/7270177?s=460&v=4
 tags:
   - linux
 categories:

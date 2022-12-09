@@ -2,7 +2,7 @@
 title: CICD 笔记
 date: 2019-07-30 15:14:11
 toc: true
-thumbnail: https://user-images.githubusercontent.com/7270177/62824144-685a9480-bbcc-11e9-9b8c-7052affc5b9f.png
+img: https://user-images.githubusercontent.com/7270177/62824144-685a9480-bbcc-11e9-9b8c-7052affc5b9f.png
 tags:
   - devops
   - cicd

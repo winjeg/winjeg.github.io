@@ -2,7 +2,10 @@
 title: 简而美的 国产MySQL GUI 工具 Tables+
 date: 2022-11-19 15:14:11
 toc: true
-thumbnail: https://user-images.githubusercontent.com/7270177/202841457-415afc25-5d4a-4ddf-a568-8f5aa08012e9.png
+img: https://user-images.githubusercontent.com/7270177/202841457-415afc25-5d4a-4ddf-a568-8f5aa08012e9.png
+cover: true
+coverImg: /medias/featureimages/22.jpg
+keywords: mysql
 tags:
     - mysql
     - electron

@@ -3,7 +3,7 @@
 title: 混沌工程实践笔记
 date: 2021-11-10 15:14:11
 toc: true
-thumbnail: https://user-images.githubusercontent.com/7270177/141085815-0ce4b689-c754-4c42-bc68-183060bddf6c.png
+img: https://user-images.githubusercontent.com/7270177/141085815-0ce4b689-c754-4c42-bc68-183060bddf6c.png
 tags:
   - devops
   - chaos

@@ -2,7 +2,7 @@
 title: Mysql 其他杂记
 date: 2019-05-13 15:14:11
 toc: true
-thumbnail: https://user-images.githubusercontent.com/7270177/59422808-880b5180-8e03-11e9-9dfe-ff8a9a024be7.png
+img: https://user-images.githubusercontent.com/7270177/59422808-880b5180-8e03-11e9-9dfe-ff8a9a024be7.png
 tags:
   - MySQL
   - database

@@ -2,7 +2,7 @@
 title: Golang 下的数据库使用
 date: 2018-12-13 15:14:11
 toc: true
-thumbnail: https://user-images.githubusercontent.com/7270177/59482717-9f4a4d80-8e9c-11e9-82b0-58254e0f4c4b.png
+img: https://user-images.githubusercontent.com/7270177/59482717-9f4a4d80-8e9c-11e9-82b0-58254e0f4c4b.png
 tags:
   - golang
   - database

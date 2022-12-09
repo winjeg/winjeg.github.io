@@ -2,7 +2,7 @@
 title: TDDL 常见配置详解
 date: 2016-09-13 15:14:11
 toc: true
-thumbnail: https://user-images.githubusercontent.com/7270177/59735413-0c3c5980-9288-11e9-8f32-d8e6836e65b6.png
+img: https://user-images.githubusercontent.com/7270177/59735413-0c3c5980-9288-11e9-8f32-d8e6836e65b6.png
 tags: 
     - MySQL
     - middleware 
