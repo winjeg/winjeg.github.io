@@ -22,9 +22,9 @@ jobs:
           restore-keys: |
             ${{ runner.OS }}-npm-cache
       - name: Submodule init
-        run: git submodule update --init && ls -l themes/purer
+        run: git submodule update --init && ls -l themes/matery
       - name: Install Dependencies
-        run: npm install && cd themes/purer && npm install & cd ../../
+        run: npm install && cd themes/matery && npm install & cd ../../
       - name: Build
         run: npm run build
       - name: Deploy
