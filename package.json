@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "theme": "cat ./_config.theme.yml > ./themes/purer/_config.yml ",
+    "theme": "cat ./_config.theme.yml > ./themes/matery/_config.yml && cp logo.png ./themes/matery/source/medias/logo.png",
     "build": "npm run theme && hexo generate",
     "clean": "hexo clean",
     "deploy": "npm run theme && hexo deploy",

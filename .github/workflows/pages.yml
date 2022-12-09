@@ -25,6 +25,8 @@ jobs:
         run: git submodule update --init && ls -l themes/matery
       - name: Install Dependencies
         run: npm install && cd themes/matery && npm install & cd ../../
+      - name: Config Theme
+        run: cat ./_config.theme.yml > ./themes/matery/_config.yml &&  cp logo.png ./themes/matery/source/medias/logo.png
       - name: Build
         run: npm run build
       - name: Deploy
