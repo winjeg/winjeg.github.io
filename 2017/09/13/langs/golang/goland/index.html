@@ -58,7 +58,9 @@ jetbrains 出品， 省去了很多的配置麻烦，而且用IDEA的用户可�
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="winjeg's blog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -422,15 +424,17 @@ jetbrains 出品， 省去了很多的配置麻烦，而且用IDEA的用户可�
 </ol>
 <p>jetbrains 出品， 省去了很多的配置麻烦，而且用IDEA的用户可以无缝切换到这个的使用。</p>
 <h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="SQL查询的Rows不关闭的时候回造成阻塞的问题"><a href="#SQL查询的Rows不关闭的时候回造成阻塞的问题" class="headerlink" title="SQL查询的Rows不关闭的时候回造成阻塞的问题"></a>SQL查询的Rows不关闭的时候回造成阻塞的问题</h3><p>对此的英文解释大概意思是， 如果不关闭rows， 缓冲区就有未读完的数据， 然后就造成了连接阻塞，影响接下来的查询， 最终会导致连接池的连接全部用满。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.Query(..) returns a rows struct which must be closed or completely iterated (with for rows.Next()). Otherwise there is unread data on the connection stream and the connection blocks.</span><br></pre></td></tr></table></figure>
+<pre><code>db.Query(..) returns a rows struct which must be closed or completely iterated (with for rows.Next()). Otherwise there is unread data on the connection stream and the connection blocks.
+</code></pre>
 <p>如果需要执行但不需要结果可以用 <code>db.Exec(..) </code></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Simple solution: use db.Exec(..) instead. Does it work then?</span><br></pre></td></tr></table></figure>
-
+<pre><code>Simple solution: use db.Exec(..) instead. Does it work then?
+</code></pre>
 <p>gorm 的问题</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.Raw.Row()</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-go"><code class="language-go">db<span class="token punctuation">.</span>Raw<span class="token punctuation">.</span><span class="token function">Row</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>  如果这个row不被消费则会造成这个问题<br>如果不想消费</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.Exec()</span><br></pre></td></tr></table></figure>
-
+<pre class="line-numbers language-go"><code class="language-go">db<span class="token punctuation">.</span><span class="token function">Exec</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <h2 id="golang-初始化顺序"><a href="#golang-初始化顺序" class="headerlink" title="golang 初始化顺序"></a>golang 初始化顺序</h2><p><img src="https://user-images.githubusercontent.com/7270177/59737472-62ad9600-9290-11e9-92e7-54556e4618de.png" alt="image"></p>
 
                 

@@ -7,11 +7,12 @@
     <meta name="keywords" content="Linux 用户相关的一些知识, golang, java, mysql, devops, linux">
     <meta name="description" content="主要问题都是安全
 譬如专门为 mysql tomcat 创建一个用户名
-12sudo groupadd mysqlsudo useradd -r -g mysql mysql
+sudo groupadd mysql
+sudo useradd -r -g mysql mysql
 
 好控制权限，只给相关文件的权限
 隔离
-万一有 bug&amp;#x2F">
+万一有 bug&amp;#x2F;">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -58,7 +59,9 @@
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="winjeg's blog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -421,8 +424,9 @@
             <div id="articleContent">
                 <p>主要问题都是安全</p>
 <p>譬如专门为 mysql tomcat 创建一个用户名</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo groupadd mysql</span><br><span class="line">sudo useradd -r -g mysql mysql</span><br></pre></td></tr></table></figure>
-
+<pre><code>sudo groupadd mysql
+sudo useradd -r -g mysql mysql
+</code></pre>
 <p>好控制权限，只给相关文件的权限</p>
 <p>隔离</p>
 <p>万一有 bug&#x2F;被入侵 运气好也许还能靠权限控制避免进一步的恶劣影响。有些服务用户还设置了 nologin。</p>

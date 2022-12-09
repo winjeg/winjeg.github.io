@@ -6,9 +6,12 @@
     <meta charset="utf-8">
     <meta name="keywords" content="MongoDb 草记, golang, java, mysql, devops, linux">
     <meta name="description" content="备份
-1mongodump -h dbhost -d dbname -o dbdirectory
+mongodump -h dbhost -d dbname -o dbdirectory
+
 恢复
-1sudo mongorestore -h host --db database --dir mongodata/database">
+sudo mongorestore -h host --db database --dir mongodata/database
+
+">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -55,7 +58,9 @@
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="winjeg's blog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -421,9 +426,12 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>备份</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongodump -h dbhost -d dbname -o dbdirectory</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash">mongodump -h dbhost -d dbname -o dbdirectory
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>恢复</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mongorestore -h host --db database --<span class="built_in">dir</span> mongodata/database</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">sudo</span> mongorestore -h host --db database --dir mongodata/database
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
                 
             </div>
             <hr/>

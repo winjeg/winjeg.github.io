@@ -53,7 +53,9 @@
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="winjeg's blog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -335,7 +337,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://user-images.githubusercontent.com/7270177/59736948-53c5e400-928e-11e9-9a25-c7b7d94b861f.png')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -420,52 +422,235 @@
             <div id="articleContent">
                 <h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>我们将在  10.1.19.214:2380,  10.1.15.229:2380,    10.1.13.165:2380 三个机器上分别创建三个etcd节点以组成集群</p>
 <h2 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h2><p>安装比较简单， 但为了安全性起见， 推荐为etcd创建单独的用户</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo groupadd etcd</span><br><span class="line">sudo useradd -r -g etcd etcd</span><br></pre></td></tr></table></figure>
-
-<h2 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /opt</span><br><span class="line">wget https://github.com/etcd-io/etcd/releases/download/v3.3.9/etcd-v3.3.9-linux-amd64.tar.gz</span><br></pre></td></tr></table></figure>
-
-
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">groupadd</span> etcd
+<span class="token function">sudo</span> <span class="token function">useradd</span> -r -g etcd etcd
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">cd</span> /opt
+<span class="token function">wget</span> https://github.com/etcd-io/etcd/releases/download/v3.3.9/etcd-v3.3.9-linux-amd64.tar.gz
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>###安装<br>执行如下命令下载加压并创建好制定的文件与目录，设置好软链接等</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="built_in">cd</span> /opt</span><br><span class="line">tar xpf etcd-v3.3.9-linux-amd64.tar.gz</span><br><span class="line"><span class="built_in">mv</span> etcd-v3.3.9-linux-amd64 etcd-v3.3.9</span><br><span class="line"><span class="built_in">ln</span> -sf /opt/etcd-v3.3.9 /opt/etcd</span><br><span class="line"><span class="built_in">cd</span> etcd</span><br><span class="line"><span class="built_in">mkdir</span> data</span><br><span class="line"><span class="built_in">mkdir</span> wal</span><br><span class="line"><span class="built_in">mkdir</span> ssl</span><br><span class="line"><span class="built_in">touch</span> conf.yml</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
+<pre class="line-numbers language-bash"><code class="language-bash">
+<span class="token function">cd</span> /opt
+<span class="token function">tar</span> xpf etcd-v3.3.9-linux-amd64.tar.gz
+<span class="token function">mv</span> etcd-v3.3.9-linux-amd64 etcd-v3.3.9
+<span class="token function">ln</span> -sf /opt/etcd-v3.3.9 /opt/etcd
+<span class="token function">cd</span> etcd
+<span class="token function">mkdir</span> data
+<span class="token function">mkdir</span> wal
+<span class="token function">mkdir</span> ssl
+<span class="token function">touch</span> conf.yml
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>执行如下命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim conf.yml</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash"> vim conf.yml
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>修改内容 , 如下加粗的内容都要改</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># This is the configuration file for the etcd server.</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Human-readable name for this member.</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">&#x27;etcd1&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Path to the data directory.</span></span><br><span class="line"><span class="attr">data-dir:</span> <span class="string">/opt/etcd/data</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Path to the dedicated wal directory.</span></span><br><span class="line"><span class="attr">wal-dir:</span> <span class="string">/opt/etcd/wal</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Number of committed transactions to trigger a snapshot to disk.</span></span><br><span class="line"><span class="attr">snapshot-count:</span> <span class="number">10000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Time (in milliseconds) of a heartbeat interval.</span></span><br><span class="line"><span class="attr">heartbeat-interval:</span> <span class="number">500</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Time (in milliseconds) for an election to timeout.</span></span><br><span class="line"><span class="attr">election-timeout:</span> <span class="number">1000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Raise alarms when backend size exceeds the given quota. 0 means use the</span></span><br><span class="line"><span class="comment"># default quota.</span></span><br><span class="line"><span class="attr">quota-backend-bytes:</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># List of comma separated URLs to listen on for peer traffic.</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># List of comma separated URLs to listen on for client traffic.</span></span><br><span class="line"><span class="attr">listen-client-urls:</span> <span class="string">http://10.111.8.11:2379,http://127.0.0.1:2379</span></span><br><span class="line"><span class="attr">listen-peer-urls:</span> <span class="string">http://10.111.8.11:2380</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Maximum number of snapshot files to retain (0 is unlimited).</span></span><br><span class="line"><span class="attr">max-snapshots:</span> <span class="number">5</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Maximum number of wal files to retain (0 is unlimited).</span></span><br><span class="line"><span class="attr">max-wals:</span> <span class="number">5</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Comma-separated white list of origins for CORS (cross-origin resource sharing).</span></span><br><span class="line"><span class="attr">cors:</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># List of this member&#x27;s peer URLs to advertise to the rest of the cluster.</span></span><br><span class="line"><span class="comment"># The URLs needed to be a comma-separated list.</span></span><br><span class="line"><span class="attr">initial-advertise-peer-urls:</span> <span class="string">http://10.111.8.11:2380</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># List of this member&#x27;s client URLs to advertise to the public.</span></span><br><span class="line"><span class="comment"># The URLs needed to be a comma-separated list.</span></span><br><span class="line"><span class="attr">advertise-client-urls:</span> <span class="string">http://10.111.8.11:2379</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Discovery URL used to bootstrap the cluster.</span></span><br><span class="line"><span class="attr">discovery:</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Valid values include &#x27;exit&#x27;, &#x27;proxy&#x27;</span></span><br><span class="line"><span class="attr">discovery-fallback:</span> <span class="string">&#x27;proxy&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># HTTP proxy to use for traffic to discovery service.</span></span><br><span class="line"><span class="attr">discovery-proxy:</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># DNS domain used to bootstrap initial cluster.</span></span><br><span class="line"><span class="attr">discovery-srv:</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Initial cluster configuration for bootstrapping.</span></span><br><span class="line"><span class="attr">initial-cluster:</span> <span class="string">etcd0=http://10.111.10.151:2380,etcd1=http://10.111.8.11:2380,etcd2=http://10.111.9.145:2380,etcd3=http://10.111.10.152:2380,etcd4=http://10.111.8.12:2380</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Initial cluster token for the etcd cluster during bootstrap.</span></span><br><span class="line"><span class="attr">initial-cluster-token:</span> <span class="string">&#x27;etcd-cluster&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Initial cluster state (&#x27;new&#x27; or &#x27;existing&#x27;).</span></span><br><span class="line"><span class="attr">initial-cluster-state:</span> <span class="string">&#x27;new&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Reject reconfiguration requests that would cause quorum loss.</span></span><br><span class="line"><span class="attr">strict-reconfig-check:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Accept etcd V2 client requests</span></span><br><span class="line"><span class="attr">enable-v2:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Enable runtime profiling data via HTTP server</span></span><br><span class="line"><span class="attr">enable-pprof:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Valid values include &#x27;on&#x27;, &#x27;readonly&#x27;, &#x27;off&#x27;</span></span><br><span class="line"><span class="attr">proxy:</span> <span class="string">&#x27;off&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Time (in milliseconds) an endpoint will be held in a failed state.</span></span><br><span class="line"><span class="attr">proxy-failure-wait:</span> <span class="number">5000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Time (in milliseconds) of the endpoints refresh interval.</span></span><br><span class="line"><span class="attr">proxy-refresh-interval:</span> <span class="number">30000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Time (in milliseconds) for a dial to timeout.</span></span><br><span class="line"><span class="attr">proxy-dial-timeout:</span> <span class="number">1000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Time (in milliseconds) for a write to timeout.</span></span><br><span class="line"><span class="attr">proxy-write-timeout:</span> <span class="number">5000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Time (in milliseconds) for a read to timeout.</span></span><br><span class="line"><span class="attr">proxy-read-timeout:</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#client-transport-security:</span></span><br><span class="line"> <span class="comment"># Path to the client server TLS cert file.</span></span><br><span class="line"><span class="comment"># cert-file: </span></span><br><span class="line"> <span class="comment">#/opt/etcd/ssl/etcd.pem</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Path to the client server TLS key file.</span></span><br><span class="line"><span class="comment"># key-file:</span></span><br><span class="line"> <span class="comment"># /opt/etcd/ssl/etcd-key.pem</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Enable client cert authentication.</span></span><br><span class="line"><span class="comment"># client-cert-auth: false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Path to the client server TLS trusted CA cert file.</span></span><br><span class="line"><span class="comment"># trusted-ca-file:</span></span><br><span class="line"> <span class="comment"># /opt/etcd/ssl/etcd-root-ca.pem</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Client TLS using generated certificates</span></span><br><span class="line"> <span class="comment"># auto-tls:</span></span><br><span class="line"> <span class="comment"># false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># peer-transport-security:</span></span><br><span class="line"> <span class="comment"># Path to the peer server TLS cert file.</span></span><br><span class="line"><span class="comment"># cert-file:</span></span><br><span class="line"> <span class="comment"># /opt/etcd/ssl/etcd.pem</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Path to the peer server TLS key file.</span></span><br><span class="line"><span class="comment"># key-file:</span></span><br><span class="line"> <span class="comment"># /opt/etcd/ssl/etcd-key.pem</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Enable peer client cert authentication.</span></span><br><span class="line"><span class="comment"># client-cert-auth: false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Path to the peer server TLS trusted CA cert file.</span></span><br><span class="line"><span class="comment"># trusted-ca-file:</span></span><br><span class="line"> <span class="comment">#/opt/etcd/ssl/etcd-root-ca.pem</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Peer TLS using generated certificates.</span></span><br><span class="line"> <span class="comment"># auto-tls:</span></span><br><span class="line"> <span class="comment"># false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Enable debug-level logging for etcd.</span></span><br><span class="line"><span class="attr">debug:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="attr">logger:</span> <span class="string">zap</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Specify &#x27;stdout&#x27; or &#x27;stderr&#x27; to skip journald logging even when running under systemd.</span></span><br><span class="line"><span class="attr">log-outputs:</span> [<span class="string">stderr</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># Force to create a new one member cluster.</span></span><br><span class="line"><span class="attr">force-new-cluster:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">auto-compaction-mode:</span> <span class="string">periodic</span></span><br><span class="line"><span class="attr">auto-compaction-retention:</span> <span class="string">&quot;1&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-yaml"><code class="language-yaml"><span class="token comment" spellcheck="true"># This is the configuration file for the etcd server.</span>
 
+<span class="token comment" spellcheck="true"># Human-readable name for this member.</span>
+<span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">'etcd1'</span>
+
+<span class="token comment" spellcheck="true"># Path to the data directory.</span>
+<span class="token key atrule">data-dir</span><span class="token punctuation">:</span> /opt/etcd/data
+
+<span class="token comment" spellcheck="true"># Path to the dedicated wal directory.</span>
+<span class="token key atrule">wal-dir</span><span class="token punctuation">:</span> /opt/etcd/wal
+
+<span class="token comment" spellcheck="true"># Number of committed transactions to trigger a snapshot to disk.</span>
+<span class="token key atrule">snapshot-count</span><span class="token punctuation">:</span> <span class="token number">10000</span>
+
+<span class="token comment" spellcheck="true"># Time (in milliseconds) of a heartbeat interval.</span>
+<span class="token key atrule">heartbeat-interval</span><span class="token punctuation">:</span> <span class="token number">500</span>
+
+<span class="token comment" spellcheck="true"># Time (in milliseconds) for an election to timeout.</span>
+<span class="token key atrule">election-timeout</span><span class="token punctuation">:</span> <span class="token number">1000</span>
+
+<span class="token comment" spellcheck="true"># Raise alarms when backend size exceeds the given quota. 0 means use the</span>
+<span class="token comment" spellcheck="true"># default quota.</span>
+<span class="token key atrule">quota-backend-bytes</span><span class="token punctuation">:</span> <span class="token number">0</span>
+
+<span class="token comment" spellcheck="true"># List of comma separated URLs to listen on for peer traffic.</span>
+
+<span class="token comment" spellcheck="true"># List of comma separated URLs to listen on for client traffic.</span>
+<span class="token key atrule">listen-client-urls</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//10.111.8.11<span class="token punctuation">:</span><span class="token number">2379</span><span class="token punctuation">,</span>http<span class="token punctuation">:</span>//127.0.0.1<span class="token punctuation">:</span><span class="token number">2379</span>
+<span class="token key atrule">listen-peer-urls</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//10.111.8.11<span class="token punctuation">:</span><span class="token number">2380</span>
+
+<span class="token comment" spellcheck="true"># Maximum number of snapshot files to retain (0 is unlimited).</span>
+<span class="token key atrule">max-snapshots</span><span class="token punctuation">:</span> <span class="token number">5</span>
+
+<span class="token comment" spellcheck="true"># Maximum number of wal files to retain (0 is unlimited).</span>
+<span class="token key atrule">max-wals</span><span class="token punctuation">:</span> <span class="token number">5</span>
+
+<span class="token comment" spellcheck="true"># Comma-separated white list of origins for CORS (cross-origin resource sharing).</span>
+<span class="token key atrule">cors</span><span class="token punctuation">:</span>
+
+<span class="token comment" spellcheck="true"># List of this member's peer URLs to advertise to the rest of the cluster.</span>
+<span class="token comment" spellcheck="true"># The URLs needed to be a comma-separated list.</span>
+<span class="token key atrule">initial-advertise-peer-urls</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//10.111.8.11<span class="token punctuation">:</span><span class="token number">2380</span>
+
+<span class="token comment" spellcheck="true"># List of this member's client URLs to advertise to the public.</span>
+<span class="token comment" spellcheck="true"># The URLs needed to be a comma-separated list.</span>
+<span class="token key atrule">advertise-client-urls</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//10.111.8.11<span class="token punctuation">:</span><span class="token number">2379</span>
+
+<span class="token comment" spellcheck="true"># Discovery URL used to bootstrap the cluster.</span>
+<span class="token key atrule">discovery</span><span class="token punctuation">:</span>
+
+<span class="token comment" spellcheck="true"># Valid values include 'exit', 'proxy'</span>
+<span class="token key atrule">discovery-fallback</span><span class="token punctuation">:</span> <span class="token string">'proxy'</span>
+
+<span class="token comment" spellcheck="true"># HTTP proxy to use for traffic to discovery service.</span>
+<span class="token key atrule">discovery-proxy</span><span class="token punctuation">:</span>
+
+<span class="token comment" spellcheck="true"># DNS domain used to bootstrap initial cluster.</span>
+<span class="token key atrule">discovery-srv</span><span class="token punctuation">:</span>
+
+<span class="token comment" spellcheck="true"># Initial cluster configuration for bootstrapping.</span>
+<span class="token key atrule">initial-cluster</span><span class="token punctuation">:</span> etcd0=http<span class="token punctuation">:</span>//10.111.10.151<span class="token punctuation">:</span><span class="token number">2380</span><span class="token punctuation">,</span>etcd1=http<span class="token punctuation">:</span>//10.111.8.11<span class="token punctuation">:</span><span class="token number">2380</span><span class="token punctuation">,</span>etcd2=http<span class="token punctuation">:</span>//10.111.9.145<span class="token punctuation">:</span><span class="token number">2380</span><span class="token punctuation">,</span>etcd3=http<span class="token punctuation">:</span>//10.111.10.152<span class="token punctuation">:</span><span class="token number">2380</span><span class="token punctuation">,</span>etcd4=http<span class="token punctuation">:</span>//10.111.8.12<span class="token punctuation">:</span><span class="token number">2380</span>
+
+<span class="token comment" spellcheck="true"># Initial cluster token for the etcd cluster during bootstrap.</span>
+<span class="token key atrule">initial-cluster-token</span><span class="token punctuation">:</span> <span class="token string">'etcd-cluster'</span>
+
+<span class="token comment" spellcheck="true"># Initial cluster state ('new' or 'existing').</span>
+<span class="token key atrule">initial-cluster-state</span><span class="token punctuation">:</span> <span class="token string">'new'</span>
+
+<span class="token comment" spellcheck="true"># Reject reconfiguration requests that would cause quorum loss.</span>
+<span class="token key atrule">strict-reconfig-check</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+
+<span class="token comment" spellcheck="true"># Accept etcd V2 client requests</span>
+<span class="token key atrule">enable-v2</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token comment" spellcheck="true"># Enable runtime profiling data via HTTP server</span>
+<span class="token key atrule">enable-pprof</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token comment" spellcheck="true"># Valid values include 'on', 'readonly', 'off'</span>
+<span class="token key atrule">proxy</span><span class="token punctuation">:</span> <span class="token string">'off'</span>
+
+<span class="token comment" spellcheck="true"># Time (in milliseconds) an endpoint will be held in a failed state.</span>
+<span class="token key atrule">proxy-failure-wait</span><span class="token punctuation">:</span> <span class="token number">5000</span>
+
+<span class="token comment" spellcheck="true"># Time (in milliseconds) of the endpoints refresh interval.</span>
+<span class="token key atrule">proxy-refresh-interval</span><span class="token punctuation">:</span> <span class="token number">30000</span>
+
+<span class="token comment" spellcheck="true"># Time (in milliseconds) for a dial to timeout.</span>
+<span class="token key atrule">proxy-dial-timeout</span><span class="token punctuation">:</span> <span class="token number">1000</span>
+
+<span class="token comment" spellcheck="true"># Time (in milliseconds) for a write to timeout.</span>
+<span class="token key atrule">proxy-write-timeout</span><span class="token punctuation">:</span> <span class="token number">5000</span>
+
+<span class="token comment" spellcheck="true"># Time (in milliseconds) for a read to timeout.</span>
+<span class="token key atrule">proxy-read-timeout</span><span class="token punctuation">:</span> <span class="token number">0</span>
+
+<span class="token comment" spellcheck="true">#client-transport-security:</span>
+ <span class="token comment" spellcheck="true"># Path to the client server TLS cert file.</span>
+<span class="token comment" spellcheck="true"># cert-file: </span>
+ <span class="token comment" spellcheck="true">#/opt/etcd/ssl/etcd.pem</span>
+
+<span class="token comment" spellcheck="true"># Path to the client server TLS key file.</span>
+<span class="token comment" spellcheck="true"># key-file:</span>
+ <span class="token comment" spellcheck="true"># /opt/etcd/ssl/etcd-key.pem</span>
+
+<span class="token comment" spellcheck="true"># Enable client cert authentication.</span>
+<span class="token comment" spellcheck="true"># client-cert-auth: false</span>
+
+<span class="token comment" spellcheck="true"># Path to the client server TLS trusted CA cert file.</span>
+<span class="token comment" spellcheck="true"># trusted-ca-file:</span>
+ <span class="token comment" spellcheck="true"># /opt/etcd/ssl/etcd-root-ca.pem</span>
+
+<span class="token comment" spellcheck="true"># Client TLS using generated certificates</span>
+ <span class="token comment" spellcheck="true"># auto-tls:</span>
+ <span class="token comment" spellcheck="true"># false</span>
+
+<span class="token comment" spellcheck="true"># peer-transport-security:</span>
+ <span class="token comment" spellcheck="true"># Path to the peer server TLS cert file.</span>
+<span class="token comment" spellcheck="true"># cert-file:</span>
+ <span class="token comment" spellcheck="true"># /opt/etcd/ssl/etcd.pem</span>
+
+<span class="token comment" spellcheck="true"># Path to the peer server TLS key file.</span>
+<span class="token comment" spellcheck="true"># key-file:</span>
+ <span class="token comment" spellcheck="true"># /opt/etcd/ssl/etcd-key.pem</span>
+
+<span class="token comment" spellcheck="true"># Enable peer client cert authentication.</span>
+<span class="token comment" spellcheck="true"># client-cert-auth: false</span>
+
+<span class="token comment" spellcheck="true"># Path to the peer server TLS trusted CA cert file.</span>
+<span class="token comment" spellcheck="true"># trusted-ca-file:</span>
+ <span class="token comment" spellcheck="true">#/opt/etcd/ssl/etcd-root-ca.pem</span>
+
+<span class="token comment" spellcheck="true"># Peer TLS using generated certificates.</span>
+ <span class="token comment" spellcheck="true"># auto-tls:</span>
+ <span class="token comment" spellcheck="true"># false</span>
+
+<span class="token comment" spellcheck="true"># Enable debug-level logging for etcd.</span>
+<span class="token key atrule">debug</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+
+<span class="token key atrule">logger</span><span class="token punctuation">:</span> zap
+
+<span class="token comment" spellcheck="true"># Specify 'stdout' or 'stderr' to skip journald logging even when running under systemd.</span>
+<span class="token key atrule">log-outputs</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>stderr<span class="token punctuation">]</span>
+
+<span class="token comment" spellcheck="true"># Force to create a new one member cluster.</span>
+<span class="token key atrule">force-new-cluster</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+<span class="token key atrule">auto-compaction-mode</span><span class="token punctuation">:</span> periodic
+<span class="token key atrule">auto-compaction-retention</span><span class="token punctuation">:</span> <span class="token string">"1"</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>注意： 里面关于集群的一些点， 和本机配置的一些点， 如果要配置tls&#x2F;https 需要自行准备证书， 然后配置被如上注释了， 根据经验，如果配置了https， 再转到http需要清空数据才可以转， 否则是不能转的</p>
 <h2 id="最后的步骤"><a href="#最后的步骤" class="headerlink" title="最后的步骤"></a>最后的步骤</h2><p>更改权限使得使用etcd用户来启动etcd节点</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /opt/etcd</span><br><span class="line"><span class="built_in">chown</span> -R etcd:etcd /opt/etcd</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">cd</span> /opt/etcd
+<span class="token function">chown</span> -R etcd:etcd /opt/etcd
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>配置systemd 的 unit文件并加入开机启动</p>
 <p>vim &#x2F;usr&#x2F;lib&#x2F;systemd&#x2F;system&#x2F;etcd.service  并贴入如下内容</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=Etcd Server</span><br><span class="line"><span class="attr">After</span>=network.target</span><br><span class="line"><span class="attr">After</span>=network-<span class="literal">on</span>line.target</span><br><span class="line"><span class="attr">Wants</span>=network-<span class="literal">on</span>line.target</span><br><span class="line"><span class="attr">Documentation</span>=https://github.com/coreos</span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">User</span>=etcd</span><br><span class="line"><span class="attr">Type</span>=notify</span><br><span class="line"><span class="attr">WorkingDirectory</span>=/opt/etcd/</span><br><span class="line"><span class="attr">ExecStart</span>=/opt/etcd/etcd --config-file=/opt/etcd/conf.yml</span><br><span class="line"><span class="attr">Restart</span>=<span class="literal">on</span>-failure</span><br><span class="line"><span class="attr">RestartSec</span>=<span class="number">5</span></span><br><span class="line"><span class="attr">LimitNOFILE</span>=<span class="number">65536</span></span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span>=multi-user.target</span><br></pre></td></tr></table></figure>
-
+<pre class="line-numbers language-ini"><code class="language-ini"><span class="token selector">[Unit]</span>
+<span class="token constant">Description</span><span class="token attr-value"><span class="token punctuation">=</span>Etcd Server</span>
+<span class="token constant">After</span><span class="token attr-value"><span class="token punctuation">=</span>network.target</span>
+<span class="token constant">After</span><span class="token attr-value"><span class="token punctuation">=</span>network-online.target</span>
+<span class="token constant">Wants</span><span class="token attr-value"><span class="token punctuation">=</span>network-online.target</span>
+<span class="token constant">Documentation</span><span class="token attr-value"><span class="token punctuation">=</span>https://github.com/coreos</span>
+<span class="token selector">[Service]</span>
+<span class="token constant">User</span><span class="token attr-value"><span class="token punctuation">=</span>etcd</span>
+<span class="token constant">Type</span><span class="token attr-value"><span class="token punctuation">=</span>notify</span>
+<span class="token constant">WorkingDirectory</span><span class="token attr-value"><span class="token punctuation">=</span>/opt/etcd/</span>
+<span class="token constant">ExecStart</span><span class="token attr-value"><span class="token punctuation">=</span>/opt/etcd/etcd --config-file=/opt/etcd/conf.yml</span>
+<span class="token constant">Restart</span><span class="token attr-value"><span class="token punctuation">=</span>on-failure</span>
+<span class="token constant">RestartSec</span><span class="token attr-value"><span class="token punctuation">=</span>5</span>
+<span class="token constant">LimitNOFILE</span><span class="token attr-value"><span class="token punctuation">=</span>65536</span>
+<span class="token selector">[Install]</span>
+<span class="token constant">WantedBy</span><span class="token attr-value"><span class="token punctuation">=</span>multi-user.target</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>为了方便etcdctl的使用</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ln</span> -sf /opt/etcd/etcdctl /usr/bin/etcdctl</span><br></pre></td></tr></table></figure>
-
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">ln</span> -sf /opt/etcd/etcdctl /usr/bin/etcdctl
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>etcd 多版本支持， 支持的有v2的API， 与V3 的API， 但V2与V3 是完全隔离的， V2 更像ZK， V3 更像KV </p>
-<h3 id="V2-验证集群健康状况"><a href="#V2-验证集群健康状况" class="headerlink" title="V2 验证集群健康状况"></a>V2 验证集群健康状况</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">etcdctl cluster-health</span><br></pre></td></tr></table></figure>
-
+<h3 id="V2-验证集群健康状况"><a href="#V2-验证集群健康状况" class="headerlink" title="V2 验证集群健康状况"></a>V2 验证集群健康状况</h3><pre><code>etcdctl cluster-health
+</code></pre>
 <p>如果健康则返回如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">member 42137edb694602d3 is healthy: got healthy result from http://10.1.15.229:2379</span><br><span class="line">member b813a1f117f7f288 is healthy: got healthy result from http://10.1.13.165:2379</span><br><span class="line">member e6992029de967f70 is healthy: got healthy result from http://10.1.19.214:2379</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
+<pre><code>member 42137edb694602d3 is healthy: got healthy result from http://10.1.15.229:2379
+member b813a1f117f7f288 is healthy: got healthy result from http://10.1.13.165:2379
+member e6992029de967f70 is healthy: got healthy result from http://10.1.19.214:2379
+</code></pre>
 <h3 id="V3-验证集群监控"><a href="#V3-验证集群监控" class="headerlink" title="V3 验证集群监控"></a>V3 验证集群监控</h3><p>在此之前需要先设置环境变量</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export ETCDCTL_API=3</span><br></pre></td></tr></table></figure>
+<pre><code>export ETCDCTL_API=3
+</code></pre>
 <p>验证命令如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">etcdctl --endpoints=http://10.1.13.165:2379,http://10.1.15.229:2379,http://10.1.19.214:2379 endpoint health</span><br></pre></td></tr></table></figure>
+<pre><code>etcdctl --endpoints=http://10.1.13.165:2379,http://10.1.15.229:2379,http://10.1.19.214:2379 endpoint health
+</code></pre>
 <p>如果健康则返回如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://10.1.13.165:2379 is healthy: successfully committed proposal: took = 1.605107ms</span><br><span class="line">http://10.1.19.214:2379 is healthy: successfully committed proposal: took = 2.097534ms</span><br><span class="line">http://10.1.15.229:2379 is healthy: successfully committed proposal: took = 2.983391ms</span><br></pre></td></tr></table></figure>
-
-
+<pre><code>http://10.1.13.165:2379 is healthy: successfully committed proposal: took = 1.605107ms
+http://10.1.19.214:2379 is healthy: successfully committed proposal: took = 2.097534ms
+http://10.1.15.229:2379 is healthy: successfully committed proposal: took = 2.983391ms
+</code></pre>
 <h2 id="配置推荐"><a href="#配置推荐" class="headerlink" title="配置推荐"></a>配置推荐</h2><h3 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h3><p>etcd是可以利用多核的性能的</p>
 <p>轻度使用	CPU</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QPS &lt; 2000	2-4core</span><br></pre></td></tr></table></figure>
+<pre><code>QPS &lt; 2000	2-4core
+</code></pre>
 <p>中度使用</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QPS &gt; 5000	8-16core</span><br></pre></td></tr></table></figure>
+<pre><code>QPS &gt; 5000	8-16core
+</code></pre>
 <h3 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h3><p>轻度使用	Mem</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QPS &lt; 2000	4-8G</span><br></pre></td></tr></table></figure>
+<pre><code>QPS &lt; 2000	4-8G
+</code></pre>
 <p>中度使用</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QPS &gt; 5000	16-64G</span><br></pre></td></tr></table></figure>
+<pre><code>QPS &gt; 5000	16-64G
+</code></pre>
 <h3 id="硬盘"><a href="#硬盘" class="headerlink" title="硬盘"></a>硬盘</h3><p>不需要做raid，raid0 就可以，  因为etcd就是高可用的， 推荐使用固态硬盘</p>
 <h3 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h3><p>需要稳定可靠的网络， 网络不行的话，容易导致可用性比较低</p>
 <p>如果要多数据中心部署， 尽量离近一些。</p>
@@ -630,8 +815,7 @@
                 <a href="/2018/12/13/others/shuangpin/">
                     <div class="card-image">
                         
-                        
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="双拼输入法是什么">
+                        <img src="https://user-images.githubusercontent.com/7270177/86505485-da952280-bdf7-11ea-84b7-26e732485417.png" class="responsive-img" alt="双拼输入法是什么">
                         
                         <span class="card-title">双拼输入法是什么</span>
                     </div>

@@ -52,7 +52,9 @@
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="winjeg's blog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -424,13 +426,30 @@
 </ol>
 <p>以上三个IDE(集成开发环境) 我更倾向于使用jetbrains 的 goland, 虽然goland目前有成吨的bug, 但由于习惯问题，我还是习惯使用，大家也可以根据自己的习惯来使用相应的IDE。后面会有专门的文章对goland下如何配置golang项目进行详细说明。</p>
 <h3 id="golang-项目组织结构"><a href="#golang-项目组织结构" class="headerlink" title="golang 项目组织结构"></a>golang 项目组织结构</h3><p>一般而言一个非库型golang项目会存在一个main.go, 用作程序的主入口。<br>同时也会存在一些模块，跟一些配置文件。这些配置文件与模块的推荐的放置方式如下。后面也会有专题去说明我们这样放置的道理与好处。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">module1_dir</span><br><span class="line">module2_dir</span><br><span class="line">others.go</span><br><span class="line">main.go</span><br><span class="line">config_file</span><br><span class="line">readme</span><br></pre></td></tr></table></figure>
-
+<pre><code>module1_dir
+module2_dir
+others.go
+main.go
+config_file
+readme
+</code></pre>
 <h3 id="dep与-go-module"><a href="#dep与-go-module" class="headerlink" title="dep与 go module"></a><code>dep</code>与 <code>go module</code></h3><p> <code>dep</code> 是 <code>go module</code> 推出之前半官方的一个依赖管理工具，它使用起来非常简单， 它的总体思想是把依赖代码集成到项目中的vendor目录去，但不需要手动管理这些依赖。这样做有一个好处：在编译期不用下载额外的依赖。但也有个坏处：会使得代码仓库变得比较庞大， 除非使用ignore 忽略这个vendor目录<br>2. <code>go module</code> 是golang官方推出的在 <code>1.11</code>版本后用来取代其他各种依赖管理工具的官方工具，它的思想跟<code>maven</code>的思想有点像， 与<code>dep</code>不同的就是它会把依赖不放入项目中去，而是管理到 <code>GOPATH</code>下面。这样做可以节省很多的代码仓库的空间。在进行编译的时候提前把依赖下载好，就不存在编译的时候下载依赖的问题了， 是以后的方向。</p>
 <h3 id="golang-生成各个平台下的可执行文件"><a href="#golang-生成各个平台下的可执行文件" class="headerlink" title="golang 生成各个平台下的可执行文件"></a>golang 生成各个平台下的可执行文件</h3><p>golang 生成其他平台的二进制文件是非常非常简单的，只需要进行简单的一个环境变量的设置即可生成 mac&#x2F;windows&#x2F;linux 等平台下的二进制文件， 二进制文件可以直接运行而不需要像java一样需要一个 <code>jre</code>, 这也许就是golang的一个简单哲学。</p>
 <h3 id="golang-单元测试与性能测试"><a href="#golang-单元测试与性能测试" class="headerlink" title="golang 单元测试与性能测试"></a>golang 单元测试与性能测试</h3><p>golang提供了简单的单元测试与性能测试的功能， 虽然简单却很强大，后面会专门文档来说明如何去写单元测试与性能测试。<br>golang的单元测试与性能测试的文件需要以 <code>_test.go</code>结尾<br>单测方法和性能测试方法需要用类似如下方法声名。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;testing&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 单元测试需要以Test开头的函数名称</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">TestGenerateQrCode</span><span class="params">(t *testing.T)</span></span> &#123;</span><br><span class="line">	GenerateQrCode()</span><br><span class="line">	<span class="comment">// t.Fail()</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 性能测试需要以Benchmark 开头的函数名称</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">BenchmarkGenerateQrCode</span><span class="params">(b *testing.B)</span></span> &#123;</span><br><span class="line">	GenerateQrCode()</span><br><span class="line">	<span class="comment">// b.ReportAllocs()</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-go"><code class="language-go"><span class="token keyword">import</span> <span class="token string">"testing"</span>
 
+<span class="token comment" spellcheck="true">// 单元测试需要以Test开头的函数名称</span>
+<span class="token keyword">func</span> <span class="token function">TestGenerateQrCode</span><span class="token punctuation">(</span>t <span class="token operator">*</span>testing<span class="token punctuation">.</span>T<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+    <span class="token function">GenerateQrCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">// t.Fail()</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 性能测试需要以Benchmark 开头的函数名称</span>
+<span class="token keyword">func</span> <span class="token function">BenchmarkGenerateQrCode</span><span class="token punctuation">(</span>b <span class="token operator">*</span>testing<span class="token punctuation">.</span>B<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+    <span class="token function">GenerateQrCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">// b.ReportAllocs()</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="golang-内存分析"><a href="#golang-内存分析" class="headerlink" title="golang 内存分析"></a>golang 内存分析</h3><p><code>pprof</code></p>
 <h3 id="golang-远程调试"><a href="#golang-远程调试" class="headerlink" title="golang 远程调试"></a>golang 远程调试</h3><p><code>dlv</code></p>
 <h2 id="golang-编程思想"><a href="#golang-编程思想" class="headerlink" title="golang 编程思想"></a>golang 编程思想</h2><h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><h3 id="go-fmt"><a href="#go-fmt" class="headerlink" title="go fmt"></a>go fmt</h3><h3 id="go-doc-1"><a href="#go-doc-1" class="headerlink" title="go doc"></a>go doc</h3><h3 id="go-mod"><a href="#go-mod" class="headerlink" title="go mod"></a>go mod</h3>

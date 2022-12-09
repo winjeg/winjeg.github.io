@@ -5,10 +5,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="keywords" content="Mysql 其他杂记, golang, java, mysql, devops, linux">
-    <meta name="description" content="事务查询1SELECT @@tx_isolation
+    <meta name="description" content="事务查询SELECT @@tx_isolation
 
-
-1234567891011121314SELECT   r.`trx_id` waiting_trx_id,  r.`trx_mysql_thread_id` waiting_thr">
+SELECT 
+  r.`trx_id` waiting_trx_id,
+  r.`trx_mysql_thread_id` waiting_thread,
+  r.`trx_query">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -55,7 +57,9 @@
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="winjeg's blog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -337,7 +341,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://user-images.githubusercontent.com/7270177/59422808-880b5180-8e03-11e9-9dfe-ff8a9a024be7.png')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -420,19 +424,44 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="事务查询"><a href="#事务查询" class="headerlink" title="事务查询"></a>事务查询</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> @<span class="variable">@tx</span>_isolation</span><br></pre></td></tr></table></figure>
+                <h2 id="事务查询"><a href="#事务查询" class="headerlink" title="事务查询"></a>事务查询</h2><pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">SELECT</span> @<span class="token variable">@tx_isolation</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">SELECT</span> 
+  r<span class="token punctuation">.</span><span class="token punctuation">`</span>trx_id<span class="token punctuation">`</span> waiting_trx_id<span class="token punctuation">,</span>
+  r<span class="token punctuation">.</span><span class="token punctuation">`</span>trx_mysql_thread_id<span class="token punctuation">`</span> waiting_thread<span class="token punctuation">,</span>
+  r<span class="token punctuation">.</span><span class="token punctuation">`</span>trx_query<span class="token punctuation">`</span> waiting_query<span class="token punctuation">,</span>
+  <span class="token number">b</span><span class="token punctuation">.</span><span class="token punctuation">`</span>trx_id<span class="token punctuation">`</span> bolcking_trx_id<span class="token punctuation">,</span>
+  <span class="token number">b</span><span class="token punctuation">.</span><span class="token punctuation">`</span>trx_mysql_thread_id<span class="token punctuation">`</span> blocking_thread<span class="token punctuation">,</span>
+  <span class="token number">b</span><span class="token punctuation">.</span><span class="token punctuation">`</span>trx_query<span class="token punctuation">`</span> block_query 
+<span class="token keyword">FROM</span>
+  information_schema<span class="token punctuation">.</span><span class="token punctuation">`</span>INNODB_LOCK_WAITS<span class="token punctuation">`</span> w 
+  <span class="token keyword">INNER</span> <span class="token keyword">JOIN</span> information_schema<span class="token punctuation">.</span><span class="token punctuation">`</span>INNODB_TRX<span class="token punctuation">`</span> <span class="token number">b</span> 
+    <span class="token keyword">ON</span> <span class="token number">b</span><span class="token punctuation">.</span><span class="token punctuation">`</span>trx_id<span class="token punctuation">`</span> <span class="token operator">=</span> w<span class="token punctuation">.</span><span class="token punctuation">`</span>blocking_trx_id<span class="token punctuation">`</span> 
+  <span class="token keyword">INNER</span> <span class="token keyword">JOIN</span> information_schema<span class="token punctuation">.</span><span class="token punctuation">`</span>INNODB_TRX<span class="token punctuation">`</span> r 
+    <span class="token keyword">ON</span> r<span class="token punctuation">.</span><span class="token punctuation">`</span>trx_id<span class="token punctuation">`</span> <span class="token operator">=</span> w<span class="token punctuation">.</span><span class="token punctuation">`</span>requesting_trx_id<span class="token punctuation">`</span> <span class="token punctuation">;</span>
+ 
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="查询外键"><a href="#查询外键" class="headerlink" title="查询外键"></a>查询外键</h2><pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">select</span> concat<span class="token punctuation">(</span><span class="token string">'alter table '</span><span class="token punctuation">,</span>table_name<span class="token punctuation">,</span><span class="token string">' drop foreign key '</span><span class="token punctuation">,</span>constraint_name<span class="token punctuation">,</span><span class="token string">';'</span><span class="token punctuation">)</span> 
+<span class="token keyword">from</span> information_schema<span class="token punctuation">.</span>key_column_usage
+<span class="token keyword">where</span> constraint_schema <span class="token operator">=</span> <span class="token string">'dbname'</span> <span class="token operator">and</span> referenced_table_name <span class="token operator">=</span> <span class="token string">'tbName'</span><span class="token punctuation">;</span>
 
 
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">  r.`trx_id` waiting_trx_id,</span><br><span class="line">  r.`trx_mysql_thread_id` waiting_thread,</span><br><span class="line">  r.`trx_query` waiting_query,</span><br><span class="line">  b.`trx_id` bolcking_trx_id,</span><br><span class="line">  b.`trx_mysql_thread_id` blocking_thread,</span><br><span class="line">  b.`trx_query` block_query </span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">  information_schema.`INNODB_LOCK_WAITS` w </span><br><span class="line">  <span class="keyword">INNER</span> <span class="keyword">JOIN</span> information_schema.`INNODB_TRX` b </span><br><span class="line">    <span class="keyword">ON</span> b.`trx_id` <span class="operator">=</span> w.`blocking_trx_id` </span><br><span class="line">  <span class="keyword">INNER</span> <span class="keyword">JOIN</span> information_schema.`INNODB_TRX` r </span><br><span class="line">    <span class="keyword">ON</span> r.`trx_id` <span class="operator">=</span> w.`requesting_trx_id` ;</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
-<h2 id="查询外键"><a href="#查询外键" class="headerlink" title="查询外键"></a>查询外键</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> concat(<span class="string">&#x27;alter table &#x27;</span>,table_name,<span class="string">&#x27; drop foreign key &#x27;</span>,constraint_name,<span class="string">&#x27;;&#x27;</span>) </span><br><span class="line"><span class="keyword">from</span> information_schema.key_column_usage</span><br><span class="line"><span class="keyword">where</span> constraint_schema <span class="operator">=</span> <span class="string">&#x27;dbname&#x27;</span> <span class="keyword">and</span> referenced_table_name <span class="operator">=</span> <span class="string">&#x27;tbName&#x27;</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> concat(<span class="string">&#x27;alter table &#x27;</span>,table_schema,<span class="string">&#x27;.&#x27;</span>,table_name,<span class="string">&#x27; DROP FOREIGN KEY &#x27;</span>,constraint_name,<span class="string">&#x27;;&#x27;</span>)</span><br><span class="line"><span class="keyword">FROM</span> information_schema.table_constraints</span><br><span class="line"><span class="keyword">WHERE</span> constraint_type<span class="operator">=</span><span class="string">&#x27;FOREIGN KEY&#x27;</span></span><br><span class="line"><span class="keyword">AND</span> table_schema<span class="operator">=</span><span class="string">&#x27;dbname&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> TABLE_NAME <span class="keyword">FROM</span> information_schema.`TABLES`</span><br><span class="line"><span class="keyword">WHERE</span> TABLE_TYPE<span class="operator">=</span>&quot;BASE TABLE&quot;</span><br><span class="line"><span class="keyword">AND</span> TABLE_SCHEMA<span class="operator">=</span>&quot;dbname&quot;</span><br></pre></td></tr></table></figure>
+<span class="token keyword">SELECT</span> concat<span class="token punctuation">(</span><span class="token string">'alter table '</span><span class="token punctuation">,</span>table_schema<span class="token punctuation">,</span><span class="token string">'.'</span><span class="token punctuation">,</span>table_name<span class="token punctuation">,</span><span class="token string">' DROP FOREIGN KEY '</span><span class="token punctuation">,</span>constraint_name<span class="token punctuation">,</span><span class="token string">';'</span><span class="token punctuation">)</span>
+<span class="token keyword">FROM</span> information_schema<span class="token punctuation">.</span>table_constraints
+<span class="token keyword">WHERE</span> constraint_type<span class="token operator">=</span><span class="token string">'FOREIGN KEY'</span>
+<span class="token operator">AND</span> table_schema<span class="token operator">=</span><span class="token string">'dbname'</span><span class="token punctuation">;</span>
 
+<span class="token keyword">SELECT</span> TABLE_NAME <span class="token keyword">FROM</span> information_schema<span class="token punctuation">.</span><span class="token punctuation">`</span><span class="token keyword">TABLES</span><span class="token punctuation">`</span>
+<span class="token keyword">WHERE</span> TABLE_TYPE<span class="token operator">=</span><span class="token string">"BASE TABLE"</span>
+<span class="token operator">AND</span> TABLE_SCHEMA<span class="token operator">=</span><span class="token string">"dbname"</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>原因是由于RDS的备份文件中包含了RDS的主从复制关系，需要把这些主从复制关系清理掉，清理方法：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">truncate</span> <span class="keyword">table</span>  slave_relay_log_info;</span><br><span class="line"></span><br><span class="line"><span class="keyword">truncate</span> <span class="keyword">table</span>  mysql.slave_master_info;	</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">truncate</span> <span class="token keyword">table</span>  slave_relay_log_info<span class="token punctuation">;</span>
 
-
-<h3 id="Mysql-DUMP-表"><a href="#Mysql-DUMP-表" class="headerlink" title="Mysql DUMP 表"></a>Mysql DUMP 表</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -u root -h 127.0.0.1  dbName msgattach  &gt; msgattach.sql</span><br></pre></td></tr></table></figure>
-
-
+<span class="token keyword">truncate</span> <span class="token keyword">table</span>  mysql<span class="token punctuation">.</span>slave_master_info<span class="token punctuation">;</span>	
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="Mysql-DUMP-表"><a href="#Mysql-DUMP-表" class="headerlink" title="Mysql DUMP 表"></a>Mysql DUMP 表</h3><pre><code>mysqldump -u root -h 127.0.0.1  dbName msgattach  &gt; msgattach.sql
+</code></pre>
 <h3 id="MySQL-客户端"><a href="#MySQL-客户端" class="headerlink" title="MySQL 客户端"></a>MySQL 客户端</h3><p>从表现上来看分两种：</p>
 <ol>
 <li>客户端执行完query之后， 直接返回， 并开始用rows.next 去取数据， 其中很快</li>
@@ -441,12 +470,19 @@
 </ol>
 <p>底层代码里面来看， mysql服务端发送数据给客户端的时候， 客户端会把数据存在一个 默认4096大小的buffer 里面， 从这个buffer里面再读到rows里面<br>如果buffer里的数据没有被及时消费掉， 那么连接上面传送过来的数据会丢失掉。</p>
 <p>MySQL 本身的问题对于数据量传输不完的时候有个write_timeout,  出现错误之后， 会返回EOF 相关的Error</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[mysql] 2019/04/25 14:31:27 packets.go:72: unexpected EOF</span><br><span class="line">[mysql] 2019/04/25 14:31:27 packets.go:393: busy buffer</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code>[mysql] 2019/04/25 14:31:27 packets.go:72: unexpected EOF
+[mysql] 2019/04/25 14:31:27 packets.go:393: busy buffer
+</code></pre>
+<h3 id="实用脚本"><a href="#实用脚本" class="headerlink" title="实用脚本"></a>实用脚本</h3><h4 id="Mysql-查看表的外键"><a href="#Mysql-查看表的外键" class="headerlink" title="Mysql 查看表的外键"></a>Mysql 查看表的外键</h4><pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">select</span> 
+TABLE_NAME<span class="token punctuation">,</span>COLUMN_NAME<span class="token punctuation">,</span>CONSTRAINT_NAME<span class="token punctuation">,</span> REFERENCED_TABLE_NAME<span class="token punctuation">,</span>REFERENCED_COLUMN_NAME 
+<span class="token keyword">from</span> INFORMATION_SCHEMA<span class="token punctuation">.</span>KEY_COLUMN_USAGE 
+ <span class="token keyword">WHERE</span> CONSTRAINT_NAME <span class="token operator">!=</span> <span class="token string">'PRIMARY'</span> <span class="token operator">AND</span> REFERENCED_TABLE_NAME <span class="token operator">IS</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span> 
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="测试稳定情况"><a href="#测试稳定情况" class="headerlink" title="测试稳定情况"></a>测试稳定情况</h4><pre class="line-numbers language-bash"><code class="language-bash"><span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token variable"><span class="token variable">`</span><span class="token function">seq</span> 1 100<span class="token variable">`</span></span><span class="token punctuation">;</span> <span class="token keyword">do</span> 
+    mysql -u username -h host -P 3306 -ppassword -e <span class="token string">"use dbName; select askid from ask limit 1"</span><span class="token punctuation">;</span> <span class="token keyword">echo</span> <span class="token string">"==============<span class="token variable">$i</span>"</span><span class="token punctuation">;</span> <span class="token function">sleep</span> 1<span class="token punctuation">;</span>
+<span class="token keyword">done</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
-
-<h3 id="实用脚本"><a href="#实用脚本" class="headerlink" title="实用脚本"></a>实用脚本</h3><h4 id="Mysql-查看表的外键"><a href="#Mysql-查看表的外键" class="headerlink" title="Mysql 查看表的外键"></a>Mysql 查看表的外键</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> </span><br><span class="line">TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME, REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME </span><br><span class="line"><span class="keyword">from</span> INFORMATION_SCHEMA.KEY_COLUMN_USAGE </span><br><span class="line"> <span class="keyword">WHERE</span> CONSTRAINT_NAME <span class="operator">!=</span> <span class="string">&#x27;PRIMARY&#x27;</span> <span class="keyword">AND</span> REFERENCED_TABLE_NAME <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span> </span><br></pre></td></tr></table></figure>
-
-<h4 id="测试稳定情况"><a href="#测试稳定情况" class="headerlink" title="测试稳定情况"></a>测试稳定情况</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> `<span class="built_in">seq</span> 1 100`; <span class="keyword">do</span> </span><br><span class="line">    mysql -u username -h host -P 3306 -ppassword -e <span class="string">&quot;use dbName; select askid from ask limit 1&quot;</span>; <span class="built_in">echo</span> <span class="string">&quot;==============<span class="variable">$i</span>&quot;</span>; <span class="built_in">sleep</span> 1;</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
                 
             </div>
             <hr/>
@@ -604,8 +640,7 @@
                 <a href="/2019/05/18/langs/fe/typescript/">
                     <div class="card-image">
                         
-                        
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="TypeScript 简易笔记">
+                        <img src="https://user-images.githubusercontent.com/7270177/60314147-341c7300-9994-11e9-92d1-3310b8b37eaf.png" class="responsive-img" alt="TypeScript 简易笔记">
                         
                         <span class="card-title">TypeScript 简易笔记</span>
                     </div>
@@ -657,8 +692,7 @@
                 <a href="/2019/05/13/storage/mysql/passwd/">
                     <div class="card-image">
                         
-                        
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="Mysql 如何找回Root密码">
+                        <img src="https://user-images.githubusercontent.com/7270177/59422808-880b5180-8e03-11e9-9dfe-ff8a9a024be7.png" class="responsive-img" alt="Mysql 如何找回Root密码">
                         
                         <span class="card-title">Mysql 如何找回Root密码</span>
                     </div>

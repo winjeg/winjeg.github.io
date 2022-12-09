@@ -6,7 +6,8 @@
     <meta charset="utf-8">
     <meta name="keywords" content="使用Explain了解SQL语句的执行计划, golang, java, mysql, devops, linux">
     <meta name="description" content="语法与含义语义上讲EXPLAIN 、DESCRIBE 、 DESC 是一样的但习惯上用法不太一样， DESC 经常用于描述一个表或者列的信息EXPLAIN经常用于描述一个查询执行计划
-1234explain select 1;desc se">
+explain select 1;
+desc selec">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -53,7 +54,9 @@
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="winjeg's blog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -423,9 +426,11 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h2 id="语法与含义"><a href="#语法与含义" class="headerlink" title="语法与含义"></a>语法与含义</h2><p>语义上讲EXPLAIN 、DESCRIBE 、 DESC 是一样的<br>但习惯上用法不太一样， DESC 经常用于描述一个表或者列的信息<br>EXPLAIN经常用于描述一个查询执行计划</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">explain <span class="keyword">select</span> <span class="number">1</span>;</span><br><span class="line"><span class="keyword">desc</span> <span class="keyword">select</span> <span class="number">1</span>;</span><br><span class="line"><span class="keyword">describe</span> <span class="keyword">select</span> <span class="number">1</span>;</span><br><span class="line">explain format<span class="operator">=</span>json <span class="keyword">select</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
-
-
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">explain</span> <span class="token keyword">select</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token keyword">desc</span> <span class="token keyword">select</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token keyword">describe</span> <span class="token keyword">select</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token keyword">explain</span> format<span class="token operator">=</span>json <span class="token keyword">select</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="explain-type"><a href="#explain-type" class="headerlink" title="explain_type"></a>explain_type</h3><p>EXTENDED -&gt; 显示额外信息(filtered info)<br>PARTITIONS -&gt;  显示所用的分区 (目前没用到)<br>FORMAT -&gt; 显示结果的格式 (JSON&#x2F;TRADITIONAL, 分表表示用JSON或者表格形式)</p>
 <p>Explain支持 SELECT&#x2F;INSERT&#x2F;UPDATE&#x2F;DELETE&#x2F;REPLACE 等语句</p>
 <h3 id="Explain-结果集中需要特别注意的列"><a href="#Explain-结果集中需要特别注意的列" class="headerlink" title="Explain 结果集中需要特别注意的列"></a>Explain 结果集中需要特别注意的列</h3><table>

@@ -55,7 +55,9 @@ Repository用来存放image">
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="winjeg's blog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -424,11 +426,48 @@ Repository用来存放image">
 <h3 id="Image"><a href="#Image" class="headerlink" title="Image"></a>Image</h3><p>只读模板，预装一些东西</p>
 <h3 id="Container"><a href="#Container" class="headerlink" title="Container"></a>Container</h3><p>启动、开始、停止、删除 – 隔离<br>启动时，在镜像上层创建一层可写层</p>
 <h3 id="Repository"><a href="#Repository" class="headerlink" title="Repository"></a>Repository</h3><p>用来存放images</p>
-<h2 id="Docker-命令"><a href="#Docker-命令" class="headerlink" title="Docker 命令"></a>Docker 命令</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">sudo </span><br><span class="line"></span><br><span class="line"># 启动docker服务</span><br><span class="line">systemctl start docker.service</span><br><span class="line"></span><br><span class="line"># 列出本地镜像</span><br><span class="line">docker images</span><br><span class="line"></span><br><span class="line"># 搜索镜像</span><br><span class="line">docker search +name</span><br><span class="line"></span><br><span class="line">docker run -t -i centos /bin/bash</span><br><span class="line"></span><br><span class="line">docker rm </span><br><span class="line">docker rmi</span><br><span class="line">docker ps</span><br><span class="line">docker save filename</span><br><span class="line">docker load --input filename</span><br><span class="line">docker logs 查看容器的输出信息</span><br><span class="line">docker ps   查看容器的状态信息</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="Docker-命令"><a href="#Docker-命令" class="headerlink" title="Docker 命令"></a>Docker 命令</h2><pre><code>sudo 
 
+# 启动docker服务
+systemctl start docker.service
 
-<h2 id="Docker-file"><a href="#Docker-file" class="headerlink" title="Docker file"></a>Docker file</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># 以centos latest 作为基础</span><br><span class="line">FROM  centos:latest</span><br><span class="line"></span><br><span class="line"># 维护者</span><br><span class="line">MAINTAINER wenwen</span><br><span class="line"></span><br><span class="line"># 执行命令</span><br><span class="line">RUN yum install vi</span><br><span class="line"></span><br><span class="line">#</span><br><span class="line"></span><br><span class="line">ADD /home/wenwen/1.txt</span><br><span class="line"></span><br><span class="line">EXPOSE port</span><br><span class="line"></span><br><span class="line">CMD nano</span><br><span class="line"></span><br><span class="line">#</span><br><span class="line"></span><br><span class="line">docker build -t &quot;&quot; &#123;dir&#125;</span><br></pre></td></tr></table></figure>
+# 列出本地镜像
+docker images
 
+# 搜索镜像
+docker search +name
+
+docker run -t -i centos /bin/bash
+
+docker rm 
+docker rmi
+docker ps
+docker save filename
+docker load --input filename
+docker logs 查看容器的输出信息
+docker ps   查看容器的状态信息
+</code></pre>
+<h2 id="Docker-file"><a href="#Docker-file" class="headerlink" title="Docker file"></a>Docker file</h2><pre><code># 以centos latest 作为基础
+FROM  centos:latest
+
+# 维护者
+MAINTAINER wenwen
+
+# 执行命令
+RUN yum install vi
+
+#
+
+ADD /home/wenwen/1.txt
+
+EXPOSE port
+
+CMD nano
+
+#
+
+docker build -t &quot;&quot; &#123;dir&#125;
+</code></pre>
 <h2 id="docker-registry"><a href="#docker-registry" class="headerlink" title="docker-registry"></a>docker-registry</h2>
                 
             </div>

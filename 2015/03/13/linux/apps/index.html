@@ -54,7 +54,9 @@
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="winjeg's blog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -422,11 +424,19 @@
 <p>open ssh与  windows ppk相互转换<br>关键工具 puttygen<br>由私钥生成公钥如上</p>
 <p>ssh 连接 linux<br>自动补全需要bash_completion<br>还需要在 .ssh&#x2F;config 文件中记录 host user ip三个字段<br>另外，如果仅需要补全自己</p>
 <p>ssh-copy-id 会自动加免密到目标机器</p>
-<h2 id="设置hostname"><a href="#设置hostname" class="headerlink" title="设置hostname"></a>设置hostname</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"># setting up hostenv</span><br><span class="line"># @author winjeg@qq.com</span><br><span class="line">#</span><br><span class="line"></span><br><span class="line">### setting hostname now</span><br><span class="line">hostname $1</span><br><span class="line">echo $1 &gt; /etc/hostname</span><br><span class="line">echo -e &quot;127.0.0.1\t$1$2\t$1&quot; &gt;&gt; /etc/hosts</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="设置hostname"><a href="#设置hostname" class="headerlink" title="设置hostname"></a>设置hostname</h2><pre><code>#!/bin/bash
+# setting up hostenv
+# @author winjeg@qq.com
+#
 
+### setting hostname now
+hostname $1
+echo $1 &gt; /etc/hostname
+echo -e &quot;127.0.0.1\t$1$2\t$1&quot; &gt;&gt; /etc/hosts
+</code></pre>
 <h2 id="openvpn"><a href="#openvpn" class="headerlink" title="openvpn"></a>openvpn</h2><p>openvpn </p>
 <p>添加  &#x2F;etc&#x2F;openvpn&#x2F;client&#x2F;xxxx.conf</p>
-<p>systemctl enable <a href="mailto:&#x6f;&#x70;&#101;&#110;&#x76;&#x70;&#x6e;&#45;&#99;&#108;&#x69;&#101;&#x6e;&#x74;&#x40;&#106;&#105;&#x61;&#120;&#105;&#x6e;&#x67;&#x2e;&#115;&#101;&#x72;&#x76;&#x69;&#x63;&#x65;">&#x6f;&#x70;&#101;&#110;&#x76;&#x70;&#x6e;&#45;&#99;&#108;&#x69;&#101;&#x6e;&#x74;&#x40;&#106;&#105;&#x61;&#120;&#105;&#x6e;&#x67;&#x2e;&#115;&#101;&#x72;&#x76;&#x69;&#x63;&#x65;</a></p>
+<p>systemctl enable <a href="mailto:&#x6f;&#x70;&#101;&#x6e;&#118;&#112;&#110;&#x2d;&#99;&#108;&#x69;&#101;&#110;&#x74;&#64;&#x6a;&#x69;&#x61;&#x78;&#x69;&#x6e;&#103;&#x2e;&#115;&#101;&#114;&#118;&#105;&#x63;&#x65;">&#x6f;&#x70;&#101;&#x6e;&#118;&#112;&#110;&#x2d;&#99;&#108;&#x69;&#101;&#110;&#x74;&#64;&#x6a;&#x69;&#x61;&#x78;&#x69;&#x6e;&#103;&#x2e;&#115;&#101;&#114;&#118;&#105;&#x63;&#x65;</a></p>
 <p>设置免密<br>在conf中<br>auth-user-pass  xxx.txt</p>
 <p>xxx.txt 中第一行用户名，第二行密码</p>
 

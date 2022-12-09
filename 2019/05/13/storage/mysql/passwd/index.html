@@ -6,11 +6,12 @@
     <meta charset="utf-8">
     <meta name="keywords" content="Mysql 如何找回Root密码, golang, java, mysql, devops, linux">
     <meta name="description" content="1  修改 &amp;#x2F;etc&amp;#x2F;my.cnf加上
-12[mysqld]skip-grant-tables
+[mysqld]
+skip-grant-tables
 
-2. 重启mysql1service mysql restart
+2. 重启mysqlservice mysql restart
 
-3. 更改root密码1234mysql&amp;gt; US">
+3. 更改root密码mysql&gt; USE mysql ;">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -57,7 +58,9 @@
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="winjeg's blog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -339,7 +342,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://user-images.githubusercontent.com/7270177/59422808-880b5180-8e03-11e9-9dfe-ff8a9a024be7.png')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -423,13 +426,19 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h2 id="1-修改-x2F-etc-x2F-my-cnf"><a href="#1-修改-x2F-etc-x2F-my-cnf" class="headerlink" title="1  修改 &#x2F;etc&#x2F;my.cnf"></a>1  修改 &#x2F;etc&#x2F;my.cnf</h2><p>加上</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">skip-grant-tables</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-重启mysql"><a href="#2-重启mysql" class="headerlink" title="2. 重启mysql"></a>2. 重启mysql</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysql restart</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-更改root密码"><a href="#3-更改root密码" class="headerlink" title="3. 更改root密码"></a>3. 更改root密码</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> USE mysql ; </span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">UPDATE</span> <span class="keyword">user</span> <span class="keyword">SET</span> Password <span class="operator">=</span> password ( <span class="string">&#x27;new-password&#x27;</span> ) <span class="keyword">WHERE</span> <span class="keyword">User</span> <span class="operator">=</span> <span class="string">&#x27;root&#x27;</span> ; </span><br><span class="line">mysql<span class="operator">&gt;</span> flush privileges ; </span><br><span class="line">mysql<span class="operator">&gt;</span> quit</span><br></pre></td></tr></table></figure>
+<pre><code>[mysqld]
+skip-grant-tables
+</code></pre>
+<h2 id="2-重启mysql"><a href="#2-重启mysql" class="headerlink" title="2. 重启mysql"></a>2. 重启mysql</h2><pre><code>service mysql restart
+</code></pre>
+<h2 id="3-更改root密码"><a href="#3-更改root密码" class="headerlink" title="3. 更改root密码"></a>3. 更改root密码</h2><pre class="line-numbers language-sql"><code class="language-sql">mysql<span class="token operator">></span> <span class="token keyword">USE</span> mysql <span class="token punctuation">;</span> 
+mysql<span class="token operator">></span> <span class="token keyword">UPDATE</span> <span class="token keyword">user</span> <span class="token keyword">SET</span> Password <span class="token operator">=</span> password <span class="token punctuation">(</span> <span class="token string">'new-password'</span> <span class="token punctuation">)</span> <span class="token keyword">WHERE</span> <span class="token keyword">User</span> <span class="token operator">=</span> <span class="token string">'root'</span> <span class="token punctuation">;</span> 
+mysql<span class="token operator">></span> flush <span class="token keyword">privileges</span> <span class="token punctuation">;</span> 
+mysql<span class="token operator">></span> quit
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <p>如果版本高于5.6 则是如下字段存着密码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">authentication_string</span><br></pre></td></tr></table></figure>
+<pre><code>authentication_string
+</code></pre>
 <h2 id="4-将MySQL的登录设置修改回来"><a href="#4-将MySQL的登录设置修改回来" class="headerlink" title="4.将MySQL的登录设置修改回来"></a>4.将MySQL的登录设置修改回来</h2><h2 id="5-重启mysql"><a href="#5-重启mysql" class="headerlink" title="5. 重启mysql"></a>5. 重启mysql</h2>
                 
             </div>
@@ -588,8 +597,7 @@
                 <a href="/2019/05/13/storage/mysql/mysql_other/">
                     <div class="card-image">
                         
-                        
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Mysql 其他杂记">
+                        <img src="https://user-images.githubusercontent.com/7270177/59422808-880b5180-8e03-11e9-9dfe-ff8a9a024be7.png" class="responsive-img" alt="Mysql 其他杂记">
                         
                         <span class="card-title">Mysql 其他杂记</span>
                     </div>
@@ -645,8 +653,7 @@
                 <a href="/2018/12/13/langs/golang/go_project/">
                     <div class="card-image">
                         
-                        
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="Golang的工程配置">
+                        <img src="https://user-images.githubusercontent.com/7270177/59482717-9f4a4d80-8e9c-11e9-82b0-58254e0f4c4b.png" class="responsive-img" alt="Golang的工程配置">
                         
                         <span class="card-title">Golang的工程配置</span>
                     </div>

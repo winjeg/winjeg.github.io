@@ -58,7 +58,9 @@ Class autocomp">
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="winjeg's blog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -443,20 +445,42 @@ Class autocomp">
 <li>Shift F11 step out.</li>
 <li>Alt+Shift+F format</li>
 </ol>
-<h2 id="node与nmp"><a href="#node与nmp" class="headerlink" title="node与nmp"></a>node与nmp</h2><h3 id="包安装与管理工具yarn-与npm"><a href="#包安装与管理工具yarn-与npm" class="headerlink" title="包安装与管理工具yarn 与npm"></a>包安装与管理工具yarn 与npm</h3><h3 id="淘宝npm-镜像"><a href="#淘宝npm-镜像" class="headerlink" title="淘宝npm 镜像"></a>淘宝npm 镜像</h3><h4 id="cnpm"><a href="#cnpm" class="headerlink" title="cnpm"></a>cnpm</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g cnpm --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
-<h4 id="别名的方式"><a href="#别名的方式" class="headerlink" title="别名的方式"></a>别名的方式</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">alias cnpm=&quot;npm --registry=https://registry.npm.taobao.org \</span><br><span class="line">--cache=$HOME/.npm/.cache/cnpm \</span><br><span class="line">--disturl=https://npm.taobao.org/dist \</span><br><span class="line">--userconfig=$HOME/.cnpmrc&quot;</span><br><span class="line"></span><br><span class="line"># Or alias it in .bashrc or .zshrc</span><br><span class="line">$ echo &#x27;\n#alias for cnpm\nalias cnpm=&quot;npm --registry=https://registry.npm.taobao.org \</span><br><span class="line">  --cache=$HOME/.npm/.cache/cnpm \</span><br><span class="line">  --disturl=https://npm.taobao.org/dist \</span><br><span class="line">  --userconfig=$HOME/.cnpmrc&quot;&#x27; &gt;&gt; ~/.zshrc &amp;&amp; source ~/.zshrc</span><br></pre></td></tr></table></figure>
+<h2 id="node与nmp"><a href="#node与nmp" class="headerlink" title="node与nmp"></a>node与nmp</h2><h3 id="包安装与管理工具yarn-与npm"><a href="#包安装与管理工具yarn-与npm" class="headerlink" title="包安装与管理工具yarn 与npm"></a>包安装与管理工具yarn 与npm</h3><h3 id="淘宝npm-镜像"><a href="#淘宝npm-镜像" class="headerlink" title="淘宝npm 镜像"></a>淘宝npm 镜像</h3><h4 id="cnpm"><a href="#cnpm" class="headerlink" title="cnpm"></a>cnpm</h4><pre><code> npm install -g cnpm --registry=https://registry.npm.taobao.org
+</code></pre>
+<h4 id="别名的方式"><a href="#别名的方式" class="headerlink" title="别名的方式"></a>别名的方式</h4><pre><code>alias cnpm=&quot;npm --registry=https://registry.npm.taobao.org \
+--cache=$HOME/.npm/.cache/cnpm \
+--disturl=https://npm.taobao.org/dist \
+--userconfig=$HOME/.cnpmrc&quot;
 
-
+# Or alias it in .bashrc or .zshrc
+$ echo &#39;\n#alias for cnpm\nalias cnpm=&quot;npm --registry=https://registry.npm.taobao.org \
+  --cache=$HOME/.npm/.cache/cnpm \
+  --disturl=https://npm.taobao.org/dist \
+  --userconfig=$HOME/.cnpmrc&quot;&#39; &gt;&gt; ~/.zshrc &amp;&amp; source ~/.zshrc
+</code></pre>
 <h2 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h2><h3 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h3><h4 id="文件介绍"><a href="#文件介绍" class="headerlink" title="文件介绍"></a>文件介绍</h4><p>package.json 是项目的总的一个配置文件， 它定义了这个项目所需要的各种模块， 以及项目的基本配置信息。<br>可以自动生成或者手动编写， 自动生成的方法是用node</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node init</span><br></pre></td></tr></table></figure>
+<pre><code>node init
+</code></pre>
 <h4 id="scripts-段"><a href="#scripts-段" class="headerlink" title="scripts 段"></a>scripts 段</h4><p>scripts 段制定了运行脚本命令的npm命令行缩写， 比如start指定了运行npm run start 的时候所需要执行的命令</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;dev&quot;: &quot;node build/dev-server.js&quot;,</span><br><span class="line">    &quot;lint&quot;:&quot;eslint --ext .js,.vue src test/unit/specs&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>&quot;scripts&quot;: &#123;
+    &quot;dev&quot;: &quot;node build/dev-server.js&quot;,
+    &quot;lint&quot;:&quot;eslint --ext .js,.vue src test/unit/specs&quot;
+&#125;
+</code></pre>
 <h4 id="dependencies"><a href="#dependencies" class="headerlink" title="dependencies"></a>dependencies</h4><p>depencies and devDependencies 分别指定了项目在运行时候依赖的模块与项目开发的时候需要的一些模块， 它们都指向同一个对象， 用来管理各种依赖</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&quot;dependencies&quot;: &#123;</span><br><span class="line">    &quot;vue&quot;: &quot;^2.2.2&quot;,</span><br><span class="line">    &quot;vue-router&quot;: &quot;^2.2.0&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;devDependencies&quot;: &#123;</span><br><span class="line">    &quot;autoprefixer&quot;: &quot;^6.7.2&quot;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<pre><code>&quot;dependencies&quot;: &#123;
+    &quot;vue&quot;: &quot;^2.2.2&quot;,
+    &quot;vue-router&quot;: &quot;^2.2.0&quot;
+  &#125;,
+  &quot;devDependencies&quot;: &#123;
+    &quot;autoprefixer&quot;: &quot;^6.7.2&quot;
+  &#125;
+</code></pre>
 <h4 id="config-字段"><a href="#config-字段" class="headerlink" title="config 字段"></a>config 字段</h4><p>config 字段用于向环境变量输出值</p>
 <h4 id="engines-字段"><a href="#engines-字段" class="headerlink" title="engines 字段"></a>engines 字段</h4><p>engines 字段主要声明node 与 npm的版本</p>
 <h4 id="bin-字段"><a href="#bin-字段" class="headerlink" title="bin 字段"></a>bin 字段</h4><p>bin字段 主要是为了让一个可执行命令安装到系统的路径， 可以直接调用,<br>比如，要使用hello作为命令时可以这么做：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; &quot;bin&quot; : &#123; &quot;hello&quot; : &quot;./cli.js&quot; &#125; &#125;</span><br></pre></td></tr></table></figure>
+<pre><code>&#123; &quot;bin&quot; : &#123; &quot;hello&quot; : &quot;./cli.js&quot; &#125; &#125;
+</code></pre>
 <p>这么一来，当你安装hello程序，npm会从cli.js文件创建一个到&#x2F;usr&#x2F;local&#x2F;bin&#x2F;myapp的符号链接(这使你可以直接在命令行执行hello脚本)。</p>
 
                 
@@ -677,8 +701,7 @@ Class autocomp">
                 <a href="/2019/06/13/apps/git/">
                     <div class="card-image">
                         
-                        
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="版本管理工具Git的使用">
+                        <img src="https://user-images.githubusercontent.com/7270177/59480122-fb5ba480-8e91-11e9-9c26-7f8d6d97868a.png" class="responsive-img" alt="版本管理工具Git的使用">
                         
                         <span class="card-title">版本管理工具Git的使用</span>
                     </div>

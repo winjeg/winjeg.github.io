@@ -52,7 +52,9 @@
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="winjeg's blog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -500,15 +502,6 @@
                 </a>
                 
                 
-                <a href="/categories/software/" title="software: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #A3E4D7;">software
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
                 <a href="/categories/storage/bigtable/" title="bigtable: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
@@ -549,6 +542,15 @@
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
                             style="background-color: #82E0AA;">redis
+                        <span class="tag-length">1</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/categories/software/" title="software: 1">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            style="background-color: #A3E4D7;">software
                         <span class="tag-length">1</span>
                     </span>
                 </a>
@@ -597,8 +599,7 @@
                     <a href="/2019/07/02/storage/mysql/mysql_docker/">
                         <div class="card-image tag-image">
                             
-                            
-                            <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="使用docker运行MySQL服务">
+                            <img src="https://user-images.githubusercontent.com/7270177/59422808-880b5180-8e03-11e9-9dfe-ff8a9a024be7.png" class="responsive-img" alt="使用docker运行MySQL服务">
                             
                             <span class="card-title">使用docker运行MySQL服务</span>
                         </div>
@@ -655,8 +656,7 @@
                     <a href="/2019/05/13/storage/mysql/passwd/">
                         <div class="card-image tag-image">
                             
-                            
-                            <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="Mysql 如何找回Root密码">
+                            <img src="https://user-images.githubusercontent.com/7270177/59422808-880b5180-8e03-11e9-9dfe-ff8a9a024be7.png" class="responsive-img" alt="Mysql 如何找回Root密码">
                             
                             <span class="card-title">Mysql 如何找回Root密码</span>
                         </div>
@@ -665,11 +665,12 @@
                         <div class="summary block-with-text">
                             
                                 1  修改 &#x2F;etc&#x2F;my.cnf加上
-12[mysqld]skip-grant-tables
+[mysqld]
+skip-grant-tables
 
-2. 重启mysql1service mysql restart
+2. 重启mysqlservice mysql restart
 
-3. 更改root密码1234mysql&gt; US
+3. 更改root密码mysql> USE mysql ;
                             
                         </div>
                         <div class="publish-info">
@@ -714,8 +715,7 @@
                     <a href="/2019/05/13/storage/mysql/mysql_other/">
                         <div class="card-image tag-image">
                             
-                            
-                            <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Mysql 其他杂记">
+                            <img src="https://user-images.githubusercontent.com/7270177/59422808-880b5180-8e03-11e9-9dfe-ff8a9a024be7.png" class="responsive-img" alt="Mysql 其他杂记">
                             
                             <span class="card-title">Mysql 其他杂记</span>
                         </div>
@@ -723,10 +723,12 @@
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                事务查询1SELECT @@tx_isolation
+                                事务查询SELECT @@tx_isolation
 
-
-1234567891011121314SELECT   r.`trx_id` waiting_trx_id,  r.`trx_mysql_thread_id` waiting_thr
+SELECT 
+  r.`trx_id` waiting_trx_id,
+  r.`trx_mysql_thread_id` waiting_thread,
+  r.`trx_query
                             
                         </div>
                         <div class="publish-info">
@@ -825,8 +827,7 @@
                     <a href="/2017/12/14/storage/redis/redis_standards/">
                         <div class="card-image tag-image">
                             
-                            
-                            <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="redis 使用规范">
+                            <img src="https://user-images.githubusercontent.com/7270177/59422638-49759700-8e03-11e9-8bdd-dd708ca69e1f.png" class="responsive-img" alt="redis 使用规范">
                             
                             <span class="card-title">redis 使用规范</span>
                         </div>

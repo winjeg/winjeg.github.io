@@ -6,7 +6,9 @@
     <meta charset="utf-8">
     <meta name="keywords" content="常见的MySQL客户端, golang, java, mysql, devops, linux">
     <meta name="description" content="驱动&amp;#x2F;程序连接java如果你是maven项目，则只需要引入以下依赖
-12345&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;mysql&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId">
+&amp;lt;dependency&gt;
+    &amp;lt;groupId&gt;mysql&amp;lt;/groupId&gt;
+    &amp;lt;artifactId&gt;mysql-conne">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -53,7 +55,9 @@
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="winjeg's blog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -419,9 +423,15 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h2 id="驱动-x2F-程序连接"><a href="#驱动-x2F-程序连接" class="headerlink" title="驱动&#x2F;程序连接"></a>驱动&#x2F;程序连接</h2><h3 id="java"><a href="#java" class="headerlink" title="java"></a>java</h3><p>如果你是maven项目，则只需要引入以下依赖</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.1.38<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>mysql<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>mysql-connector-java<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>5.1.38<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>如果不是， 可以下载Jar包直接使用</p>
-<h3 id="go"><a href="#go" class="headerlink" title="go"></a>go</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go get -u github.com/go-sql-driver/mysql</span><br></pre></td></tr></table></figure>
+<h3 id="go"><a href="#go" class="headerlink" title="go"></a>go</h3><pre class="line-numbers language-bash"><code class="language-bash">go get -u github.com/go-sql-driver/mysql
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>对于go项目直接引入依赖即可</p>
 <h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>由于作者我不熟悉其他语言， 不在此赘述其他语言的客户端驱动是怎么样的，但是对于大部分语言来说都有比较知名的驱动。</p>
 <p>##桌面客户端<br>###	MySQL Workbench (Official)<br>MySQL 是官方的MySQL客户端，它是开源免费的，有开源社区跟Oracle的支持，功能也是比较的完善，易用性比Navicat 稍差，功能比较强大，它自带了非常多的功能，比如数据迁移，可视化Explain， Dashboard, 及常见的查询， schema 设计等等。本文将以次工具来展示MySQL的许多功能<br>###	Navicat for MySQL<br>Navicat是一款商业软件，其功能是非常的强大，UI与易用性也是屈指可数的，是一个被广泛盗版的软件<br>###	PhpMyAdmin<br>一个基于Web的SQL客户端<br>###	DBForge Studio<br>它是一个商业软件，目前存在免费版跟收费版本，收费版本功能更多一些，界面跟以前的某些版本的Visual Studio类似，功能应该也比较强大<br>###	HeidiSQL<br>使用Pascal写的一个SQL客户端工具，它有着非常强大的功能跟非常垃圾的用户使用体验。<br>###	Sequel Pro<br>Mac下的一个MySQL 客户端， 列出来只是给Mac用户多一个选择。<br>###	Eclipse与Idea 插件<br>这个是与自己的开发环境IDE集成的一种MySQL工具， 它往往提供的功能比较简单，通常包括语句查询、Schema建立与删除、自动补全等功能。</p>

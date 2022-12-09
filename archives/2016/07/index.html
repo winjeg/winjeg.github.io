@@ -52,7 +52,9 @@
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="winjeg's blog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -508,7 +510,9 @@
                             <div class="summary block-with-text">
                                 
                                     驱动&#x2F;程序连接java如果你是maven项目，则只需要引入以下依赖
-12345&lt;dependency&gt;    &lt;groupId&gt;mysql&lt;/groupId&gt;    &lt;artifactId
+&lt;dependency>
+    &lt;groupId>mysql&lt;/groupId>
+    &lt;artifactId>mysql-conne
                                 
                             </div>
                             <div class="publish-info">
@@ -574,9 +578,12 @@
                             <div class="summary block-with-text">
                                 
                                     备份
-1mongodump -h dbhost -d dbname -o dbdirectory
+mongodump -h dbhost -d dbname -o dbdirectory
+
 恢复
-1sudo mongorestore -h host --db database --dir mongodata/database
+sudo mongorestore -h host --db database --dir mongodata/database
+
+
                                 
                             </div>
                             <div class="publish-info">
@@ -642,7 +649,8 @@
                             <div class="summary block-with-text">
                                 
                                     语法与含义语义上讲EXPLAIN 、DESCRIBE 、 DESC 是一样的但习惯上用法不太一样， DESC 经常用于描述一个表或者列的信息EXPLAIN经常用于描述一个查询执行计划
-1234explain select 1;desc se
+explain select 1;
+desc selec
                                 
                             </div>
                             <div class="publish-info">

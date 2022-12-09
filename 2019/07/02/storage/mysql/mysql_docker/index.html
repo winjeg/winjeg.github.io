@@ -52,7 +52,9 @@
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="winjeg's blog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -334,7 +336,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://user-images.githubusercontent.com/7270177/59422808-880b5180-8e03-11e9-9dfe-ff8a9a024be7.png')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -423,9 +425,11 @@
             <div id="articleContent">
                 <h2 id="为啥要使用docker运行MySQL"><a href="#为啥要使用docker运行MySQL" class="headerlink" title="为啥要使用docker运行MySQL"></a>为啥要使用docker运行MySQL</h2><p>熟悉docker和k8s的人都知道， 我们使用容器化技术，是为了方便我们运行某个服务，我们用docker 运行Mysql， 并不是因为mysql在docker比在物理机或者kvm上运行的更好，配置起来更简单。<br>我们使用docker 主要还是因为，我们在不关注太多MySQL本身的东西的时候， 单纯想快速简单的启动一个MySQL服务的时候能够做到，分钟级别即可完成。<br>这相对于传统级别的从安装到配置动则半小时到几个小时的工作量来说，已经非常简单方便了。</p>
 <h2 id="怎么使用Docker-去运行一个MySQL服务"><a href="#怎么使用Docker-去运行一个MySQL服务" class="headerlink" title="怎么使用Docker 去运行一个MySQL服务"></a>怎么使用Docker 去运行一个MySQL服务</h2><p>在运行之前，你首先要装docker， 安装docker非常简单，只需要一路下一步下一步就可以完成， linux或者mac野只需要一些安装命令即可搞定。<br>当然安装docker可以不仅仅用于MySQL用途， 也可以用来它方便其他任何你想需要运行的服务的部署和运行。  </p>
-<h3 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a>下载镜像</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull mysql:5.6</span><br></pre></td></tr></table></figure>
+<h3 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a>下载镜像</h3><pre class="line-numbers language-bash"><code class="language-bash">docker pull mysql:5.6
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>这里mysql是镜像名称， 5.6 是mysql的版本。 一半这些镜像都默认是比较官方维护的， 在docker没有进行特殊设置的情况下可以信任。</p>
-<h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 3306:3306 --name mysql -v /opt/docker_v/mysql/conf:/etc/mysql/conf.d -e MYSQL_ROOT_PASSWORD=123456 -d imageID</span><br></pre></td></tr></table></figure>
+<h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><pre class="line-numbers language-bash"><code class="language-bash">docker run -p 3306:3306 --name mysql -v /opt/docker_v/mysql/conf:/etc/mysql/conf.d -e MYSQL_ROOT_PASSWORD<span class="token operator">=</span>123456 -d imageID
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>上述命令有如下解释：</p>
 <ol>
 <li><code>-p 3306:3306 </code> 是指把容器的3306端口映射到本地的3306端口</li>
@@ -439,8 +443,9 @@
 <li>mysql 运行的端口过小导致的没有权限<br> 解决方案：请在大于1024 的端口上运行MySQL</li>
 <li>系统环境是 Windows 10 Pro，Docker 版本 18.03.1-ce，电脑开机之后第一次运行 docker run 的时候会遇到这个错误</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">C:\Program Files\Docker\Docker\Resources\bin\docker.exe: Error response from daemon: driver failed programming external connectivity on endpoint app (36577729ce7d4d2dddefb7fddd32521ea66958cf824138804b02ffb3c98452f3): Error starting userland proxy: mkdir /port/tcp:0.0.0.0:3306:tcp:172.17.0.2:3306</span><br><span class="line">: input/output error.</span><br></pre></td></tr></table></figure>
-
+<pre><code>C:\Program Files\Docker\Docker\Resources\bin\docker.exe: Error response from daemon: driver failed programming external connectivity on endpoint app (36577729ce7d4d2dddefb7fddd32521ea66958cf824138804b02ffb3c98452f3): Error starting userland proxy: mkdir /port/tcp:0.0.0.0:3306:tcp:172.17.0.2:3306
+: input/output error.
+</code></pre>
 <p>解决方案： 重启docker服务</p>
 
                 
@@ -604,8 +609,7 @@
                 <a href="/2019/07/30/devops/cicd/">
                     <div class="card-image">
                         
-                        
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="CICD 笔记">
+                        <img src="https://user-images.githubusercontent.com/7270177/62824144-685a9480-bbcc-11e9-9b8c-7052affc5b9f.png" class="responsive-img" alt="CICD 笔记">
                         
                         <span class="card-title">CICD 笔记</span>
                     </div>

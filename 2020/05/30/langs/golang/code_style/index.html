@@ -53,7 +53,9 @@ gofmt 一统天下gofmt 是目前golang里面用的最多的用来格式化代�
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="winjeg's blog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -335,7 +337,7 @@ gofmt 一统天下gofmt 是目前golang里面用的最多的用来格式化代�
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://user-images.githubusercontent.com/7270177/59482717-9f4a4d80-8e9c-11e9-82b0-58254e0f4c4b.png')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -412,7 +414,8 @@ gofmt 一统天下gofmt 是目前golang里面用的最多的用来格式化代�
             <div id="articleContent">
                 <h2 id="一些废话（Some-useless-words）"><a href="#一些废话（Some-useless-words）" class="headerlink" title="一些废话（Some useless words）"></a>一些废话（Some useless words）</h2><p>想必能看到我博客的人，已经对golang有一定的了解了</p>
 <h3 id="gofmt-一统天下"><a href="#gofmt-一统天下" class="headerlink" title="gofmt 一统天下"></a>gofmt 一统天下</h3><p>gofmt 是目前golang里面用的最多的用来格式化代码风格的一个命令行工具， 很多知名项目都用它来保证自己的最基本的代码风格与官方和社区推荐的风格一致。<br>使用如下命令就可以轻松格式化一个目录下的所有文件：  </p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gofmt -w .</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-sh"><code class="language-sh">gofmt -w .
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <ol>
 <li><p>gofmt 可以解决的问题</p>
 </li>
@@ -432,8 +435,14 @@ gofmt 一统天下gofmt 是目前golang里面用的最多的用来格式化代�
 <li>对于不可空字段不使用指针类型， 用来表示这个字段一定有值</li>
 </ol>
 <h3 id="注释风格"><a href="#注释风格" class="headerlink" title="注释风格"></a>注释风格</h3><p>golang 与某Java不同， 不喜欢多行注释，纵观Golang SDK以及 一些非常文明的项目，大部分注释均为单行注释， 虽然golang 支持以下两种注释类型。  </p>
-<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  单行注释</span></span><br><span class="line"><span class="keyword">var</span> code = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">多行注释</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">const</span> someVeryNastyThing = <span class="number">-1</span></span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-golang"><code class="language-golang">//  单行注释
+var code = 0
 
+/*
+多行注释
+ */
+const someVeryNastyThing = -1
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h5 id="特殊指令"><a href="#特殊指令" class="headerlink" title="特殊指令"></a>特殊指令</h5><p>在golang注释里面可以写一些特殊指令， 这个时候编译器就会处理这些指令，而不是仅仅当做注释， 这在很多场景下非常有用。</p>
 
                 
@@ -589,8 +598,7 @@ gofmt 一统天下gofmt 是目前golang里面用的最多的用来格式化代�
                 <a href="/2021/11/10/devops/chaos/">
                     <div class="card-image">
                         
-                        
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="混沌工程实践笔记">
+                        <img src="https://user-images.githubusercontent.com/7270177/141085815-0ce4b689-c754-4c42-bc68-183060bddf6c.png" class="responsive-img" alt="混沌工程实践笔记">
                         
                         <span class="card-title">混沌工程实践笔记</span>
                     </div>
@@ -642,8 +650,7 @@ gofmt 一统天下gofmt 是目前golang里面用的最多的用来格式化代�
                 <a href="/2020/01/01/others/year2020/">
                     <div class="card-image">
                         
-                        
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="Happy Year 2020 (2020快乐)">
+                        <img src="https://user-images.githubusercontent.com/7270177/71638020-6b474600-2c8f-11ea-9db5-02aa5e648e7a.png" class="responsive-img" alt="Happy Year 2020 (2020快乐)">
                         
                         <span class="card-title">Happy Year 2020 (2020快乐)</span>
                     </div>

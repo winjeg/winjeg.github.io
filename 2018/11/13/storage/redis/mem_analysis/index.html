@@ -52,7 +52,9 @@
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="winjeg's blog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -435,9 +437,43 @@
 <li>慢key与大key的维度</li>
 </ul>
 <p>当然以后如果发现有更好的纬度也会添加进去，目前先以这几个纬度为主</p>
-<h3 id="数据类型设计"><a href="#数据类型设计" class="headerlink" title="数据类型设计"></a>数据类型设计</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> RedisStat <span class="keyword">struct</span> &#123;</span><br><span class="line">	All     KeyStat <span class="string">`json:&quot;all&quot;`</span></span><br><span class="line">	String  KeyStat <span class="string">`json:&quot;string&quot;`</span></span><br><span class="line">	Hash    KeyStat <span class="string">`json:&quot;hash&quot;`</span></span><br><span class="line">	Set     KeyStat <span class="string">`json:&quot;set&quot;`</span></span><br><span class="line">	List    KeyStat <span class="string">`json:&quot;list&quot;`</span></span><br><span class="line">	ZSet    KeyStat <span class="string">`json:&quot;zset&quot;`</span></span><br><span class="line">	Other   KeyStat <span class="string">`json:&quot;other&quot;`</span></span><br><span class="line">	BigKeys KeyStat <span class="string">`json:&quot;bigKeys&quot;`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// distributions of keys of all prefixes</span></span><br><span class="line"><span class="keyword">type</span> Distribution <span class="keyword">struct</span> &#123;</span><br><span class="line">	KeyPattern <span class="type">string</span> <span class="string">`json:&quot;pattern&quot;`</span></span><br><span class="line">	Metrics</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// basic metrics of a group of key</span></span><br><span class="line"><span class="keyword">type</span> Metrics <span class="keyword">struct</span> &#123;</span><br><span class="line">	KeyCount       <span class="type">int64</span> <span class="string">`json:&quot;keyCount&quot;`</span></span><br><span class="line">	KeySize        <span class="type">int64</span> <span class="string">`json:&quot;keySize&quot;`</span></span><br><span class="line">	DataSize       <span class="type">int64</span> <span class="string">`json:&quot;dataSize&quot;`</span></span><br><span class="line">	KeyNeverExpire <span class="type">int64</span> <span class="string">`json:&quot;neverExpire&quot;`</span></span><br><span class="line">	ExpireInHour   <span class="type">int64</span> <span class="string">`json:&quot;expireInHour&quot;`</span>  <span class="comment">// &gt;= 0h &lt; 1h</span></span><br><span class="line">	ExpireInDay    <span class="type">int64</span> <span class="string">`json:&quot;expireInDay&quot;`</span>   <span class="comment">// &gt;= 1h &lt; 24h</span></span><br><span class="line">	ExpireInWeek   <span class="type">int64</span> <span class="string">`json:&quot;expireInWeek&quot;`</span>  <span class="comment">// &gt;= 1d &lt; 7d</span></span><br><span class="line">	ExpireOutWeek  <span class="type">int64</span> <span class="string">`json:&quot;expireOutWeek&quot;`</span> <span class="comment">// &gt;= 7d</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="数据类型设计"><a href="#数据类型设计" class="headerlink" title="数据类型设计"></a>数据类型设计</h3><pre class="line-numbers language-go"><code class="language-go"><span class="token keyword">type</span> RedisStat <span class="token keyword">struct</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+    All     KeyStat <span class="token string">`json:"all"`</span>
+    String  KeyStat <span class="token string">`json:"string"`</span>
+    Hash    KeyStat <span class="token string">`json:"hash"`</span>
+    Set     KeyStat <span class="token string">`json:"set"`</span>
+    List    KeyStat <span class="token string">`json:"list"`</span>
+    ZSet    KeyStat <span class="token string">`json:"zset"`</span>
+    Other   KeyStat <span class="token string">`json:"other"`</span>
+    BigKeys KeyStat <span class="token string">`json:"bigKeys"`</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
 
-<h3 id="实现细节"><a href="#实现细节" class="headerlink" title="实现细节"></a>实现细节</h3><h4 id="key元信息"><a href="#key元信息" class="headerlink" title="key元信息"></a>key元信息</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">type KeyMeta struct &#123;</span><br><span class="line">	Key      string</span><br><span class="line">	KeySize  int64</span><br><span class="line">	DataSize int64</span><br><span class="line">	Ttl      int64</span><br><span class="line">	Type     string</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<span class="token comment" spellcheck="true">// distributions of keys of all prefixes</span>
+<span class="token keyword">type</span> Distribution <span class="token keyword">struct</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+    KeyPattern <span class="token builtin">string</span> <span class="token string">`json:"pattern"`</span>
+    Metrics
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// basic metrics of a group of key</span>
+<span class="token keyword">type</span> Metrics <span class="token keyword">struct</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+    KeyCount       <span class="token builtin">int64</span> <span class="token string">`json:"keyCount"`</span>
+    KeySize        <span class="token builtin">int64</span> <span class="token string">`json:"keySize"`</span>
+    DataSize       <span class="token builtin">int64</span> <span class="token string">`json:"dataSize"`</span>
+    KeyNeverExpire <span class="token builtin">int64</span> <span class="token string">`json:"neverExpire"`</span>
+    ExpireInHour   <span class="token builtin">int64</span> <span class="token string">`json:"expireInHour"`</span>  <span class="token comment" spellcheck="true">// >= 0h &lt; 1h</span>
+    ExpireInDay    <span class="token builtin">int64</span> <span class="token string">`json:"expireInDay"`</span>   <span class="token comment" spellcheck="true">// >= 1h &lt; 24h</span>
+    ExpireInWeek   <span class="token builtin">int64</span> <span class="token string">`json:"expireInWeek"`</span>  <span class="token comment" spellcheck="true">// >= 1d &lt; 7d</span>
+    ExpireOutWeek  <span class="token builtin">int64</span> <span class="token string">`json:"expireOutWeek"`</span> <span class="token comment" spellcheck="true">// >= 7d</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="实现细节"><a href="#实现细节" class="headerlink" title="实现细节"></a>实现细节</h3><h4 id="key元信息"><a href="#key元信息" class="headerlink" title="key元信息"></a>key元信息</h4><pre><code>type KeyMeta struct &#123;
+    Key      string
+    KeySize  int64
+    DataSize int64
+    Ttl      int64
+    Type     string
+&#125;
+</code></pre>
 <p>众所周知， redis里的所有的数据基本都是由key的， 也是根据key进行操作的，那么对redis里的key进行分析我们必须要记录下来这个key的信息才可以做到， 我们能记录的信息正如以上结构中的一样， key本身， key的大小， 数据的大小， 过期时间以及key的类型。这些信息是我们对key进行分析的一个基础信息，都可以通过一些简单的redis命令就可以取到。</p>
 <h4 id="遍历redis所有key"><a href="#遍历redis所有key" class="headerlink" title="遍历redis所有key"></a>遍历redis所有key</h4><p>要对一个redis进行完整的key分析， 我们就需要有办法能够访问到所有key的源信息， 所幸redis提供了 <code>scan</code>这么一种方式可以比较轻量的遍历所有的key，访问到相应的key的元信息。<br>这样对于redis而言， 进行在线key分析的时候造成的压力也不会非常大，当然key分析不能再QPS高峰期进行， 需要在redis资源余量允许的情况下进行分析。</p>
 <p>另外由于redis本身的一个内存清理机制，有25%的过期占用可以在分析key的时候被清理掉， 因此这个分析工具同时兼具了清理一部分内存的作用， 如果redis里面存在过期的而且存在于内存里面的key的话。</p>
@@ -455,20 +491,119 @@
 </li>
 <li>直到scan完毕</li>
 </ol>
-<h5 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h5><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	defaultSize = <span class="number">128</span></span><br><span class="line">	compactNum  = <span class="number">30</span></span><br><span class="line">	maxLeftNum =  <span class="number">150</span></span><br><span class="line">	minKeyLenLower = <span class="number">2</span></span><br><span class="line">	minKeyLen   = <span class="number">5</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(stat *KeyStat)</span></span> compact() &#123;</span><br><span class="line">	distMap := stat.Distribution</span><br><span class="line">	tmpMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">string</span>][]<span class="type">string</span>, defaultSize)</span><br><span class="line">	shrinkTo := compactNum</span><br><span class="line">	<span class="keyword">for</span> k := <span class="keyword">range</span> distMap &#123;</span><br><span class="line">		compactedKey := k</span><br><span class="line">		<span class="keyword">if</span> orgks, ok := tmpMap[compactedKey]; ok &#123;</span><br><span class="line">			orgks = <span class="built_in">append</span>(orgks, k)</span><br><span class="line">			tmpMap[compactedKey] = orgks</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			ks := <span class="built_in">make</span>([]<span class="type">string</span>, <span class="number">0</span>, defaultSize)</span><br><span class="line">			ks = <span class="built_in">append</span>(ks, k)</span><br><span class="line">			tmpMap[compactedKey] = ks</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	shrinkTo--</span><br><span class="line">	<span class="keyword">for</span> (<span class="built_in">len</span>(tmpMap) &gt; compactNum &amp;&amp; shrinkTo &gt;= minKeyLen) || (<span class="built_in">len</span>(tmpMap) &gt; maxLeftNum &amp;&amp; shrinkTo &gt;= minKeyLenLower) &#123;</span><br><span class="line">		tnMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">string</span>][]<span class="type">string</span>, defaultSize)</span><br><span class="line">		<span class="keyword">for</span> k := <span class="keyword">range</span> tmpMap &#123;</span><br><span class="line">			<span class="comment">// shrink</span></span><br><span class="line">			<span class="keyword">if</span> <span class="built_in">len</span>(k) &gt; shrinkTo &#123;</span><br><span class="line">				compactedKey := k[<span class="number">0</span>:shrinkTo]</span><br><span class="line">				<span class="keyword">if</span> oik, ok := tnMap[compactedKey]; ok &#123;</span><br><span class="line">					oik = <span class="built_in">append</span>(oik, tmpMap[k]...)</span><br><span class="line">					tnMap[compactedKey] = oik</span><br><span class="line"></span><br><span class="line">				&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					ks := <span class="built_in">make</span>([]<span class="type">string</span>, <span class="number">0</span>, defaultSize)</span><br><span class="line">					ks = <span class="built_in">append</span>(ks, tmpMap[k]...)</span><br><span class="line">					tnMap[compactedKey] = ks</span><br><span class="line">				&#125;</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				tnMap[k] = tmpMap[k]</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 如果此次shrink 没有使得这个集合的元素数量增加， 就使用原来的key</span></span><br><span class="line">		<span class="keyword">for</span> k := <span class="keyword">range</span> tmpMap &#123;</span><br><span class="line">			<span class="keyword">if</span> <span class="built_in">len</span>(k) &gt; shrinkTo &#123;</span><br><span class="line">				ck := k[<span class="number">0</span>:shrinkTo]</span><br><span class="line">				<span class="keyword">if</span> <span class="built_in">len</span>(tnMap[ck]) == <span class="built_in">len</span>(tmpMap[k]) &amp;&amp; <span class="built_in">len</span>(tnMap[ck]) &gt; <span class="number">1</span> &#123;</span><br><span class="line">					x := <span class="built_in">make</span>([]<span class="type">string</span>, <span class="number">0</span>, defaultSize)</span><br><span class="line">					tnMap[k] = <span class="built_in">append</span>(x, tnMap[ck]...)</span><br><span class="line">					<span class="built_in">delete</span>(tnMap, ck)</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		tmpMap = tnMap</span><br><span class="line">		shrinkTo --</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	dists := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">string</span>]Distribution, defaultSize)</span><br><span class="line">	<span class="keyword">for</span> k, v := <span class="keyword">range</span> tmpMap &#123;</span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">len</span>(v) &gt; <span class="number">1</span> &#123;</span><br><span class="line">			<span class="keyword">var</span> nd Distribution</span><br><span class="line">			<span class="keyword">for</span> _, dk := <span class="keyword">range</span> v &#123;</span><br><span class="line">				d := distMap[dk]</span><br><span class="line">				nd.KeyPattern = k + <span class="string">&quot;*&quot;</span></span><br><span class="line">				nd.KeyCount += d.KeyCount</span><br><span class="line">				nd.KeySize += d.KeySize</span><br><span class="line">				nd.DataSize += d.DataSize</span><br><span class="line">				nd.ExpireInHour += d.ExpireInHour</span><br><span class="line">				nd.ExpireInWeek += d.ExpireInWeek</span><br><span class="line">				nd.ExpireInDay += d.ExpireInDay</span><br><span class="line">				nd.ExpireOutWeek += d.ExpireOutWeek</span><br><span class="line">				nd.KeyNeverExpire += d.KeyNeverExpire</span><br><span class="line">			&#125;</span><br><span class="line">			dists[k] = nd</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">for</span> _, dk := <span class="keyword">range</span> v &#123;</span><br><span class="line">				nd := distMap[dk]</span><br><span class="line">				nd.KeyPattern = dk + <span class="string">&quot;*&quot;</span></span><br><span class="line">				dists[dk] = nd</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	stat.Distribution = dists</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h5 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h5><pre class="line-numbers language-go"><code class="language-go"><span class="token keyword">const</span> <span class="token punctuation">(</span>
+    defaultSize <span class="token operator">=</span> <span class="token number">128</span>
+    compactNum  <span class="token operator">=</span> <span class="token number">30</span>
+    maxLeftNum <span class="token operator">=</span>  <span class="token number">150</span>
+    minKeyLenLower <span class="token operator">=</span> <span class="token number">2</span>
+    minKeyLen   <span class="token operator">=</span> <span class="token number">5</span>
+<span class="token punctuation">)</span>
 
 
+<span class="token keyword">func</span> <span class="token punctuation">(</span>stat <span class="token operator">*</span>KeyStat<span class="token punctuation">)</span> <span class="token function">compact</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+    distMap <span class="token operator">:=</span> stat<span class="token punctuation">.</span>Distribution
+    tmpMap <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">,</span> defaultSize<span class="token punctuation">)</span>
+    shrinkTo <span class="token operator">:=</span> compactNum
+    <span class="token keyword">for</span> k <span class="token operator">:=</span> <span class="token keyword">range</span> distMap <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+        compactedKey <span class="token operator">:=</span> k
+        <span class="token keyword">if</span> orgks<span class="token punctuation">,</span> ok <span class="token operator">:=</span> tmpMap<span class="token punctuation">[</span>compactedKey<span class="token punctuation">]</span><span class="token punctuation">;</span> ok <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+            orgks <span class="token operator">=</span> <span class="token function">append</span><span class="token punctuation">(</span>orgks<span class="token punctuation">,</span> k<span class="token punctuation">)</span>
+            tmpMap<span class="token punctuation">[</span>compactedKey<span class="token punctuation">]</span> <span class="token operator">=</span> orgks
+        <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span> <span class="token keyword">else</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+            ks <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> defaultSize<span class="token punctuation">)</span>
+            ks <span class="token operator">=</span> <span class="token function">append</span><span class="token punctuation">(</span>ks<span class="token punctuation">,</span> k<span class="token punctuation">)</span>
+            tmpMap<span class="token punctuation">[</span>compactedKey<span class="token punctuation">]</span> <span class="token operator">=</span> ks
+        <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+    shrinkTo<span class="token operator">--</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token function">len</span><span class="token punctuation">(</span>tmpMap<span class="token punctuation">)</span> <span class="token operator">></span> compactNum <span class="token operator">&amp;&amp;</span> shrinkTo <span class="token operator">>=</span> minKeyLen<span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token punctuation">(</span><span class="token function">len</span><span class="token punctuation">(</span>tmpMap<span class="token punctuation">)</span> <span class="token operator">></span> maxLeftNum <span class="token operator">&amp;&amp;</span> shrinkTo <span class="token operator">>=</span> minKeyLenLower<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+        tnMap <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">,</span> defaultSize<span class="token punctuation">)</span>
+        <span class="token keyword">for</span> k <span class="token operator">:=</span> <span class="token keyword">range</span> tmpMap <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">// shrink</span>
+            <span class="token keyword">if</span> <span class="token function">len</span><span class="token punctuation">(</span>k<span class="token punctuation">)</span> <span class="token operator">></span> shrinkTo <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+                compactedKey <span class="token operator">:=</span> k<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">:</span>shrinkTo<span class="token punctuation">]</span>
+                <span class="token keyword">if</span> oik<span class="token punctuation">,</span> ok <span class="token operator">:=</span> tnMap<span class="token punctuation">[</span>compactedKey<span class="token punctuation">]</span><span class="token punctuation">;</span> ok <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+                    oik <span class="token operator">=</span> <span class="token function">append</span><span class="token punctuation">(</span>oik<span class="token punctuation">,</span> tmpMap<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token operator">...</span><span class="token punctuation">)</span>
+                    tnMap<span class="token punctuation">[</span>compactedKey<span class="token punctuation">]</span> <span class="token operator">=</span> oik
+
+                <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span> <span class="token keyword">else</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+                    ks <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> defaultSize<span class="token punctuation">)</span>
+                    ks <span class="token operator">=</span> <span class="token function">append</span><span class="token punctuation">(</span>ks<span class="token punctuation">,</span> tmpMap<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token operator">...</span><span class="token punctuation">)</span>
+                    tnMap<span class="token punctuation">[</span>compactedKey<span class="token punctuation">]</span> <span class="token operator">=</span> ks
+                <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+            <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span> <span class="token keyword">else</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+                tnMap<span class="token punctuation">[</span>k<span class="token punctuation">]</span> <span class="token operator">=</span> tmpMap<span class="token punctuation">[</span>k<span class="token punctuation">]</span>
+            <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+        <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">// 如果此次shrink 没有使得这个集合的元素数量增加， 就使用原来的key</span>
+        <span class="token keyword">for</span> k <span class="token operator">:=</span> <span class="token keyword">range</span> tmpMap <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token function">len</span><span class="token punctuation">(</span>k<span class="token punctuation">)</span> <span class="token operator">></span> shrinkTo <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+                ck <span class="token operator">:=</span> k<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">:</span>shrinkTo<span class="token punctuation">]</span>
+                <span class="token keyword">if</span> <span class="token function">len</span><span class="token punctuation">(</span>tnMap<span class="token punctuation">[</span>ck<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token function">len</span><span class="token punctuation">(</span>tmpMap<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token function">len</span><span class="token punctuation">(</span>tnMap<span class="token punctuation">[</span>ck<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">></span> <span class="token number">1</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+                    x <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> defaultSize<span class="token punctuation">)</span>
+                    tnMap<span class="token punctuation">[</span>k<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">append</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> tnMap<span class="token punctuation">[</span>ck<span class="token punctuation">]</span><span class="token operator">...</span><span class="token punctuation">)</span>
+                    <span class="token function">delete</span><span class="token punctuation">(</span>tnMap<span class="token punctuation">,</span> ck<span class="token punctuation">)</span>
+                <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+            <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+        <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+        tmpMap <span class="token operator">=</span> tnMap
+        shrinkTo <span class="token operator">--</span>
+    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+
+    dists <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span>Distribution<span class="token punctuation">,</span> defaultSize<span class="token punctuation">)</span>
+    <span class="token keyword">for</span> k<span class="token punctuation">,</span> v <span class="token operator">:=</span> <span class="token keyword">range</span> tmpMap <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token function">len</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span> <span class="token operator">></span> <span class="token number">1</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+            <span class="token keyword">var</span> nd Distribution
+            <span class="token keyword">for</span> <span class="token boolean">_</span><span class="token punctuation">,</span> dk <span class="token operator">:=</span> <span class="token keyword">range</span> v <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+                d <span class="token operator">:=</span> distMap<span class="token punctuation">[</span>dk<span class="token punctuation">]</span>
+                nd<span class="token punctuation">.</span>KeyPattern <span class="token operator">=</span> k <span class="token operator">+</span> <span class="token string">"*"</span>
+                nd<span class="token punctuation">.</span>KeyCount <span class="token operator">+=</span> d<span class="token punctuation">.</span>KeyCount
+                nd<span class="token punctuation">.</span>KeySize <span class="token operator">+=</span> d<span class="token punctuation">.</span>KeySize
+                nd<span class="token punctuation">.</span>DataSize <span class="token operator">+=</span> d<span class="token punctuation">.</span>DataSize
+                nd<span class="token punctuation">.</span>ExpireInHour <span class="token operator">+=</span> d<span class="token punctuation">.</span>ExpireInHour
+                nd<span class="token punctuation">.</span>ExpireInWeek <span class="token operator">+=</span> d<span class="token punctuation">.</span>ExpireInWeek
+                nd<span class="token punctuation">.</span>ExpireInDay <span class="token operator">+=</span> d<span class="token punctuation">.</span>ExpireInDay
+                nd<span class="token punctuation">.</span>ExpireOutWeek <span class="token operator">+=</span> d<span class="token punctuation">.</span>ExpireOutWeek
+                nd<span class="token punctuation">.</span>KeyNeverExpire <span class="token operator">+=</span> d<span class="token punctuation">.</span>KeyNeverExpire
+            <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+            dists<span class="token punctuation">[</span>k<span class="token punctuation">]</span> <span class="token operator">=</span> nd
+        <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span> <span class="token keyword">else</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+            <span class="token keyword">for</span> <span class="token boolean">_</span><span class="token punctuation">,</span> dk <span class="token operator">:=</span> <span class="token keyword">range</span> v <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+                nd <span class="token operator">:=</span> distMap<span class="token punctuation">[</span>dk<span class="token punctuation">]</span>
+                nd<span class="token punctuation">.</span>KeyPattern <span class="token operator">=</span> dk <span class="token operator">+</span> <span class="token string">"*"</span>
+                dists<span class="token punctuation">[</span>dk<span class="token punctuation">]</span> <span class="token operator">=</span> nd
+            <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+        <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+    stat<span class="token punctuation">.</span>Distribution <span class="token operator">=</span> dists
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="在线key分析的github项目"><a href="#在线key分析的github项目" class="headerlink" title="在线key分析的github项目"></a>在线key分析的github项目</h2><p><a target="_blank" rel="noopener" href="https://github.com/winjeg/rma4go">rma4go</a><br>这是一个我已经写好的项目， 它使用起来非常简单</p>
 <h3 id="构建方法"><a href="#构建方法" class="headerlink" title="构建方法"></a>构建方法</h3><ol>
 <li>构建之前请确保golang sdk 已经安装， 并且版本 &gt;&#x3D;1.11.0</li>
-<li>请确保已经具备翻墙的环境， 因为它要下载一些依赖，可能来自墙外<br>翻墙方法如下<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// linux/osx</span><br><span class="line"><span class="built_in">export</span> http_proxy=somehost:port</span><br><span class="line"><span class="built_in">export</span> https_proxy=somehost:port</span><br><span class="line">// windows</span><br><span class="line"><span class="built_in">set</span> http_proxy=somehost:port</span><br><span class="line"><span class="built_in">set</span> https_proxy=somehost:port</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
-<li>构建<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:winjeg/rma4go.git</span><br><span class="line">cd rma4go</span><br><span class="line">go build .</span><br></pre></td></tr></table></figure></li>
+<li>请确保已经具备翻墙的环境， 因为它要下载一些依赖，可能来自墙外<br>翻墙方法如下</li>
 </ol>
-<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>用法如下：<code>rma4go -h</code></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">rma4go usage:</span><br><span class="line">rma4go -r some_host -p 6379 -a password -d 0</span><br><span class="line">======================================================</span><br><span class="line">  -H string</span><br><span class="line">        address of a redis (default &quot;localhost&quot;)</span><br><span class="line">  -a string</span><br><span class="line">        password/auth of the redis</span><br><span class="line">  -d int</span><br><span class="line">        db of the redis to analyze</span><br><span class="line">  -h    help content</span><br><span class="line">  -p int</span><br><span class="line">        port of the redis (default 6379)</span><br><span class="line">  -r string</span><br><span class="line">        address of a redis (default &quot;localhost&quot;)</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash">// linux/osx
+<span class="token function">export</span> http_proxy<span class="token operator">=</span>somehost:port
+<span class="token function">export</span> https_proxy<span class="token operator">=</span>somehost:port
+// windows
+<span class="token keyword">set</span> http_proxy<span class="token operator">=</span>somehost:port
+<span class="token keyword">set</span> https_proxy<span class="token operator">=</span>somehost:port
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ol start="3">
+<li>构建</li>
+</ol>
+<pre><code>git clone git@github.com:winjeg/rma4go.git
+cd rma4go
+go build .
+</code></pre>
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><h1 id="用法如下：rma4go-h-96-96-96-rma4go-usage-rma4go-r-some-host-p-6379-a-password-d-0"><a href="#用法如下：rma4go-h-96-96-96-rma4go-usage-rma4go-r-some-host-p-6379-a-password-d-0" class="headerlink" title="用法如下：rma4go -h&#96;&#96;&#96;rma4go usage:rma4go -r some_host -p 6379 -a password -d 0"></a>用法如下：<code>rma4go -h</code><br>&#96;&#96;&#96;<br>rma4go usage:<br>rma4go -r some_host -p 6379 -a password -d 0</h1><p>  -H string<br>        address of a redis (default “localhost”)<br>  -a string<br>        password&#x2F;auth of the redis<br>  -d int<br>        db of the redis to analyze<br>  -h    help content<br>  -p int<br>        port of the redis (default 6379)<br>  -r string<br>        address of a redis (default “localhost”)</p>
+<pre><code>
+### 示例输出
 
-<h3 id="示例输出"><a href="#示例输出" class="headerlink" title="示例输出"></a>示例输出</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">all keys statistics</span><br><span class="line"></span><br><span class="line">| PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |</span><br><span class="line">|---------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|</span><br><span class="line">| total   |       0 |        0 |         0 |              0 |             0 |              0 |               0 |            0 |</span><br><span class="line">string keys statistics</span><br><span class="line"></span><br><span class="line">| PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |</span><br><span class="line">|---------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|</span><br><span class="line">| total   |       0 |        0 |         0 |              0 |             0 |              0 |               0 |            0 |</span><br><span class="line">list keys statistics</span><br><span class="line"></span><br><span class="line">| PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |</span><br><span class="line">|---------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|</span><br><span class="line">| total   |       0 |        0 |         0 |              0 |             0 |              0 |               0 |            0 |</span><br><span class="line">hash keys statistics</span><br><span class="line"></span><br><span class="line">| PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |</span><br><span class="line">|---------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|</span><br><span class="line">| total   |       0 |        0 |         0 |              0 |             0 |              0 |               0 |            0 |</span><br><span class="line">set keys statistics</span><br><span class="line"></span><br><span class="line">| PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |</span><br><span class="line">|---------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|</span><br><span class="line">| total   |       0 |        0 |         0 |              0 |             0 |              0 |               0 |            0 |</span><br><span class="line">zset keys statistics</span><br><span class="line"></span><br><span class="line">| PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |</span><br><span class="line">|---------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|</span><br><span class="line">| total   |       0 |        0 |         0 |              0 |             0 |              0 |               0 |            0 |</span><br><span class="line">other keys statistics</span><br><span class="line"></span><br><span class="line">| PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |</span><br><span class="line">|---------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|</span><br><span class="line">| total   |       0 |        0 |         0 |              0 |             0 |              0 |               0 |            0 |</span><br><span class="line">big keys statistics</span><br><span class="line"></span><br><span class="line">| PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |</span><br><span class="line">|---------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|</span><br><span class="line">| total   |       0 |        0 |         0 |              0 |             0 |              0 |               0 |            0 |</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>rendered by markdown<br>total count 4004</p>
+</code></pre>
 <p>all keys statistics</p>
 <table>
 <thead>
@@ -485,315 +620,28 @@
 </tr>
 </thead>
 <tbody><tr>
-<td>TOP_TEN_NEW_XXXXXXXX*</td>
-<td>1</td>
-<td>20</td>
-<td>1529</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>XXXXXXXXXXXXXX_STATISTICS_MIGRATION_LIST*</td>
-<td>1</td>
-<td>40</td>
-<td>7692832</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>time-root:*</td>
-<td>23</td>
-<td>272</td>
-<td>299</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>23</td>
-</tr>
-<tr>
-<td>DS_AXXXXXXXX_CORRECT*</td>
-<td>2</td>
-<td>45</td>
-<td>46</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>2</td>
-</tr>
-<tr>
-<td>time-2*</td>
-<td>761</td>
-<td>7528</td>
-<td>9893</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>761</td>
-</tr>
-<tr>
-<td>time-level:*</td>
-<td>537</td>
-<td>8461</td>
-<td>6981</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>537</td>
-</tr>
-<tr>
-<td>time-9*</td>
-<td>102</td>
-<td>901</td>
-<td>1326</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>102</td>
-</tr>
-<tr>
-<td>time-7*</td>
-<td>153</td>
-<td>1372</td>
-<td>1989</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>153</td>
-</tr>
-<tr>
-<td>DS_MAGIC_SUCC_2017-06-22*</td>
-<td>1</td>
-<td>24</td>
-<td>415</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>tersssss*</td>
-<td>5</td>
-<td>124</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>5</td>
-</tr>
-<tr>
-<td>appoint_abcdefg_msgid*</td>
-<td>1</td>
-<td>21</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>BUSSINESSXXXXXXX_STATISTICS_NEED_CALC_RECENT*</td>
-<td>1</td>
-<td>44</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>switch_abcd_abcde*</td>
-<td>3</td>
-<td>69</td>
-<td>3</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>3</td>
-</tr>
-<tr>
-<td>abcdeferCounter_201*</td>
-<td>3</td>
-<td>78</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>3</td>
-</tr>
-<tr>
-<td>diy1234567flag*</td>
-<td>1</td>
-<td>14</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>DS_PRXXBCD_LIST*</td>
-<td>1</td>
-<td>15</td>
-<td>17208</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>time-4*</td>
-<td>133</td>
-<td>1194</td>
-<td>1729</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>133</td>
-</tr>
-<tr>
-<td>datastatistics_switch_version0*</td>
-<td>1</td>
-<td>30</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>register_count_2_201*</td>
-<td>592</td>
-<td>15984</td>
-<td>640</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>592</td>
-</tr>
-<tr>
-<td>canVisitNewabcdef1234PageLevels*</td>
-<td>1</td>
-<td>31</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>YOUR_WEEK_VITALITY_INFO*</td>
-<td>1</td>
-<td>23</td>
-<td>75782</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>time-8*</td>
-<td>101</td>
-<td>894</td>
-<td>1313</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>101</td>
-</tr>
-<tr>
-<td>EXPERTS_APPOINT_INFO_MAP*</td>
-<td>1</td>
-<td>24</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>time-3*</td>
-<td>130</td>
-<td>1215</td>
-<td>1690</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>130</td>
-</tr>
-<tr>
-<td>time-1*</td>
-<td>943</td>
-<td>9456</td>
-<td>12259</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>943</td>
-</tr>
-<tr>
-<td>time-64*</td>
-<td>87</td>
-<td>781</td>
-<td>1131</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>87</td>
-</tr>
-<tr>
-<td>time-5*</td>
-<td>168</td>
-<td>1516</td>
-<td>2184</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>168</td>
-</tr>
-<tr>
 <td>total</td>
-<td>4004</td>
-<td>53422</td>
-<td>7832490</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
-<td>4004</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>string keys statistics</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody></table>
-<p>string keys statistics</p>
 <table>
 <thead>
 <tr>
@@ -809,216 +657,28 @@
 </tr>
 </thead>
 <tbody><tr>
-<td>BUSSINESSXXXXXXX_STATISTICS_NEED_CALC_RECENT*</td>
-<td>1</td>
-<td>44</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>time-5*</td>
-<td>130</td>
-<td>1174</td>
-<td>1690</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>130</td>
-</tr>
-<tr>
-<td>datastatistics_switch_version0*</td>
-<td>1</td>
-<td>30</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>time-7*</td>
-<td>39</td>
-<td>348</td>
-<td>507</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>39</td>
-</tr>
-<tr>
-<td>time-level:*</td>
-<td>567</td>
-<td>8939</td>
-<td>7371</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>567</td>
-</tr>
-<tr>
-<td>diy1234567flag*</td>
-<td>1</td>
-<td>14</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>switch_abcd_abcde*</td>
-<td>3</td>
-<td>69</td>
-<td>3</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>3</td>
-</tr>
-<tr>
-<td>time-2*</td>
-<td>598</td>
-<td>5918</td>
-<td>7774</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>598</td>
-</tr>
-<tr>
-<td>time-6*</td>
-<td>125</td>
-<td>1118</td>
-<td>1625</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>125</td>
-</tr>
-<tr>
-<td>time-4*</td>
-<td>136</td>
-<td>1225</td>
-<td>1768</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>136</td>
-</tr>
-<tr>
-<td>time-8*</td>
-<td>72</td>
-<td>636</td>
-<td>936</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>72</td>
-</tr>
-<tr>
-<td>time-1*</td>
-<td>1176</td>
-<td>11814</td>
-<td>15288</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1176</td>
-</tr>
-<tr>
-<td>time-9*</td>
-<td>100</td>
-<td>880</td>
-<td>1300</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>100</td>
-</tr>
-<tr>
-<td>time-root:*</td>
-<td>23</td>
-<td>272</td>
-<td>299</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>23</td>
-</tr>
-<tr>
-<td>register_count_2_201*</td>
-<td>592</td>
-<td>15984</td>
-<td>640</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>592</td>
-</tr>
-<tr>
-<td>DS_AXXXXXXXX_CORRECT*</td>
-<td>1</td>
-<td>20</td>
-<td>20</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>TOP_TEN_NEW_tersssss*</td>
-<td>1</td>
-<td>20</td>
-<td>1529</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>time-3*</td>
-<td>202</td>
-<td>1925</td>
-<td>2626</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>202</td>
-</tr>
-<tr>
 <td>total</td>
-<td>3989</td>
-<td>53042</td>
-<td>46253</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
-<td>3989</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>list keys statistics</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody></table>
-<p>list keys statistics</p>
 <table>
 <thead>
 <tr>
@@ -1034,51 +694,28 @@
 </tr>
 </thead>
 <tbody><tr>
-<td>XXXXXXXXXXXXXX_STATISTICS_MIGRATION_LIST*</td>
-<td>1</td>
-<td>40</td>
-<td>7692832</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>DS_MAGIC_SUCC_2017-06-22*</td>
-<td>1</td>
-<td>24</td>
-<td>415</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>DS_PRXXBCD_LIST*</td>
-<td>1</td>
-<td>15</td>
-<td>17208</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
 <td>total</td>
-<td>3</td>
-<td>79</td>
-<td>7710455</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
-<td>3</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>hash keys statistics</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody></table>
-<p>hash keys statistics</p>
 <table>
 <thead>
 <tr>
@@ -1094,106 +731,28 @@
 </tr>
 </thead>
 <tbody><tr>
-<td>tersssss_action_prepage_new*</td>
-<td>1</td>
-<td>27</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>YOUR_WEEK_VITALITY_INFO*</td>
-<td>1</td>
-<td>23</td>
-<td>75782</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>EXPERTS_APPOINT_INFO_MAP*</td>
-<td>1</td>
-<td>24</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>abcdeferCounter_2017-06-11*</td>
-<td>1</td>
-<td>26</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>tersssssHardTaskCounter*</td>
-<td>1</td>
-<td>23</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>abcdeferCounter_2018-04-27*</td>
-<td>1</td>
-<td>26</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>abcdeferCounter_2017-09-01*</td>
-<td>1</td>
-<td>26</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>tersssssEasyTaskCounter*</td>
-<td>1</td>
-<td>23</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
 <td>total</td>
-<td>8</td>
-<td>198</td>
-<td>75782</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
-<td>8</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>set keys statistics</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody></table>
-<p>set keys statistics</p>
 <table>
 <thead>
 <tr>
@@ -1209,62 +768,28 @@
 </tr>
 </thead>
 <tbody><tr>
-<td>tersssss_bind_phone_phone*</td>
-<td>1</td>
-<td>25</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>appoint_abcdefg_msgid*</td>
-<td>1</td>
-<td>21</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>canVisitNewabcdef1234PageLevels*</td>
-<td>1</td>
-<td>31</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
-<td>tersssss_bind_phone_userid*</td>
-<td>1</td>
-<td>26</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
 <td>total</td>
-<td>4</td>
-<td>103</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
-<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>zset keys statistics</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody></table>
-<p>zset keys statistics</p>
 <table>
 <thead>
 <tr>
@@ -1327,8 +852,18 @@
 <td>0</td>
 <td>0</td>
 </tr>
+<tr>
+<td>big keys statistics</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
 </tbody></table>
-<p>big keys statistics</p>
 <table>
 <thead>
 <tr>
@@ -1344,34 +879,163 @@
 </tr>
 </thead>
 <tbody><tr>
-<td>XXXXXXXXXXXXXX_STATISTICS_MIGRATION_LIST*</td>
-<td>1</td>
-<td>40</td>
-<td>7692832</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-</tr>
-<tr>
 <td>total</td>
-<td>1</td>
-<td>40</td>
-<td>7692832</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
-<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
 </tr>
 </tbody></table>
-<h3 id="作为依赖使用"><a href="#作为依赖使用" class="headerlink" title="作为依赖使用"></a>作为依赖使用</h3><p>获取方法如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/winjeg/rma4go</span><br></pre></td></tr></table></figure>
+<pre><code>rendered by markdown 
+total count 4004
 
-<p>使用方法如下：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">testFunc</span><span class="params">()</span></span> &#123;</span><br><span class="line">	h := <span class="string">&quot;localhost&quot;</span></span><br><span class="line">	a := <span class="string">&quot;&quot;</span></span><br><span class="line">	p := <span class="number">6379</span></span><br><span class="line">	cli := client.BuildRedisClient(client.ConnInfo&#123;</span><br><span class="line">		Host: h,</span><br><span class="line">		Auth: a,</span><br><span class="line">		Port: p,</span><br><span class="line">	&#125;, cmder.GetDb())</span><br><span class="line"></span><br><span class="line">	stat := analyzer.ScanAllKeys(cli)</span><br><span class="line">    <span class="comment">// print in command line</span></span><br><span class="line">	stat.Print()</span><br><span class="line">	<span class="comment">// the object is ready to use</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
+all keys statistics
+
+|                    PATTERN                    | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |
+|-----------------------------------------------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|
+| TOP_TEN_NEW_XXXXXXXX*                         |       1 |       20 |      1529 |              0 |             0 |              0 |               0 |            1 |
+| XXXXXXXXXXXXXX_STATISTICS_MIGRATION_LIST*     |       1 |       40 |   7692832 |              0 |             0 |              0 |               0 |            1 |
+| time-root:*                                   |      23 |      272 |       299 |              0 |             0 |              0 |               0 |           23 |
+| DS_AXXXXXXXX_CORRECT*                         |       2 |       45 |        46 |              0 |             0 |              0 |               0 |            2 |
+| time-2*                                       |     761 |     7528 |      9893 |              0 |             0 |              0 |               0 |          761 |
+| time-level:*                                  |     537 |     8461 |      6981 |              0 |             0 |              0 |               0 |          537 |
+| time-9*                                       |     102 |      901 |      1326 |              0 |             0 |              0 |               0 |          102 |
+| time-7*                                       |     153 |     1372 |      1989 |              0 |             0 |              0 |               0 |          153 |
+| DS_MAGIC_SUCC_2017-06-22*                     |       1 |       24 |       415 |              0 |             0 |              0 |               0 |            1 |
+| tersssss*                                     |       5 |      124 |         0 |              0 |             0 |              0 |               0 |            5 |
+| appoint_abcdefg_msgid*                        |       1 |       21 |         0 |              0 |             0 |              0 |               0 |            1 |
+| BUSSINESSXXXXXXX_STATISTICS_NEED_CALC_RECENT* |       1 |       44 |         1 |              0 |             0 |              0 |               0 |            1 |
+| switch_abcd_abcde*                            |       3 |       69 |         3 |              0 |             0 |              0 |               0 |            3 |
+| abcdeferCounter_201*                          |       3 |       78 |         0 |              0 |             0 |              0 |               0 |            3 |
+| diy1234567flag*                               |       1 |       14 |         1 |              0 |             0 |              0 |               0 |            1 |
+| DS_PRXXBCD_LIST*                              |       1 |       15 |     17208 |              0 |             0 |              0 |               0 |            1 |
+| time-4*                                       |     133 |     1194 |      1729 |              0 |             0 |              0 |               0 |          133 |
+| datastatistics_switch_version0*               |       1 |       30 |         1 |              0 |             0 |              0 |               0 |            1 |
+| register_count_2_201*                         |     592 |    15984 |       640 |              0 |             0 |              0 |               0 |          592 |
+| canVisitNewabcdef1234PageLevels*              |       1 |       31 |         0 |              0 |             0 |              0 |               0 |            1 |
+| YOUR_WEEK_VITALITY_INFO*                      |       1 |       23 |     75782 |              0 |             0 |              0 |               0 |            1 |
+| time-8*                                       |     101 |      894 |      1313 |              0 |             0 |              0 |               0 |          101 |
+| EXPERTS_APPOINT_INFO_MAP*                     |       1 |       24 |         0 |              0 |             0 |              0 |               0 |            1 |
+| time-3*                                       |     130 |     1215 |      1690 |              0 |             0 |              0 |               0 |          130 |
+| time-1*                                       |     943 |     9456 |     12259 |              0 |             0 |              0 |               0 |          943 |
+| time-64*                                      |      87 |      781 |      1131 |              0 |             0 |              0 |               0 |           87 |
+| time-5*                                       |     168 |     1516 |      2184 |              0 |             0 |              0 |               0 |          168 |
+| total                                         |    4004 |    53422 |   7832490 |              0 |             0 |              0 |               0 |         4004 |
+
+
+string keys statistics
+
+|                    PATTERN                    | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |
+|-----------------------------------------------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|
+| BUSSINESSXXXXXXX_STATISTICS_NEED_CALC_RECENT* |       1 |       44 |         1 |              0 |             0 |              0 |               0 |            1 |
+| time-5*                                       |     130 |     1174 |      1690 |              0 |             0 |              0 |               0 |          130 |
+| datastatistics_switch_version0*               |       1 |       30 |         1 |              0 |             0 |              0 |               0 |            1 |
+| time-7*                                       |      39 |      348 |       507 |              0 |             0 |              0 |               0 |           39 |
+| time-level:*                                  |     567 |     8939 |      7371 |              0 |             0 |              0 |               0 |          567 |
+| diy1234567flag*                               |       1 |       14 |         1 |              0 |             0 |              0 |               0 |            1 |
+| switch_abcd_abcde*                            |       3 |       69 |         3 |              0 |             0 |              0 |               0 |            3 |
+| time-2*                                       |     598 |     5918 |      7774 |              0 |             0 |              0 |               0 |          598 |
+| time-6*                                       |     125 |     1118 |      1625 |              0 |             0 |              0 |               0 |          125 |
+| time-4*                                       |     136 |     1225 |      1768 |              0 |             0 |              0 |               0 |          136 |
+| time-8*                                       |      72 |      636 |       936 |              0 |             0 |              0 |               0 |           72 |
+| time-1*                                       |    1176 |    11814 |     15288 |              0 |             0 |              0 |               0 |         1176 |
+| time-9*                                       |     100 |      880 |      1300 |              0 |             0 |              0 |               0 |          100 |
+| time-root:*                                   |      23 |      272 |       299 |              0 |             0 |              0 |               0 |           23 |
+| register_count_2_201*                         |     592 |    15984 |       640 |              0 |             0 |              0 |               0 |          592 |
+| DS_AXXXXXXXX_CORRECT*                         |       1 |       20 |        20 |              0 |             0 |              0 |               0 |            1 |
+| TOP_TEN_NEW_tersssss*                         |       1 |       20 |      1529 |              0 |             0 |              0 |               0 |            1 |
+| time-3*                                       |     202 |     1925 |      2626 |              0 |             0 |              0 |               0 |          202 |
+| total                                         |    3989 |    53042 |     46253 |              0 |             0 |              0 |               0 |         3989 |
+
+
+list keys statistics
+
+|                  PATTERN                  | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |
+|-------------------------------------------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|
+| XXXXXXXXXXXXXX_STATISTICS_MIGRATION_LIST* |       1 |       40 |   7692832 |              0 |             0 |              0 |               0 |            1 |
+| DS_MAGIC_SUCC_2017-06-22*                 |       1 |       24 |       415 |              0 |             0 |              0 |               0 |            1 |
+| DS_PRXXBCD_LIST*                          |       1 |       15 |     17208 |              0 |             0 |              0 |               0 |            1 |
+| total                                     |       3 |       79 |   7710455 |              0 |             0 |              0 |               0 |            3 |
+
+
+hash keys statistics
+
+|           PATTERN            | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |
+|------------------------------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|
+| tersssss_action_prepage_new* |       1 |       27 |         0 |              0 |             0 |              0 |               0 |            1 |
+| YOUR_WEEK_VITALITY_INFO*     |       1 |       23 |     75782 |              0 |             0 |              0 |               0 |            1 |
+| EXPERTS_APPOINT_INFO_MAP*    |       1 |       24 |         0 |              0 |             0 |              0 |               0 |            1 |
+| abcdeferCounter_2017-06-11*  |       1 |       26 |         0 |              0 |             0 |              0 |               0 |            1 |
+| tersssssHardTaskCounter*     |       1 |       23 |         0 |              0 |             0 |              0 |               0 |            1 |
+| abcdeferCounter_2018-04-27*  |       1 |       26 |         0 |              0 |             0 |              0 |               0 |            1 |
+| abcdeferCounter_2017-09-01*  |       1 |       26 |         0 |              0 |             0 |              0 |               0 |            1 |
+| tersssssEasyTaskCounter*     |       1 |       23 |         0 |              0 |             0 |              0 |               0 |            1 |
+| total                        |       8 |      198 |     75782 |              0 |             0 |              0 |               0 |            8 |
+
+
+set keys statistics
+
+|             PATTERN              | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |
+|----------------------------------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|
+| tersssss_bind_phone_phone*       |       1 |       25 |         0 |              0 |             0 |              0 |               0 |            1 |
+| appoint_abcdefg_msgid*           |       1 |       21 |         0 |              0 |             0 |              0 |               0 |            1 |
+| canVisitNewabcdef1234PageLevels* |       1 |       31 |         0 |              0 |             0 |              0 |               0 |            1 |
+| tersssss_bind_phone_userid*      |       1 |       26 |         0 |              0 |             0 |              0 |               0 |            1 |
+| total                            |       4 |      103 |         0 |              0 |             0 |              0 |               0 |            4 |
+
+
+zset keys statistics
+
+| PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |
+|---------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|
+| total   |       0 |        0 |         0 |              0 |             0 |              0 |               0 |            0 |
+other keys statistics
+
+| PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |
+|---------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|
+| total   |       0 |        0 |         0 |              0 |             0 |              0 |               0 |            0 |
+
+
+big keys statistics
+
+|                  PATTERN                  | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |
+|-------------------------------------------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|
+| XXXXXXXXXXXXXX_STATISTICS_MIGRATION_LIST* |       1 |       40 |   7692832 |              0 |             0 |              0 |               0 |            1 |
+| total                                     |       1 |       40 |   7692832 |              0 |             0 |              0 |               0 |            1 |
+
+
+
+
+
+### 作为依赖使用
+获取方法如下：
+</code></pre>
+<p>go get github.com&#x2F;winjeg&#x2F;rma4go</p>
+<pre><code>
+使用方法如下：
+
+```go
+func testFunc() &#123;
+    h := &quot;localhost&quot;
+    a := &quot;&quot;
+    p := 6379
+    cli := client.BuildRedisClient(client.ConnInfo&#123;
+        Host: h,
+        Auth: a,
+        Port: p,
+    &#125;, cmder.GetDb())
+
+    stat := analyzer.ScanAllKeys(cli)
+    // print in command line
+    stat.Print()
+    // the object is ready to use
+&#125;
+</code></pre>
 <h3 id="github-维护-主要阵地"><a href="#github-维护-主要阵地" class="headerlink" title="github 维护(主要阵地)"></a>github 维护(主要阵地)</h3><ol>
 <li>欢迎其他开发者加入</li>
 <li>欢迎提issue 反馈问题</li>
@@ -1536,8 +1200,7 @@
                 <a href="/2018/11/13/storage/etcd/etcd/">
                     <div class="card-image">
                         
-                        
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="etcd的安装与配置">
+                        <img src="https://user-images.githubusercontent.com/7270177/59736948-53c5e400-928e-11e9-9a25-c7b7d94b861f.png" class="responsive-img" alt="etcd的安装与配置">
                         
                         <span class="card-title">etcd的安装与配置</span>
                     </div>

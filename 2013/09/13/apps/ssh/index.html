@@ -6,9 +6,15 @@
     <meta charset="utf-8">
     <meta name="keywords" content="ssh 周边知识, golang, java, mysql, devops, linux">
     <meta name="description" content="SSH 密钥生成与转换
-确保你有公钥私钥对，确保安装了ssh如果没有可以用下面的命令生成 1ssh-keygen 
-由私钥生成公钥1ssh-keygen -y -f id_rsa &amp;gt; id_rsa.pub 
-open ssh与  wi">
+确保你有公钥私钥对，确保安装了ssh如果没有可以用下面的命令生成
+
+ssh-keygen 
+
+由私钥生成公钥
+ssh-keygen -y -f id_rsa &amp;gt; id_rsa.pub 
+
+
+open ssh与 ">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -55,7 +61,9 @@ open ssh与  wi">
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="winjeg's blog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -421,19 +429,32 @@ open ssh与  wi">
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h2 id="SSH-密钥生成与转换"><a href="#SSH-密钥生成与转换" class="headerlink" title="SSH 密钥生成与转换"></a>SSH 密钥生成与转换</h2><ol>
-<li>确保你有公钥私钥对，确保安装了ssh<br>如果没有可以用下面的命令生成 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen </span><br></pre></td></tr></table></figure>
-由私钥生成公钥<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -y -f id_rsa &gt; id_rsa.pub </span><br></pre></td></tr></table></figure></li>
+<li>确保你有公钥私钥对，确保安装了ssh<br>如果没有可以用下面的命令生成</li>
+</ol>
+<pre><code>ssh-keygen 
+</code></pre>
+<p>由私钥生成公钥</p>
+<pre><code>ssh-keygen -y -f id_rsa &gt; id_rsa.pub 
+</code></pre>
+<ol start="2">
 <li>open ssh与  windows ppk相互转换<br>关键工具 <code>puttygen.exe</code></li>
 </ol>
 <h2 id="ssh免密码登录"><a href="#ssh免密码登录" class="headerlink" title="ssh免密码登录"></a>ssh免密码登录</h2><ol>
-<li><p>要把自己的公钥添加至目标机的</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
-<p>文件中去，<code>authorized_keys</code> 的权限是 <code>600</code> </p>
-</li>
-<li><p><code>ssh-copy-id</code> + host<br>会自动加免密到目标机器如</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-copy-id user@host</span><br></pre></td></tr></table></figure></li>
+<li>要把自己的公钥添加至目标机的</li>
 </ol>
-<h2 id="ssh-连接管理"><a href="#ssh-连接管理" class="headerlink" title="ssh 连接管理"></a>ssh 连接管理</h2><h3 id="ssh-自动补全工具"><a href="#ssh-自动补全工具" class="headerlink" title="ssh 自动补全工具"></a>ssh 自动补全工具</h3><p> 自动补全是：ssh 连接 linux 自动补全需要bash_completion<br> 还需要在 <code>~/.ssh/config</code> 文件中记录 三个字段如下<br> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Host   alias-of-the-host</span><br><span class="line">User   username</span><br><span class="line">Ip     10.1.1.2</span><br></pre></td></tr></table></figure></p>
+<pre><code>.ssh/authorized_keys
+</code></pre>
+<p>文件中去，<code>authorized_keys</code> 的权限是 <code>600</code> </p>
+<ol start="2">
+<li><code>ssh-copy-id</code> + host<br>会自动加免密到目标机器如</li>
+</ol>
+<pre><code>ssh-copy-id user@host
+</code></pre>
+<h2 id="ssh-连接管理"><a href="#ssh-连接管理" class="headerlink" title="ssh 连接管理"></a>ssh 连接管理</h2><h3 id="ssh-自动补全工具"><a href="#ssh-自动补全工具" class="headerlink" title="ssh 自动补全工具"></a>ssh 自动补全工具</h3><p> 自动补全是：ssh 连接 linux 自动补全需要bash_completion<br> 还需要在 <code>~/.ssh/config</code> 文件中记录 三个字段如下</p>
+<pre><code>Host   alias-of-the-host
+User   username
+Ip     10.1.1.2
+</code></pre>
 <h3 id="ssh远程管理工具"><a href="#ssh远程管理工具" class="headerlink" title="ssh远程管理工具"></a>ssh远程管理工具</h3><ul>
 <li>在 <code>.ssh/config</code> 中配置的各种服务</li>
 <li>一些terminal自带的一些ssh管理工具， 如deeepin的terminal</li>

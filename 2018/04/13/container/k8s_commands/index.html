@@ -5,7 +5,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="keywords" content="k8s 常用命令笔记, golang, java, mysql, devops, linux">
-    <meta name="description" content="k8s 常用命令1234567891011121314151617181920212223242526272829303132333435363738394041kubectl versionkubectl cluster-infokube">
+    <meta name="description" content="k8s 常用命令kubectl version
+kubectl cluster-info
+kubectl get nodes
+
+kubectl run kubernetes-bootcamp --image=gcr.io/google-sa">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -52,7 +56,9 @@
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="winjeg's blog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -417,8 +423,47 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="k8s-常用命令"><a href="#k8s-常用命令" class="headerlink" title="k8s 常用命令"></a>k8s 常用命令</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">kubectl version</span><br><span class="line">kubectl cluster-info</span><br><span class="line">kubectl get nodes</span><br><span class="line"></span><br><span class="line">kubectl run kubernetes-bootcamp --image=gcr.io/google-samples/kubernetes-bootcamp:v1 --port=8080</span><br><span class="line"># 当完成run的时候就相当于部署了一个应用</span><br><span class="line">kubectl get deployments</span><br><span class="line"># expose 后相当于  service</span><br><span class="line">kubectl expose deployment hello-node --type=LoadBalancer</span><br><span class="line">kubectl get services</span><br><span class="line"></span><br><span class="line">kubectl describe pods</span><br><span class="line">kubectl get pods -o wide</span><br><span class="line"></span><br><span class="line">kubectl logs $POD_NAME</span><br><span class="line">kubectl exec -ti $POD_NAME bash</span><br><span class="line">kubectl exec $POD_NAME env</span><br><span class="line">kubectl describe services/kubernetes-bootcamp</span><br><span class="line">export NODE_PORT=$(kubectl get services/kubernetes-bootcamp -o go-template=&#x27;&#123;&#123;(index .spec.ports 0).nodePort&#125;&#125;&#x27;)</span><br><span class="line">echo NODE_PORT=$NODE_PORT</span><br><span class="line">kubectl scale deployments/kubernetes-bootcamp --replicas=2</span><br><span class="line">kubectl set image deployments/kubernetes-bootcamp kubernetes-bootcamp=jocatalin/kubernetes-bootcamp:v2</span><br><span class="line"></span><br><span class="line"># 看是否更新完</span><br><span class="line">kubectl rollout status deployments/kubernetes-bootcamp</span><br><span class="line">kubectl rollout undo deployments/kubernetes-bootcamp</span><br><span class="line">kubectl get events</span><br><span class="line">kubectl config view</span><br><span class="line">kubectl delete service hello-node</span><br><span class="line">kubectl delete deployment hello-node</span><br><span class="line"></span><br><span class="line">kubectl create -f https://k8s.io/docs/user-guide/walkthrough/pod-nginx-with-label.yaml</span><br><span class="line">kubectl apply -f https://k8s.io/docs/user-guide/walkthrough//deployment-update.yaml</span><br><span class="line"></span><br><span class="line">kubectl get pods -l app=nginx</span><br><span class="line">kubectl delete pod -l app=nginx</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">kubectl create configmap example-redis-config --from-file=https://k8s.io/docs/tutorials/configuration/configmap/redis/redis-config</span><br><span class="line">kubectl get configmap example-redis-config -o yaml</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+                <h3 id="k8s-常用命令"><a href="#k8s-常用命令" class="headerlink" title="k8s 常用命令"></a>k8s 常用命令</h3><pre><code>kubectl version
+kubectl cluster-info
+kubectl get nodes
 
+kubectl run kubernetes-bootcamp --image=gcr.io/google-samples/kubernetes-bootcamp:v1 --port=8080
+# 当完成run的时候就相当于部署了一个应用
+kubectl get deployments
+# expose 后相当于  service
+kubectl expose deployment hello-node --type=LoadBalancer
+kubectl get services
+
+kubectl describe pods
+kubectl get pods -o wide
+
+kubectl logs $POD_NAME
+kubectl exec -ti $POD_NAME bash
+kubectl exec $POD_NAME env
+kubectl describe services/kubernetes-bootcamp
+export NODE_PORT=$(kubectl get services/kubernetes-bootcamp -o go-template=&#39;&#123;&#123;(index .spec.ports 0).nodePort&#125;&#125;&#39;)
+echo NODE_PORT=$NODE_PORT
+kubectl scale deployments/kubernetes-bootcamp --replicas=2
+kubectl set image deployments/kubernetes-bootcamp kubernetes-bootcamp=jocatalin/kubernetes-bootcamp:v2
+
+# 看是否更新完
+kubectl rollout status deployments/kubernetes-bootcamp
+kubectl rollout undo deployments/kubernetes-bootcamp
+kubectl get events
+kubectl config view
+kubectl delete service hello-node
+kubectl delete deployment hello-node
+
+kubectl create -f https://k8s.io/docs/user-guide/walkthrough/pod-nginx-with-label.yaml
+kubectl apply -f https://k8s.io/docs/user-guide/walkthrough//deployment-update.yaml
+
+kubectl get pods -l app=nginx
+kubectl delete pod -l app=nginx
+
+
+kubectl create configmap example-redis-config --from-file=https://k8s.io/docs/tutorials/configuration/configmap/redis/redis-config
+kubectl get configmap example-redis-config -o yaml
+</code></pre>
 <h3 id="在一个k8s集群内部各个pod默认跟其他服务与pod是可见的"><a href="#在一个k8s集群内部各个pod默认跟其他服务与pod是可见的" class="headerlink" title="在一个k8s集群内部各个pod默认跟其他服务与pod是可见的"></a>在一个k8s集群内部各个pod默认跟其他服务与pod是可见的</h3><p>一个Pod可以包含多个应用， 但一个pod里面的应用应该是强绑定的，共享存储网络，跟一些容器信息</p>
 
                 
@@ -635,8 +680,7 @@
                 <a href="/2017/12/14/storage/redis/redis_standards/">
                     <div class="card-image">
                         
-                        
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="redis 使用规范">
+                        <img src="https://user-images.githubusercontent.com/7270177/59422638-49759700-8e03-11e9-8bdd-dd708ca69e1f.png" class="responsive-img" alt="redis 使用规范">
                         
                         <span class="card-title">redis 使用规范</span>
                     </div>

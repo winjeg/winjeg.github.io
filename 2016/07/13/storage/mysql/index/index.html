@@ -52,7 +52,9 @@
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="winjeg's blog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -430,7 +432,8 @@
 <p>下图是一个实际使用的例子</p>
 <p><img src="https://qhyxpicoss.kujiale.com/2018/12/17/LQL3LDQKAQBZOUTLAAAAAAI8_904x604.png" alt="l联合索引"></p>
 <h3 id="聚簇索引"><a href="#聚簇索引" class="headerlink" title="聚簇索引"></a>聚簇索引</h3><p>聚簇索引不是一种索引类型，而是一种数据存储方式。InnoDb 的实现是在一个数据结构中保存了B-tree 索引与数据行。<br>在使用得当的情况下可以大大提高SELECT效率，但也有很大的弊端， 一张表只能有一个聚簇索引， 聚簇索引不应该包含经常修改的列<br>候选列： 主键，JOIN的列， 不常修改的列 GROUP BY 与ORDER BY 中用的列<br>语法：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> CLUSTER INDEX xxxx</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">CREATE</span> CLUSTER <span class="token keyword">INDEX</span> xxxx
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <h3 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a>覆盖索引</h3><p>覆盖索引不是一种索引，而是一种索引建立的方式。简单的来说， 你需要查的数据都在，索引所在的列内， 这样就是覆盖索引。索引的条目数，往往远小于数据行数，如果只读取索引不读取数据行，会极大的提高性能, 因为索引是按照顺序排列的，所以IO消费会少的多，以下情况覆盖索引有可能无法起作用：</p>
 <ol>
 <li>没有任何索引能够覆盖这个查询</li>

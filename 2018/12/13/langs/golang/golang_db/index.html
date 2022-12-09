@@ -53,7 +53,9 @@
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="winjeg's blog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -335,7 +337,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://user-images.githubusercontent.com/7270177/59482717-9f4a4d80-8e9c-11e9-82b0-58254e0f4c4b.png')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -416,31 +418,139 @@
             <div id="articleContent">
                 <p>golang 下使用数据库是几乎每个golang程序员必须经历过的一个环节， 我们在这里专门挑了两个常见的数据库的使用方式来进行简单的科普一下。<br>此文可以用作使用MySQL和Postgres的笔记性的文档， 不做深入分析， 全当给大家记备。</p>
 <h2 id="Golang下使用-MySQL"><a href="#Golang下使用-MySQL" class="headerlink" title="Golang下使用 MySQL"></a>Golang下使用 <code>MySQL</code></h2><p>由于golang 官方的SDK中已经定义好了数据库的访问接口， 还内定了连接池连接方式等基本的数据库操作元素， 但Golang并没有实现每种数据库的访问方式。<br>因此如果要正常使用数据库，数据库相关的开发者需要找到定义了数据库具体访问方式与协议的数据库的驱动， 以访问数据库。 下面我们就从驱动讲起。  </p>
-<h3 id="驱动"><a href="#驱动" class="headerlink" title="驱动"></a>驱动</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/go-sql-driver/mysql</span><br></pre></td></tr></table></figure>
-<h3 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h3><h4 id="创建数据库访问对象-sql-DB"><a href="#创建数据库访问对象-sql-DB" class="headerlink" title="创建数据库访问对象 *sql.DB"></a>创建数据库访问对象 <code>*sql.DB</code></h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;database/sql&quot;</span></span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;time&quot;</span></span><br><span class="line"></span><br><span class="line">    _ <span class="string">&quot;github.com/go-sql-driver/mysql&quot;</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">    USERNAME = <span class="string">&quot;root&quot;</span></span><br><span class="line">    PASSWORD = <span class="string">&quot;*******&quot;</span></span><br><span class="line">    NETWORK  = <span class="string">&quot;tcp&quot;</span></span><br><span class="line">    SERVER   = <span class="string">&quot;localhost&quot;</span></span><br><span class="line">    PORT     = <span class="number">3306</span></span><br><span class="line">    DATABASE = <span class="string">&quot;blog&quot;</span></span><br><span class="line">)</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getDb</span><span class="params">()</span></span> *sql.DB &#123;</span><br><span class="line">    dsn := fmt.Sprintf(<span class="string">&quot;%s:%s@%s(%s:%d)/%s&quot;</span>,USERNAME,PASSWORD,NETWORK,SERVER,PORT,DATABASE)</span><br><span class="line">    DB,err := sql.Open(<span class="string">&quot;mysql&quot;</span>,dsn)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span>&#123;</span><br><span class="line">        fmt.Printf(<span class="string">&quot;Open mysql failed,err:%v\n&quot;</span>,err)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    DB.SetConnMaxLifetime(<span class="number">100</span>*time.Second)  <span class="comment">//最大连接周期，超过时间的连接就close</span></span><br><span class="line">    DB.SetMaxOpenConns(<span class="number">100</span>）<span class="comment">//设置最大连接数</span></span><br><span class="line">    DB.SetMaxIdleConns(<span class="number">16</span>) <span class="comment">//设置闲置连接数</span></span><br><span class="line">    <span class="keyword">return</span> db</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> mysqlDb = getDb()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 用此函数，则为单例， 只在初始化的时候创建一次， 不会多创建无用的连接池</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">GetDb</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> mysqlDb</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="驱动"><a href="#驱动" class="headerlink" title="驱动"></a>驱动</h3><pre><code>go get github.com/go-sql-driver/mysql
+</code></pre>
+<h3 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h3><h4 id="创建数据库访问对象-sql-DB"><a href="#创建数据库访问对象-sql-DB" class="headerlink" title="创建数据库访问对象 *sql.DB"></a>创建数据库访问对象 <code>*sql.DB</code></h4><pre class="line-numbers language-go"><code class="language-go">
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+    <span class="token string">"database/sql"</span>
+    <span class="token string">"fmt"</span>
+    <span class="token string">"time"</span>
 
-<h4 id="查询数据库"><a href="#查询数据库" class="headerlink" title="查询数据库"></a>查询数据库</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">FetchData</span><span class="params">(db *sql.DB)</span></span> &#123;</span><br><span class="line">    <span class="comment">// 查询多行</span></span><br><span class="line">    rows, err := db.Query(<span class="string">&quot;SELECT * FROM user limit 3&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="comment">// 如果err不等于nil, 一般row 为nil， 所以你直接close 会抛出空指针异常</span></span><br><span class="line">        log.Error(err)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 注意这个一定要close</span></span><br><span class="line">    <span class="keyword">defer</span> rows.Close()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 取数据</span></span><br><span class="line">    <span class="keyword">for</span> rows.Next() &#123;</span><br><span class="line">        <span class="keyword">var</span> userId <span class="type">int</span></span><br><span class="line">        <span class="keyword">var</span> username <span class="type">string</span></span><br><span class="line">        <span class="comment">// 如果有多行， 可以把结果放到相应的数据结构中</span></span><br><span class="line">        sErr := rows.Scan(&amp;userId, &amp;username)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 查询单行</span></span><br><span class="line">    row := db.QueryRow(<span class="string">&quot;SELECT username FROM user WHERE user_id = ?&quot;</span>, <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">var</span> username <span class="type">string</span></span><br><span class="line">    sErr := row.Scan(&amp;username)</span><br><span class="line">    <span class="comment">// deal with error and username</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    <span class="token boolean">_</span> <span class="token string">"github.com/go-sql-driver/mysql"</span>
+<span class="token punctuation">)</span>
+<span class="token keyword">const</span> <span class="token punctuation">(</span>
+    USERNAME <span class="token operator">=</span> <span class="token string">"root"</span>
+    PASSWORD <span class="token operator">=</span> <span class="token string">"*******"</span>
+    NETWORK  <span class="token operator">=</span> <span class="token string">"tcp"</span>
+    SERVER   <span class="token operator">=</span> <span class="token string">"localhost"</span>
+    PORT     <span class="token operator">=</span> <span class="token number">3306</span>
+    DATABASE <span class="token operator">=</span> <span class="token string">"blog"</span>
+<span class="token punctuation">)</span>
+<span class="token keyword">func</span> <span class="token function">getDb</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span>sql<span class="token punctuation">.</span>DB <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+    dsn <span class="token operator">:=</span> fmt<span class="token punctuation">.</span><span class="token function">Sprintf</span><span class="token punctuation">(</span><span class="token string">"%s:%s@%s(%s:%d)/%s"</span><span class="token punctuation">,</span>USERNAME<span class="token punctuation">,</span>PASSWORD<span class="token punctuation">,</span>NETWORK<span class="token punctuation">,</span>SERVER<span class="token punctuation">,</span>PORT<span class="token punctuation">,</span>DATABASE<span class="token punctuation">)</span>
+    DB<span class="token punctuation">,</span>err <span class="token operator">:=</span> sql<span class="token punctuation">.</span><span class="token function">Open</span><span class="token punctuation">(</span><span class="token string">"mysql"</span><span class="token punctuation">,</span>dsn<span class="token punctuation">)</span>
+    <span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+        fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"Open mysql failed,err:%v\n"</span><span class="token punctuation">,</span>err<span class="token punctuation">)</span>
+        <span class="token keyword">return</span>
+    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+    DB<span class="token punctuation">.</span><span class="token function">SetConnMaxLifetime</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token operator">*</span>time<span class="token punctuation">.</span>Second<span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">//最大连接周期，超过时间的连接就close</span>
+    DB<span class="token punctuation">.</span><span class="token function">SetMaxOpenConns</span><span class="token punctuation">(</span><span class="token number">100</span>）<span class="token comment" spellcheck="true">//设置最大连接数</span>
+    DB<span class="token punctuation">.</span><span class="token function">SetMaxIdleConns</span><span class="token punctuation">(</span><span class="token number">16</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//设置闲置连接数</span>
+    <span class="token keyword">return</span> db
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
 
-<h4 id="执行DML"><a href="#执行DML" class="headerlink" title="执行DML"></a>执行DML</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">DML</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// INSERT</span></span><br><span class="line">    result, err := db.Exec(<span class="string">&quot;INSERT INTO user(username, user_id) VALUES(?, ?)&quot;</span>, username, userId)</span><br><span class="line">    stmt, err := db.Prepare(<span class="string">&quot;INSERT INTO user(username, user_id) VALUES(?, ?)&quot;</span>)</span><br><span class="line">    sr, err := stmt.Exec(username, userId)</span><br><span class="line">    <span class="comment">// result 和 sr 中都可以拿到自动生成的ID，以及影响的行数    </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<span class="token keyword">var</span> mysqlDb <span class="token operator">=</span> <span class="token function">getDb</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 
-<h2 id="Golang下使用-Postgres-SQL"><a href="#Golang下使用-Postgres-SQL" class="headerlink" title="Golang下使用 Postgres SQL"></a>Golang下使用 <code>Postgres SQL</code></h2><h3 id="驱动-1"><a href="#驱动-1" class="headerlink" title="驱动"></a>驱动</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go get github.com/lib/pq</span><br></pre></td></tr></table></figure>
+<span class="token comment" spellcheck="true">// 用此函数，则为单例， 只在初始化的时候创建一次， 不会多创建无用的连接池</span>
+<span class="token keyword">func</span> <span class="token function">GetDb</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> mysqlDb
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="查询数据库"><a href="#查询数据库" class="headerlink" title="查询数据库"></a>查询数据库</h4><pre class="line-numbers language-go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">FetchData</span><span class="token punctuation">(</span>db <span class="token operator">*</span>sql<span class="token punctuation">.</span>DB<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 查询多行</span>
+    rows<span class="token punctuation">,</span> err <span class="token operator">:=</span> db<span class="token punctuation">.</span><span class="token function">Query</span><span class="token punctuation">(</span><span class="token string">"SELECT * FROM user limit 3"</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 如果err不等于nil, 一般row 为nil， 所以你直接close 会抛出空指针异常</span>
+        log<span class="token punctuation">.</span><span class="token function">Error</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+        <span class="token keyword">return</span>
+    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 注意这个一定要close</span>
+    <span class="token keyword">defer</span> rows<span class="token punctuation">.</span><span class="token function">Close</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 
-<h3 id="基础使用-1"><a href="#基础使用-1" class="headerlink" title="基础使用"></a>基础使用</h3><h4 id="创建数据库访问对象-sql-DB-1"><a href="#创建数据库访问对象-sql-DB-1" class="headerlink" title="创建数据库访问对象 *sql.DB"></a>创建数据库访问对象 <code>*sql.DB</code></h4><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;database/sql&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	_ <span class="string">&quot;github.com/lib/pq&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	host     = <span class="string">&quot;localhost&quot;</span></span><br><span class="line">	port     = <span class="number">1234</span></span><br><span class="line">	user     = <span class="string">&quot;testuser&quot;</span></span><br><span class="line">	password = <span class="string">&quot;testpass&quot;</span></span><br><span class="line">	dbname   = <span class="string">&quot;test_db&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getDb</span><span class="params">()</span></span> *sql.DB &#123;</span><br><span class="line">	psqlInfo := fmt.Sprintf(<span class="string">&quot;host=%s port=%d user=%s &quot;</span>+</span><br><span class="line">		<span class="string">&quot;password=%s dbname=%s sslmode=disable search_path=test_schema&quot;</span>,</span><br><span class="line">		host, port, user, password, dbname)</span><br><span class="line">	db, err := sql.Open(<span class="string">&quot;postgres&quot;</span>, psqlInfo)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">defer</span> db.Close()</span><br><span class="line"></span><br><span class="line">	err = db.Ping()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> db</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 同样你可以再使用单例模式创建一个访问方式</span></span><br><span class="line"><span class="comment">// 但推荐使用 sync.Once() 进行单例模式的设计</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    <span class="token comment" spellcheck="true">// 取数据</span>
+    <span class="token keyword">for</span> rows<span class="token punctuation">.</span><span class="token function">Next</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+        <span class="token keyword">var</span> userId <span class="token builtin">int</span>
+        <span class="token keyword">var</span> username <span class="token builtin">string</span>
+        <span class="token comment" spellcheck="true">// 如果有多行， 可以把结果放到相应的数据结构中</span>
+        sErr <span class="token operator">:=</span> rows<span class="token punctuation">.</span><span class="token function">Scan</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>userId<span class="token punctuation">,</span> <span class="token operator">&amp;</span>username<span class="token punctuation">)</span>
+    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
 
+    
+    <span class="token comment" spellcheck="true">// 查询单行</span>
+    row <span class="token operator">:=</span> db<span class="token punctuation">.</span><span class="token function">QueryRow</span><span class="token punctuation">(</span><span class="token string">"SELECT username FROM user WHERE user_id = ?"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token keyword">var</span> username <span class="token builtin">string</span>
+    sErr <span class="token operator">:=</span> row<span class="token punctuation">.</span><span class="token function">Scan</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>username<span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">// deal with error and username</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="执行DML"><a href="#执行DML" class="headerlink" title="执行DML"></a>执行DML</h4><pre class="line-numbers language-go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">DML</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// INSERT</span>
+    result<span class="token punctuation">,</span> err <span class="token operator">:=</span> db<span class="token punctuation">.</span><span class="token function">Exec</span><span class="token punctuation">(</span><span class="token string">"INSERT INTO user(username, user_id) VALUES(?, ?)"</span><span class="token punctuation">,</span> username<span class="token punctuation">,</span> userId<span class="token punctuation">)</span>
+    stmt<span class="token punctuation">,</span> err <span class="token operator">:=</span> db<span class="token punctuation">.</span><span class="token function">Prepare</span><span class="token punctuation">(</span><span class="token string">"INSERT INTO user(username, user_id) VALUES(?, ?)"</span><span class="token punctuation">)</span>
+    sr<span class="token punctuation">,</span> err <span class="token operator">:=</span> stmt<span class="token punctuation">.</span><span class="token function">Exec</span><span class="token punctuation">(</span>username<span class="token punctuation">,</span> userId<span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">// result 和 sr 中都可以拿到自动生成的ID，以及影响的行数    </span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Golang下使用-Postgres-SQL"><a href="#Golang下使用-Postgres-SQL" class="headerlink" title="Golang下使用 Postgres SQL"></a>Golang下使用 <code>Postgres SQL</code></h2><h3 id="驱动-1"><a href="#驱动-1" class="headerlink" title="驱动"></a>驱动</h3><pre><code>go get github.com/lib/pq
+</code></pre>
+<h3 id="基础使用-1"><a href="#基础使用-1" class="headerlink" title="基础使用"></a>基础使用</h3><h4 id="创建数据库访问对象-sql-DB-1"><a href="#创建数据库访问对象-sql-DB-1" class="headerlink" title="创建数据库访问对象 *sql.DB"></a>创建数据库访问对象 <code>*sql.DB</code></h4><pre class="line-numbers language-golang"><code class="language-golang">package main
+
+import (
+    "database/sql"
+    "fmt"
+    _ "github.com/lib/pq"
+)
+
+const (
+    host     = "localhost"
+    port     = 1234
+    user     = "testuser"
+    password = "testpass"
+    dbname   = "test_db"
+)
+
+func getDb() *sql.DB &#123;
+    psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+        "password=%s dbname=%s sslmode=disable search_path=test_schema",
+        host, port, user, password, dbname)
+    db, err := sql.Open("postgres", psqlInfo)
+    if err != nil &#123;
+        panic(err)
+    &#125;
+    defer db.Close()
+
+    err = db.Ping()
+    if err != nil &#123;
+        panic(err)
+    &#125;
+    return db
+&#125;
+// 同样你可以再使用单例模式创建一个访问方式
+// 但推荐使用 sync.Once() 进行单例模式的设计
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h4 id="Postgres-SQL中查询数据"><a href="#Postgres-SQL中查询数据" class="headerlink" title="Postgres SQL中查询数据"></a>Postgres SQL中查询数据</h4><p>由于其他的与MySQL一样， 因此此处实例就简单一点写明：</p>
-<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">QueryPostgres</span><span class="params">(db *sql.DB)</span></span> &#123;</span><br><span class="line">    <span class="comment">// MySQL 使用 &quot;?&quot; Postgres 使用 $num,</span></span><br><span class="line">    <span class="comment">// 使用 ？ postgres 会报错</span></span><br><span class="line">    db.Query(<span class="string">&quot;SELECT * FROM user WHERE user_id = $1&quot;</span>, userId)</span><br><span class="line">    db.QueryRow(<span class="string">&quot;SELECT * FROM user WHERE user_id = $1&quot;</span>, userId)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h4 id="Postgres-SQL-中进行DML操作"><a href="#Postgres-SQL-中进行DML操作" class="headerlink" title="Postgres SQL 中进行DML操作"></a>Postgres SQL 中进行DML操作</h4><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">DML</span><span class="params">(db *sql.DB)</span></span> &#123;</span><br><span class="line">    <span class="comment">// 貌似必须得用stmt 直接使用Exec 会报错</span></span><br><span class="line">    stmt, err := db.Prepare(<span class="string">&quot;UPDATE user SET username= $1 WHERE user_id = $2&quot;</span>)</span><br><span class="line">    stmt.exec(<span class="string">&quot;Lily&quot;</span>, <span class="number">123</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre class="line-numbers language-golang"><code class="language-golang">func QueryPostgres(db *sql.DB) &#123;
+    // MySQL 使用 "?" Postgres 使用 $num,
+    // 使用 ？ postgres 会报错
+    db.Query("SELECT * FROM user WHERE user_id = $1", userId)
+    db.QueryRow("SELECT * FROM user WHERE user_id = $1", userId)
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="Postgres-SQL-中进行DML操作"><a href="#Postgres-SQL-中进行DML操作" class="headerlink" title="Postgres SQL 中进行DML操作"></a>Postgres SQL 中进行DML操作</h4><pre class="line-numbers language-golang"><code class="language-golang">func DML(db *sql.DB) &#123;
+    // 貌似必须得用stmt 直接使用Exec 会报错
+    stmt, err := db.Prepare("UPDATE user SET username= $1 WHERE user_id = $2")
+    stmt.exec("Lily", 123)
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="使用数据库的注意点"><a href="#使用数据库的注意点" class="headerlink" title="使用数据库的注意点"></a>使用数据库的注意点</h2><p>golang 使用数据库的注意点都基本相同因此不再把postgres跟mysql分开讲述</p>
 <h3 id="合理创建连接池"><a href="#合理创建连接池" class="headerlink" title="合理创建连接池"></a>合理创建连接池</h3><ol>
 <li>合理设定连接池参数</li>
 <li>对于一个数据库仅仅创建一个连接池</li>
 </ol>
 <h3 id="关闭该关闭的结果集"><a href="#关闭该关闭的结果集" class="headerlink" title="关闭该关闭的结果集"></a>关闭该关闭的结果集</h3><p>主要还是提到的</p>
-<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 如果不关闭， 它会慢慢的耗尽连接池的连接， 并且让你无连接可用</span></span><br><span class="line">rows.Close()</span><br></pre></td></tr></table></figure>
-
-
+<pre class="line-numbers language-golang"><code class="language-golang">// 如果不关闭， 它会慢慢的耗尽连接池的连接， 并且让你无连接可用
+rows.Close()
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
                 
             </div>
@@ -599,8 +709,7 @@
                 <a href="/2018/12/13/langs/golang/go_project/">
                     <div class="card-image">
                         
-                        
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="Golang的工程配置">
+                        <img src="https://user-images.githubusercontent.com/7270177/59482717-9f4a4d80-8e9c-11e9-82b0-58254e0f4c4b.png" class="responsive-img" alt="Golang的工程配置">
                         
                         <span class="card-title">Golang的工程配置</span>
                     </div>

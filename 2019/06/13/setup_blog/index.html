@@ -11,7 +11,7 @@
 拥有自己的github账号正确设置好SSH KEY
 创建一个 username.github.io 的repo 并开启相应的page设置
 
-安装步骤12git clone git@githu">
+安装步骤git clone git@github.">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -58,7 +58,9 @@
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="winjeg's blog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -340,7 +342,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://avatars3.githubusercontent.com/u/7270177?s=460&v=4')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -425,25 +427,54 @@
 <li>拥有自己的github账号正确设置好<code>SSH KEY</code></li>
 <li>创建一个 <code>username.github.io</code> 的repo 并开启相应的page设置</li>
 </ol>
-<h2 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git@github.com:your_name/your_name.github.io.git</span><br><span class="line">git checkout -b hexo</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装-hexo"><a href="#安装-hexo" class="headerlink" title="安装 hexo"></a>安装 hexo</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br><span class="line">hexo init</span><br></pre></td></tr></table></figure>
+<h2 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h2><pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">git</span> clone git@github.com:your_name/your_name.github.io.git
+<span class="token function">git</span> checkout -b hexo
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="安装-hexo"><a href="#安装-hexo" class="headerlink" title="安装 hexo"></a>安装 hexo</h3><pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> -g hexo-cli
+hexo init
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>由于Hexo要求必须在空文件夹中执行init操作，所以我们需要在博客文件夹以外的地方新建一个空文件夹，之后点击鼠标右键选择<code>Git bash Here</code>输入以下命令，并将命令执行完成后文件夹中的所有文件复制到<code>your_name.github.io</code>文件夹中</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br></pre></td></tr></table></figure>
+<pre><code>npm install
+</code></pre>
 <p>本地预览(可省略)</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo generate</span><br><span class="line">hexo server</span><br></pre></td></tr></table></figure>
-
+<pre><code>hexo generate
+hexo server
+</code></pre>
 <h3 id="远程部署"><a href="#远程部署" class="headerlink" title="远程部署"></a>远程部署</h3><p>我们已经在本地成功建站，接下来我们要做的就是通过简单的修改配置文件使得Hexo为我们生成的静态页面能够部署到Github Pages上面。</p>
 <ol>
-<li>编辑username.github.io文件夹下面的_config.yml（Hexo官方文档中将其称为全局配置文件），找到deploy关键字，将其修改为<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">git@github.com:your_name/your_name.github.io.git</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure></li>
-<li>为了将完成到Github的远程部署，我们还需要安装一个插件。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure></li>
-<li>执行以下命令，完成静态页面的远程部署与博客源文件的备份<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;提交说明&quot;</span></span><br><span class="line">git push origin hexo</span><br><span class="line">hexo generate -d</span><br></pre></td></tr></table></figure></li>
+<li>编辑username.github.io文件夹下面的_config.yml（Hexo官方文档中将其称为全局配置文件），找到deploy关键字，将其修改为</li>
 </ol>
+<pre class="line-numbers language-yml"><code class="language-yml">deploy:
+  type: git
+  repo: git@github.com:your_name/your_name.github.io.git
+  branch: master
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<ol start="2">
+<li>为了将完成到Github的远程部署，我们还需要安装一个插件。</li>
+</ol>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> hexo-deployer-git --save
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<ol start="3">
+<li>执行以下命令，完成静态页面的远程部署与博客源文件的备份</li>
+</ol>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">git</span> add <span class="token keyword">.</span>
+<span class="token function">git</span> commit -m <span class="token string">"提交说明"</span>
+<span class="token function">git</span> push origin hexo
+hexo generate -d
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="主题设置"><a href="#主题设置" class="headerlink" title="主题设置"></a>主题设置</h3><p>请自行搜索github, 输入关键字 <code>hexo theme</code>选择自己喜爱的主题，并按照相关文档进行设置</p>
-<h3 id="对于其他设备上写博客"><a href="#对于其他设备上写博客" class="headerlink" title="对于其他设备上写博客"></a>对于其他设备上写博客</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> your_repo</span><br><span class="line"><span class="built_in">cd</span> your_repo</span><br><span class="line">npm install -g hexo-cli</span><br><span class="line">npm install</span><br><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
-
+<h3 id="对于其他设备上写博客"><a href="#对于其他设备上写博客" class="headerlink" title="对于其他设备上写博客"></a>对于其他设备上写博客</h3><pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">git</span> clone your_repo
+<span class="token function">cd</span> your_repo
+<span class="token function">npm</span> <span class="token function">install</span> -g hexo-cli
+<span class="token function">npm</span> <span class="token function">install</span>
+<span class="token function">npm</span> <span class="token function">install</span> hexo-deployer-git --save
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="自动脚本编写"><a href="#自动脚本编写" class="headerlink" title="自动脚本编写"></a>自动脚本编写</h2><p>在源文件分支(<code>hexo</code>分支)上添加如下文件, 如果是windows 命名为<code>publish.cmd</code> 如果是linux 或者mac命名为<code>publish</code> 并加入可执行权限<code>chmod a+x publish</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;add article&quot;</span></span><br><span class="line">git push origin hexo</span><br><span class="line">hexo generate -d</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">git</span> add <span class="token keyword">.</span>
+<span class="token function">git</span> commit -m <span class="token string">"add article"</span>
+<span class="token function">git</span> push origin hexo
+hexo generate -d
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <p>编写完毕，运行脚本 windows,  <code>publish</code> 其他 <code>./publish</code></p>
 
                 
@@ -603,8 +634,7 @@
                 <a href="/2019/06/13/apps/git/">
                     <div class="card-image">
                         
-                        
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="版本管理工具Git的使用">
+                        <img src="https://user-images.githubusercontent.com/7270177/59480122-fb5ba480-8e91-11e9-9c26-7f8d6d97868a.png" class="responsive-img" alt="版本管理工具Git的使用">
                         
                         <span class="card-title">版本管理工具Git的使用</span>
                     </div>
@@ -652,8 +682,7 @@
                 <a href="/2019/05/18/langs/fe/typescript/">
                     <div class="card-image">
                         
-                        
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="TypeScript 简易笔记">
+                        <img src="https://user-images.githubusercontent.com/7270177/60314147-341c7300-9994-11e9-92d1-3310b8b37eaf.png" class="responsive-img" alt="TypeScript 简易笔记">
                         
                         <span class="card-title">TypeScript 简易笔记</span>
                     </div>

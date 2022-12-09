@@ -5,8 +5,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="keywords" content="react+ts+webpack+antd 实战, golang, java, mysql, devops, linux">
-    <meta name="description" content="1. 安装react项目创建程序1npm install -g create-react-app yarn
-2. 创建react + ts项目1create-react-app my-app --scripts-version=react-">
+    <meta name="description" content="1. 安装react项目创建程序npm install -g create-react-app yarn
+
+2. 创建react + ts项目create-react-app my-app --scripts-version=react-s">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -53,7 +54,9 @@
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="winjeg's blog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -422,11 +425,21 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="1-安装react项目创建程序"><a href="#1-安装react项目创建程序" class="headerlink" title="1. 安装react项目创建程序"></a>1. 安装react项目创建程序</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g create-react-app yarn</span><br></pre></td></tr></table></figure>
-<h2 id="2-创建react-ts项目"><a href="#2-创建react-ts项目" class="headerlink" title="2. 创建react + ts项目"></a>2. 创建react + ts项目</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create-react-app my-app --scripts-version=react-scripts-ts</span><br></pre></td></tr></table></figure>
-
+                <h2 id="1-安装react项目创建程序"><a href="#1-安装react项目创建程序" class="headerlink" title="1. 安装react项目创建程序"></a>1. 安装react项目创建程序</h2><pre><code>npm install -g create-react-app yarn
+</code></pre>
+<h2 id="2-创建react-ts项目"><a href="#2-创建react-ts项目" class="headerlink" title="2. 创建react + ts项目"></a>2. 创建react + ts项目</h2><pre><code>create-react-app my-app --scripts-version=react-scripts-ts
+</code></pre>
 <p>react-scripts-ts是一些调整的组合，使得你可以使用标准create-react-app项目流程并且加入TypeScript。<br>现在你的项目应该是下面这个样子：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">my-app/</span><br><span class="line">├─ .gitignore</span><br><span class="line">├─ node_modules/</span><br><span class="line">├─ public/</span><br><span class="line">├─ src/</span><br><span class="line">│  └─ ...</span><br><span class="line">├─ package.json</span><br><span class="line">├─ tsconfig.json</span><br><span class="line">└─ tslint.json</span><br></pre></td></tr></table></figure>
+<pre><code>my-app/
+├─ .gitignore
+├─ node_modules/
+├─ public/
+├─ src/
+│  └─ ...
+├─ package.json
+├─ tsconfig.json
+└─ tslint.json
+</code></pre>
 <p>其中：</p>
 <p><code>tsconfig.json</code>包含我们项目中的TypeScript的配置信息</p>
 <p><code>tslint.json</code>是我们的代码规范工具TSLint相关的配置</p>
@@ -435,13 +448,55 @@
 <p><code>src</code> 包含了我们TypeScript和CSS的代码。index.tsx是我们的文件的入口。</p>
 <p>在<code>package.json</code> 中<code>scripts</code>中 分别有</p>
 <p>start 开发命令 执行 npm run start<br>build 部署命令 执行 npm run build<br>test 测试命令允许Jest</p>
-<h2 id="3-集成antd（不需要UI库可以跳过这里）"><a href="#3-集成antd（不需要UI库可以跳过这里）" class="headerlink" title="3. 集成antd（不需要UI库可以跳过这里）"></a>3. 集成antd（不需要UI库可以跳过这里）</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add antd  ts-import-plugin --dev</span><br></pre></td></tr></table></figure>
+<h2 id="3-集成antd（不需要UI库可以跳过这里）"><a href="#3-集成antd（不需要UI库可以跳过这里）" class="headerlink" title="3. 集成antd（不需要UI库可以跳过这里）"></a>3. 集成antd（不需要UI库可以跳过这里）</h2><pre><code>yarn add antd  ts-import-plugin --dev
+</code></pre>
+<h2 id="4-配置-config-overrides-js"><a href="#4-配置-config-overrides-js" class="headerlink" title="4.配置 config-overrides.js"></a>4.配置 <code>config-overrides.js</code></h2><pre><code>/*jshint esversion: 6 */
+const tsImportPluginFactory = require(&#39;ts-import-plugin&#39;);
+const &#123;
+    getLoader
+&#125; = require(&quot;react-app-rewired&quot;);
+const rewireLess = require(&#39;react-app-rewire-less&#39;);
 
+module.exports = function override(config) &#123;
+    const tsLoader = getLoader(
+        config.module.rules,
+        rule =&gt;
+        rule.loader &amp;&amp;
+        typeof rule.loader === &#39;string&#39; &amp;&amp;
+        rule.loader.includes(&#39;ts-loader&#39;)
+    );
 
+    tsLoader.options = &#123;
+        getCustomTransformers: () =&gt; (&#123;
+            before: [tsImportPluginFactory(&#123;
+                libraryDirectory: &#39;es&#39;,
+                libraryName: &#39;antd&#39;,
+                style: &#39;css&#39;,
+            &#125;)]
+        &#125;)
+    &#125;;
 
-<h2 id="4-配置-config-overrides-js"><a href="#4-配置-config-overrides-js" class="headerlink" title="4.配置 config-overrides.js"></a>4.配置 <code>config-overrides.js</code></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">/*jshint esversion: 6 */</span><br><span class="line">const tsImportPluginFactory = require(&#x27;ts-import-plugin&#x27;);</span><br><span class="line">const &#123;</span><br><span class="line">    getLoader</span><br><span class="line">&#125; = require(&quot;react-app-rewired&quot;);</span><br><span class="line">const rewireLess = require(&#x27;react-app-rewire-less&#x27;);</span><br><span class="line"></span><br><span class="line">module.exports = function override(config) &#123;</span><br><span class="line">    const tsLoader = getLoader(</span><br><span class="line">        config.module.rules,</span><br><span class="line">        rule =&gt;</span><br><span class="line">        rule.loader &amp;&amp;</span><br><span class="line">        typeof rule.loader === &#x27;string&#x27; &amp;&amp;</span><br><span class="line">        rule.loader.includes(&#x27;ts-loader&#x27;)</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    tsLoader.options = &#123;</span><br><span class="line">        getCustomTransformers: () =&gt; (&#123;</span><br><span class="line">            before: [tsImportPluginFactory(&#123;</span><br><span class="line">                libraryDirectory: &#x27;es&#x27;,</span><br><span class="line">                libraryName: &#x27;antd&#x27;,</span><br><span class="line">                style: &#x27;css&#x27;,</span><br><span class="line">            &#125;)]</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    config = rewireLess.withLoaderOptions(&#123;</span><br><span class="line">        modifyVars: &#123;</span><br><span class="line">            &quot;@primary-color&quot;: &quot;#1DA57A&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;)(config, env);</span><br><span class="line"></span><br><span class="line">    config.resolve = &#123;</span><br><span class="line">        alias: &#123;</span><br><span class="line">            &#x27;@&#x27;: path.resolve(&quot;./&quot;, &#x27;src&#x27;)</span><br><span class="line">        &#125;,</span><br><span class="line">        extensions: [&#x27;.tsx&#x27;, &#x27;.ts&#x27;, &#x27;.js&#x27;, &#x27;.jsx&#x27;, &#x27;css&#x27;]</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    return config;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+    config = rewireLess.withLoaderOptions(&#123;
+        modifyVars: &#123;
+            &quot;@primary-color&quot;: &quot;#1DA57A&quot;
+        &#125;,
+    &#125;)(config, env);
 
-<h2 id="5-配置-tsconfig-json"><a href="#5-配置-tsconfig-json" class="headerlink" title="5.配置 tsconfig.json"></a>5.配置 <code>tsconfig.json</code></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">complierOptionsu加入</span><br><span class="line">    &quot;paths&quot;: &#123;</span><br><span class="line">      &quot;@/*&quot;: [&quot;src/*&quot;]</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+    config.resolve = &#123;
+        alias: &#123;
+            &#39;@&#39;: path.resolve(&quot;./&quot;, &#39;src&#39;)
+        &#125;,
+        extensions: [&#39;.tsx&#39;, &#39;.ts&#39;, &#39;.js&#39;, &#39;.jsx&#39;, &#39;css&#39;]
+    &#125;;
+
+    return config;
+&#125;;
+</code></pre>
+<h2 id="5-配置-tsconfig-json"><a href="#5-配置-tsconfig-json" class="headerlink" title="5.配置 tsconfig.json"></a>5.配置 <code>tsconfig.json</code></h2><pre><code>complierOptionsu加入
+    &quot;paths&quot;: &#123;
+      &quot;@/*&quot;: [&quot;src/*&quot;]
+    &#125;
+</code></pre>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u010377383/article/details/79014405">https://blog.csdn.net/u010377383/article/details/79014405</a></p>
 
                 
@@ -609,8 +664,7 @@
                 <a href="/2019/07/02/storage/mysql/mysql_docker/">
                     <div class="card-image">
                         
-                        
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="使用docker运行MySQL服务">
+                        <img src="https://user-images.githubusercontent.com/7270177/59422808-880b5180-8e03-11e9-9dfe-ff8a9a024be7.png" class="responsive-img" alt="使用docker运行MySQL服务">
                         
                         <span class="card-title">使用docker运行MySQL服务</span>
                     </div>
