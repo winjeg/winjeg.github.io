@@ -17,7 +17,7 @@ menu:
     url: /about
     icon: fas fa-user-circle
   Contact:
-    url: /contact
+    url: mailto://winjeg@qq.com
     icon: fas fa-comments
   Friends:
     url: /friends
